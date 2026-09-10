@@ -1,0 +1,40 @@
+% Preamble for the stochastic Runge--Kutta manuscript.
+\usepackage[letterpaper, margin=1in]{geometry}
+\usepackage{setspace}
+\usepackage{amsmath,amssymb}
+\usepackage{graphicx}
+\usepackage{subcaption}
+\usepackage[amsmath,thmmarks,framed]{ntheorem}
+\usepackage{authblk}
+\usepackage{booktabs}
+\usepackage{multirow}
+\usepackage{placeins}
+\usepackage{enumerate}
+\usepackage{xcolor}
+\definecolor{darkgreen}{rgb}{0.0,0.5,0.0}
+\usepackage[colorlinks,linkcolor=red,citecolor=darkgreen,urlcolor=blue]{hyperref}
+\hypersetup{
+  pdftitle={Mean square error analysis of stochastic Runge--Kutta integrators},
+  pdfauthor={Xuda Ye}
+}
+\usepackage[round,authoryear,sort]{natbib}
+
+\usepackage[ruled,linesnumbered]{algorithm2e}
+\SetKwInput{KwInput}{Input}
+\SetKwInput{KwOutput}{Output}
+
+\newtheorem{remark}{Remark}
+\newtheorem{lemma}{Lemma}
+\newtheorem{theorem}{Theorem}
+\newtheorem{corollary}{Corollary}
+\newenvironment{proof}[1][Proof]{\par\medskip\noindent\textit{#1.}\ }{\hfill$\square$\par\medskip}
+
+\newcommand{\Le}{\leqslant}
+\newcommand{\Ge}{\geqslant}
+\newcommand{\D}{\mathrm{d}}
+\newcommand{\KL}{\mathrm{KL}}
+\newcommand{\X}{\mathrm{X}}
+\newcommand{\KLXtwo}{\mathrm{KLX}^2}
+\newcommand{\Var}{\mathrm{Var}}
+
+\theoremstyle{plain}
