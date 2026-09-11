@@ -69,7 +69,7 @@ Over the decades, the Euler--Maruyama method has been the most widely used numer
 \subsection{Contributions}
 \label{subsec: contributions}
 
-We consider two stochastic Runge--Kutta (SRK) integrators proposed by \citet{yang2026accelerating}, who establish strong order $\frac32$ and a uniform-in-time Wasserstein-2 error bound. The two integrators are the two-stage and the three-stage schemes of Section~\ref{sec: srk}, which we call SRK-I and SRK-II. In this paper, we sharpen these results and obtain a second order bound on the MSE for both:
+We consider two stochastic Runge--Kutta (SRK) integrators proposed by \citet{yang2026accelerating}, who establish strong order $\frac32$ and a uniform-in-time Wasserstein-2 error bound of the same order. The two integrators are the two-stage and the three-stage schemes of Section~\ref{sec: srk}, which we call SRK-I and SRK-II. In this paper, we sharpen these results and obtain a second order bound on the MSE for both:
 \begin{equation}
     \mathrm{MSE}(N, h) \Le C \Bigl( \frac{1}{Nh} + h^4 \Bigr) ,
     \label{eq: intro mse}
@@ -640,7 +640,7 @@ Taken together, the three studies rank the integrators. SRK-I is the most accura
 
 We have given a route from the local error of an integrator of \eqref{eq: langevin} to the mean square error of a time average along its chain: the local error decomposition of Section~\ref{subsec: local error} splits the local error into a mean-zero term and a remainder, and the time-averaged error formula of Section~\ref{subsec: time averaged} converts the resulting moments into a bound on the mean square error, with Theorem~\ref{thm: u decay} supplying the derivative bounds the conversion needs.
 
-The two integrators are those of \citet{yang2026accelerating}; the contribution of this paper is to analyze them. Three second order results follow from the local error decomposition: the mean square error bound $\frac{1}{Nh} + h^4$ of Theorem~\ref{thm: mse}, the finite-horizon weak order $2$ of Corollary~\ref{cor: finite weak}, and the Wasserstein-1 bound of order $h^2$ up to a logarithm of Theorem~\ref{thm: wasserstein}, uniform in the number of steps. The rates of Theorem~\ref{thm: mse} are the expected ones, and they are obtained without global convexity of $U$, at every finite $N$ with $Nh \Ge 1$ rather than in an ergodic limit, and for integrators that evaluate $\nabla U$ alone. The elliptic estimates of Theorem~\ref{thm: u decay} bound three derivatives of the solution of the Poisson equation under a potential convex only outside a bounded set, and may be of use beyond the integrators studied here. The experiments of Section~\ref{sec: numerics} confirm the second order of Theorem~\ref{thm: wasserstein} against Lipschitz test functions and the second order of the sampling bias, and on a diffusion model of CIFAR-10 they rank the four schemes as their strong errors do.
+The two integrators are the stochastic Runge--Kutta schemes SRK-I and SRK-II of \citet{yang2026accelerating}; the contribution of this paper is to analyze them. Three second order results follow from the local error decomposition: the mean square error bound $\frac{1}{Nh} + h^4$ of Theorem~\ref{thm: mse}, the finite-horizon weak order $2$ of Corollary~\ref{cor: finite weak}, and the Wasserstein-1 bound of order $h^2$ up to a logarithm of Theorem~\ref{thm: wasserstein}, uniform in the number of steps. The rates of Theorem~\ref{thm: mse} are the expected ones, and they are obtained without global convexity of $U$, at every finite $N$ with $Nh \Ge 1$ rather than in an ergodic limit, and for integrators that evaluate $\nabla U$ alone. The elliptic estimates of Theorem~\ref{thm: u decay} bound three derivatives of the solution of the Poisson equation under a potential convex only outside a bounded set, and may be of use beyond the stochastic Runge--Kutta integrators studied here. The experiments of Section~\ref{sec: numerics} confirm the second order of Theorem~\ref{thm: wasserstein} against Lipschitz test functions and the second order of the sampling bias, and on a diffusion model of CIFAR-10 they rank the four schemes as their strong errors do.
 
 Two extensions are possible. Additional stages satisfy additional order conditions, and a scheme of higher weak order would enter \eqref{eq: mse decomposition} by the same route; the difficulty lies in the analysis, since weak order $p$ requires $p+1$ derivatives of $\phi_h$, of which Theorem~\ref{thm: u decay} supplies three. Stochastic gradients enter the bias at first order with a coefficient proportional to their variance \citep{lu2025mse}, so a high order discretization is advantageous there only with variance reduction, and multi-stage schemes have no natural stochastic gradient form. The realistic setting for that extension is the underdamped dynamics, where the UBU integrator reaches second order at one evaluation per step \citep{sanz2021wasserstein}; it is also where the elliptic estimates must be replaced by hypoelliptic ones.
 
@@ -1129,17 +1129,18 @@ The remainder of Lemma~\ref{lem: cross moment} is
         \frac{2h}{3}\, D_{\mathrm I}^{\otimes j} = \frac{2h}{3} \Bigl( \frac32 \Bigr)^{\! j} D_{\mathrm{II}}^{\otimes j} ,
     \end{equation*}
     its \emph{exact part} and its \emph{stage part}. This gives
-    \begin{equation*}
+    \begin{equation}
     \begin{aligned}
         \Delta Z_0 & = \nabla^2 U(Z_0) \bigg[ \int_0^h W_s\,\D s - h D_{\mathrm{II}} \bigg]
         + \frac12\, \nabla^3 U(Z_0) \bigg[ \int_0^h W_s^{\otimes 2}\,\D s - \frac{3h}{2}\, D_{\mathrm{II}}^{\otimes 2} \bigg] \\
         & + \frac16\, \nabla^4 U(Z_0) \bigg[ \int_0^h W_s^{\otimes 3}\,\D s - \frac{2h}{3}\, D_{\mathrm I}^{\otimes 3} \bigg]
         + \int_0^h r(W_s)\,\D s - \frac{2h}{3}\, r(D_{\mathrm I}) .
     \end{aligned}
-    \end{equation*}
-    The terms in $r$ pass to the remainder unchanged.
+    \label{eq: bracket decomposition}
+    \end{equation}
+    The terms in $r$ pass to the remainder unchanged: they are the fifth term of $\mathcal R(\Delta Z_0)$ in \eqref{eq: remainder I}. The three brackets of \eqref{eq: bracket decomposition} are now treated in turn, and each is split into a piece of $\mathcal M(\Delta Z_0)$ in \eqref{eq: martingale Z} and a piece of $\mathcal R(\Delta Z_0)$ in \eqref{eq: remainder I}.
 
-    In the $\nabla^2 U$ bracket, the noise of $\int_0^h W_s\,\D s$ and of $h D_{\mathrm{II}}$ is the same term $\sqrt2 \int_0^h B_s\,\D s$ and cancels, and the drift of $h D_{\mathrm{II}}$ is $- \frac{h^2}{2} \nabla U(Z_0)$. Exchanging the order of integration gives
+    In the $\nabla^2 U$ bracket of \eqref{eq: bracket decomposition}, the noise of $\int_0^h W_s\,\D s$ and of $h D_{\mathrm{II}}$ is the same term $\sqrt2 \int_0^h B_s\,\D s$ and cancels, and the drift of $h D_{\mathrm{II}}$ is $- \frac{h^2}{2} \nabla U(Z_0)$. Exchanging the order of integration gives
     \begin{equation*}
         \int_0^h W_s\,\D s - h D_{\mathrm{II}} = - \int_0^h (h-s) \bigl( \nabla U(Z_0(s)) - \nabla U(Z_0) \bigr)\,\D s .
     \end{equation*}
@@ -1153,14 +1154,14 @@ The remainder of Lemma~\ref{lem: cross moment} is
     \begin{equation*}
         - \sqrt2\, \bigl( \nabla^2 U(Z_0) \bigr)^2 \int_0^h (h-s)\, B_s\,\D s ,
     \end{equation*}
-    the first term of $\mathcal M(\Delta Z_0)$ in \eqref{eq: martingale Z}. The term $e_s$ gives the first term of $\mathcal R(\Delta Z_0)$ in \eqref{eq: remainder I}.
+    the first term of $\mathcal M(\Delta Z_0)$ in \eqref{eq: martingale Z}. The term $e_s$, carried through the same prefactor and weight, gives $- \nabla^2 U(Z_0) \int_0^h (h-s)\, e_s\,\D s$, the first term of $\mathcal R(\Delta Z_0)$ in \eqref{eq: remainder I}.
 
-    In the $\nabla^3 U$ bracket, we sort both parts by their degree in the Brownian path, using \eqref{eq: g s} for $W_s$ and \eqref{eq: mean stage} for $D_{\mathrm{II}}$,
+    In the $\nabla^3 U$ bracket of \eqref{eq: bracket decomposition}, we sort both parts by their degree in the Brownian path, using \eqref{eq: g s} for $W_s$ and \eqref{eq: mean stage} for $D_{\mathrm{II}}$,
     \begin{align*}
         W_s^{\otimes 2} &= 2 B_s^{\otimes 2} - \sqrt2\, s \bigl( B_s \otimes \nabla U(Z_0) + \nabla U(Z_0) \otimes B_s \bigr) + \sqrt2 \bigl( B_s \otimes q_s + q_s \otimes B_s \bigr) + \bigl( W_s - \sqrt2\, B_s \bigr)^{\otimes 2} , \\
         h D_{\mathrm{II}}^{\otimes 2} &= \frac2h \bigg( \int_0^h B_s \,\D s \bigg)^{\!\otimes 2} - \frac{\sqrt2\, h}{2} \bigg( \nabla U(Z_0) \otimes \int_0^h B_s\,\D s + \int_0^h B_s\,\D s \otimes \nabla U(Z_0) \bigg) + \frac{h^3}{4}\, \nabla U(Z_0)^{\otimes 2} ,
     \end{align*}
-    the stage part of the bracket being $\frac32$ times the second line. The two parts are then matched degree by degree. The quadratic terms are $2 \int_0^h B_s^{\otimes 2}\,\D s$ on the exact side and $\frac3h ( \int_0^h B_s\,\D s )^{\otimes 2}$ on the stage side, and under the prefactor $\frac12$ they give the second term of $\mathcal M(\Delta Z_0)$, of coefficient $\frac{3}{2h}$. The terms linear in the noise, one from each side, combine into
+    the stage part of the bracket being $\frac32$ times the second line. The two parts are then matched degree by degree. The quadratic terms are $2 \int_0^h B_s^{\otimes 2}\,\D s$ on the exact side and $\frac3h ( \int_0^h B_s\,\D s )^{\otimes 2}$ on the stage side, and under the prefactor $\frac12$ they give the second term of $\mathcal M(\Delta Z_0)$ in \eqref{eq: martingale Z}, of coefficient $\frac{3}{2h}$. The terms linear in the noise, one from each side, combine into
     \begin{equation*}
     \begin{aligned}
         & - \sqrt2\, \nabla^3 U(Z_0) \bigg[ \nabla U(Z_0) \otimes \int_0^h s\, B_s\,\D s \bigg]
@@ -1168,17 +1169,17 @@ The remainder of Lemma~\ref{lem: cross moment} is
         & \qquad = - \sqrt2\, \nabla^3 U(Z_0) \bigg[ \nabla U(Z_0) \otimes \int_0^h \Bigl( s - \frac{3h}{4} \Bigr) B_s\,\D s \bigg] ,
     \end{aligned}
     \end{equation*}
-    the third term of $\mathcal M(\Delta Z_0)$, with $c_1 = \frac34$; here the identity $\nabla^3 U(Z_0)[a \otimes b + b \otimes a] = 2\, \nabla^3 U(Z_0)[a \otimes b]$ cancels the prefactor $\frac12$.
+    the third term of $\mathcal M(\Delta Z_0)$ in \eqref{eq: martingale Z}, with $c_1 = \frac34$; here the identity $\nabla^3 U(Z_0)[a \otimes b + b \otimes a] = 2\, \nabla^3 U(Z_0)[a \otimes b]$ cancels the prefactor $\frac12$.
 
-    Two pieces are left, and they are the two $\nabla^3 U$ terms of $\mathcal R(\Delta Z_0)$ in \eqref{eq: remainder I}. The cross terms $\sqrt2 ( B_s \otimes q_s + q_s \otimes B_s )$ of the exact part, which the same symmetry turns into $\sqrt2\, \nabla^3 U(Z_0) \bigl[ \int_0^h q_s \otimes B_s\,\D s \bigr]$, are its second term. The square $\int_0^h ( W_s - \sqrt2\, B_s )^{\otimes 2}\,\D s$ of the exact part, standing against the deterministic term $\frac{3h^3}{8}\, \nabla U(Z_0)^{\otimes 2}$ of the stage part, is its third term.
+    Two pieces are left, and they are the two $\nabla^3 U$ terms of $\mathcal R(\Delta Z_0)$ in \eqref{eq: remainder I}. The cross terms $\sqrt2 ( B_s \otimes q_s + q_s \otimes B_s )$ of the exact part, which the same symmetry turns into $\sqrt2\, \nabla^3 U(Z_0) \bigl[ \int_0^h q_s \otimes B_s\,\D s \bigr]$, are the second term of $\mathcal R(\Delta Z_0)$ in \eqref{eq: remainder I}. The square $\int_0^h ( W_s - \sqrt2\, B_s )^{\otimes 2}\,\D s$ of the exact part, standing against the deterministic term $\frac{3h^3}{8}\, \nabla U(Z_0)^{\otimes 2}$ of the stage part, is the third term of $\mathcal R(\Delta Z_0)$ in \eqref{eq: remainder I}, under the prefactor $\frac12$.
 
-    In the $\nabla^4 U$ bracket, the exact part has its pure-noise term peeled off by
+    In the $\nabla^4 U$ bracket of \eqref{eq: bracket decomposition}, the exact part has its pure-noise term peeled off by
     \begin{equation*}
         W_s^{\otimes 3} = 2\sqrt2\, B_s^{\otimes 3} + \bigl( W_s^{\otimes 3} - 2\sqrt2\, B_s^{\otimes 3} \bigr) .
     \end{equation*}
-    In the stage part, the coefficient of $\bigl( \frac{\sqrt2}{h} \int_0^h B_s\,\D s \bigr)^{\otimes 3}$ is $\frac{2h}{3} ( \frac32 )^3 = \frac{9h}{4}$. Adding and subtracting that pure-noise term gives the fourth term of $\mathcal M(\Delta Z_0)$, with $c_3 = \frac94$. What remains is the fourth term of $\mathcal R(\Delta Z_0)$ in \eqref{eq: remainder I}. This establishes \eqref{eq: local decomposition} with the mean-zero term \eqref{eq: martingale Z} and the remainder \eqref{eq: remainder I}.
+    In the stage part, the coefficient of $\bigl( \frac{\sqrt2}{h} \int_0^h B_s\,\D s \bigr)^{\otimes 3}$ is $\frac{2h}{3} ( \frac32 )^3 = \frac{9h}{4}$. Adding and subtracting that pure-noise term gives the fourth term of $\mathcal M(\Delta Z_0)$ in \eqref{eq: martingale Z}, with $c_3 = \frac94$. What remains, the exact part less its pure-noise term, the stage part, and the pure-noise term added back, is the fourth term of $\mathcal R(\Delta Z_0)$ in \eqref{eq: remainder I}. This establishes \eqref{eq: local decomposition} with the mean-zero term \eqref{eq: martingale Z} and the remainder \eqref{eq: remainder I}; for SRK-II the same steps, with the two stages $H_0^{\pm}$ and $c_1 = \frac12$, $c_3 = \frac52$, give \eqref{eq: martingale Z} and \eqref{eq: remainder II}.
 
-    The mean-zero term \eqref{eq: martingale Z} of either integrator indeed satisfies $\mathbb E_0 \mathcal M(\Delta Z_0) = 0$. Its first, third and fourth terms are odd in the Brownian path, so they vanish in mean by the symmetry $B \to -B$. The second is a centered quadratic functional of the noise: since
+    The mean-zero term \eqref{eq: martingale Z} of either integrator indeed satisfies $\mathbb E_0 \mathcal M(\Delta Z_0) = 0$. The first, third and fourth terms of $\mathcal M(\Delta Z_0)$ in \eqref{eq: martingale Z} are odd in the Brownian path, so they vanish in mean by the symmetry $B \to -B$. The second term of $\mathcal M(\Delta Z_0)$ in \eqref{eq: martingale Z} is a centered quadratic functional of the noise: since
     \begin{equation*}
         \mathbb E\bigl[ B_s^{\otimes 2} \bigr] = s\, I_d , \qquad
         \mathbb E\biggl[ \bigg( \int_0^h B_s\,\D s \bigg)^{\!\otimes 2} \biggr] = \frac{h^3}{3}\, I_d ,
@@ -1187,23 +1188,23 @@ The remainder of Lemma~\ref{lem: cross moment} is
         \mathbb E \biggl[ \int_0^h B_s^{\otimes 2}\,\D s - \frac{3}{2h} \bigg( \int_0^h B_s\,\D s \bigg)^{\!\otimes 2} \biggr] = \frac{h^2}{2}\, I_d - \frac{3}{2h} \cdot \frac{h^3}{3}\, I_d = 0 .
     \end{equation*}
 
-    For the moment estimates \eqref{eq: local moments}, every term of \eqref{eq: martingale Z} is built from integrals and tensor powers of values of the Brownian path, the third one also carrying the factor $\nabla U(Z_0)$. The triangle and H\"older inequalities with $\pnorm{B_s}_p \Le C\sqrt s$ therefore bound the four terms of $\mathcal M(\Delta Z_0)$ in $\pnorm{\,\cdot\,}_4$, in order, by
+    For the moment estimates \eqref{eq: local moments}, every term of \eqref{eq: martingale Z} is built from integrals and tensor powers of the Brownian path, the third one also carrying the factor $\nabla U(Z_0)$. The triangle and H\"older inequalities with $\pnorm{B_s}_p \Le C\sqrt s$ therefore bound the four terms of $\mathcal M(\Delta Z_0)$ in \eqref{eq: martingale Z} in $\pnorm{\,\cdot\,}_4$, in order, by
     \begin{align*}
         & C \int_0^h (h-s) \sqrt s\,\D s \Le C h^{5/2} , &
         & C \bigg( \int_0^h s\,\D s + \frac{3}{2h}\, h^3 \bigg) \Le C h^2 , \\
         & C (1 + |Z_0|) \int_0^h \bigl| s - c_1 h \bigr| \sqrt s\,\D s \Le C h^{5/2} (1 + |Z_0|) , &
         & C \bigg( \int_0^h s^{3/2}\,\D s + \frac{c_3}{h^2}\, h^{9/2} \bigg) \Le C h^{5/2} .
     \end{align*}
-    For $h \Le 1$ the four sum to at most $C h^2 (1 + |Z_0|)$, the first bound of \eqref{eq: local moments}.
+    For $h \Le 1$ the four sum to at most $C h^2 (1 + |Z_0|)$, the first bound of \eqref{eq: local moments}; the second term of $\mathcal M(\Delta Z_0)$ in \eqref{eq: martingale Z} is the one of order $h^2$, the other three are of order $h^{5/2}$.
 
-    For the remainder $\mathcal R(\Delta Z_0)$, the triangle and H\"older inequalities give, for the first three of the five terms of \eqref{eq: remainder I},
+    For the remainder $\mathcal R(\Delta Z_0)$, the triangle and H\"older inequalities give, for the first three of the five terms of $\mathcal R(\Delta Z_0)$ in \eqref{eq: remainder I},
     \begin{align*}
         \triline[\bigg] \nabla^2 U(Z_0) \int_0^h (h-s)\, e_s\,\D s \triline[\bigg]_4 &\Le M \int_0^h (h-s) \pnorm{e_s}_4\,\D s \Le C h^3 (1 + |Z_0|)^2 , \\
         \triline[\bigg] \sqrt2\, \nabla^3 U(Z_0) \bigg[ \int_0^h q_s \otimes B_s\,\D s \bigg] \triline[\bigg]_4 &\Le C \int_0^h \pnorm{q_s}_8 \pnorm{B_s}_8\,\D s \Le C h^3 (1 + |Z_0|) , \\
         \triline[\bigg] \frac12\, \nabla^3 U(Z_0) \bigg[ \int_0^h \bigl( W_s - \sqrt2\, B_s \bigr)^{\otimes 2}\,\D s -  & \, \frac{3h^3}{8}\, \nabla U(Z_0)^{\otimes 2} \bigg] \triline[\bigg]_4  \\
         \Le C \bigg( \int_0^h & \pnorm{W_s - \sqrt2 B_s}_8^2\,\D s + h^3\, |\nabla U(Z_0)|^2 \bigg) \Le C h^3 (1 + |Z_0|)^2 .
     \end{align*}
-    In the $\nabla^4 U$ bracket of \eqref{eq: remainder I}, the pure-noise terms cancel by construction, the stage displacement having noise coefficient $\frac32$ and drift
+    In the fourth term of $\mathcal R(\Delta Z_0)$ in \eqref{eq: remainder I}, the $\nabla^4 U$ bracket, the pure-noise terms cancel by construction, the stage displacement having noise coefficient $\frac32$ and drift
     \begin{equation*}
         D_{\mathrm I} - \frac{3\sqrt2}{2h} \int_0^h B_s\,\D s = - \frac{3h}{4}\, \nabla U(Z_0) .
     \end{equation*}
@@ -1216,11 +1217,11 @@ The remainder of Lemma~\ref{lem: cross moment} is
         &\Le C h\, \triline[\bigg] D_{\mathrm I} - \frac{3\sqrt2}{2h} \int_0^h B_s\,\D s \triline[\bigg]_{12} \bigg( \pnorm{D_{\mathrm I}}_{12} + \triline[\bigg] \frac{3\sqrt2}{2h} \int_0^h B_s\,\D s \triline[\bigg]_{12} \bigg)^2 \\
         &\Le C h^3 (1 + |Z_0|)^3 ,
     \end{align*}
-    so the $\nabla^4 U$ bracket is at most $C h^3 (1 + |Z_0|)^3$ in $\pnorm{\,\cdot\,}_4$. Finally, \eqref{eq: taylor rho} with $\norm{\nabla^5 U} \Le M$ gives $|r(v)| \Le \frac{M}{24}\, |v|^4$, so the remainder term is bounded as
+    so the fourth term of $\mathcal R(\Delta Z_0)$ in \eqref{eq: remainder I} is at most $C h^3 (1 + |Z_0|)^3$ in $\pnorm{\,\cdot\,}_4$. Finally, for the fifth term of $\mathcal R(\Delta Z_0)$ in \eqref{eq: remainder I}, \eqref{eq: taylor rho} with $\norm{\nabla^5 U} \Le M$ gives $|r(v)| \Le \frac{M}{24}\, |v|^4$, so
     \begin{equation*}
         \int_0^h \pnorm{r(W_s)}_4\,\D s \Le \frac{M}{24} \int_0^h \pnorm{W_s}_{16}^4\,\D s \Le C h^3 (1 + |Z_0|)^4 ,
     \end{equation*}
-    and $\frac{2h}{3}\, r(D_{\mathrm I})$ obeys the same bound. Summing these estimates proves the second bound of \eqref{eq: local moments}.
+    and $\frac{2h}{3}\, r(D_{\mathrm I})$ obeys the same bound. Summing the estimates of the five terms of $\mathcal R(\Delta Z_0)$ in \eqref{eq: remainder I} proves the second bound of \eqref{eq: local moments}; for SRK-II the five terms of \eqref{eq: remainder II} are bounded in the same way, the stage displacements $D_{\mathrm{II}}^{\pm}$ obeying the same moment bounds \eqref{eq: stage moments} as $D_{\mathrm I}$.
 \end{proof}
 
 By Minkowski's inequality, \eqref{eq: local moments} bounds the local error itself: for $h \Le 1$,
@@ -1238,21 +1239,22 @@ By Minkowski's inequality, \eqref{eq: local moments} bounds the local error itse
         \pnorm{\Gamma_0}_p \Le C h\, (1 + |Z_0|)
     \end{equation*}
     for the drift part of \eqref{eq: T split}. Multiplying \eqref{eq: local decomposition} by the transpose of \eqref{eq: T split},
-    \begin{equation*}
+    \begin{equation}
         \Delta Q_0 = 2\sqrt2\; \mathcal M(\Delta Z_0)\, B_h^\top + \mathcal M(\Delta Z_0)\, \Gamma_0^\top + \mathcal R(\Delta Z_0) \bigl( 2\sqrt2\, B_h + \Gamma_0 \bigr)^{\!\top} ,
-    \end{equation*}
-    so \eqref{eq: product decomposition}, with the mean-zero term $\mathcal M(\Delta Q_0)$ of \eqref{eq: product martingale} and the remainder $\mathcal R(\Delta Q_0)$ of \eqref{eq: product remainder}, is an algebraic identity, and $\mathbb E_0\bigl[ \mathcal M(\Delta Q_0) \bigr] = 0$ is the pairing identity \eqref{eq: pairing identity}, proved below: the matrix added in \eqref{eq: product martingale} is minus the conditional mean of $2\sqrt2\, \mathcal M(\Delta Z_0)\, B_h^\top$.
+        \label{eq: product three}
+    \end{equation}
+    a sum of three products. The first product of \eqref{eq: product three}, $2\sqrt2\, \mathcal M(\Delta Z_0)\, B_h^\top$, is the first term of $\mathcal M(\Delta Q_0)$ in \eqref{eq: product martingale}; the second and third products of \eqref{eq: product three} are the first two terms of $\mathcal R(\Delta Q_0)$ in \eqref{eq: product remainder}. The three deterministic matrices that close \eqref{eq: product martingale} are added to $\mathcal M(\Delta Q_0)$ and subtracted from $\mathcal R(\Delta Q_0)$, where they are the last three terms of \eqref{eq: product remainder}, so \eqref{eq: product decomposition} is an algebraic identity. That $\mathbb E_0\bigl[ \mathcal M(\Delta Q_0) \bigr] = 0$ is the pairing identity \eqref{eq: pairing identity}, proved below: the three matrices added in \eqref{eq: product martingale} are minus the conditional mean of its first term $2\sqrt2\, \mathcal M(\Delta Z_0)\, B_h^\top$.
 
     For the moment estimates \eqref{eq: cross moment}, since $\norm{v w^\top} = |v|\,|w|$, Cauchy--Schwarz with \eqref{eq: local moments} and $\pnorm{B_h}_4 \Le C \sqrt h$ gives
     \begin{equation*}
         \pnorm{\mathcal M(\Delta Z_0)\, B_h^\top}_2 \Le \pnorm{\mathcal M(\Delta Z_0)}_4 \pnorm{B_h}_4 \Le C h^{5/2} (1 + |Z_0|) ,
     \end{equation*}
-    while the conditional mean of $2\sqrt2\, \mathcal M(\Delta Z_0)\, B_h^\top$, computed below, is at most $C h^3 (1 + |Z_0|)$ by \eqref{eq: pairing identity}, since $\norm{\nabla^2 \Delta U} \Le d M$. This proves the first bound of \eqref{eq: cross moment}. In \eqref{eq: product remainder}, the same Cauchy--Schwarz argument gives
+    for the first term of $\mathcal M(\Delta Q_0)$ in \eqref{eq: product martingale}, while its last three terms, the conditional mean of the first computed below, are at most $C h^3 (1 + |Z_0|)$ by \eqref{eq: pairing identity}, since $\norm{\nabla^2 \Delta U} \Le d M$. This proves the first bound of \eqref{eq: cross moment}. For the first two terms of $\mathcal R(\Delta Q_0)$ in \eqref{eq: product remainder}, the same Cauchy--Schwarz argument gives
     \begin{equation*}
         \pnorm{\mathcal M(\Delta Z_0)\, \Gamma_0^\top}_2 \Le C h^3 (1 + |Z_0|)^2 , \qquad
         \pnorm{\mathcal R(\Delta Z_0) \bigl( 2\sqrt2\, B_h + \Gamma_0 \bigr)^{\!\top}}_2 \Le C h^{7/2} (1 + |Z_0|)^5 ,
     \end{equation*}
-    which, together with the bound on the conditional mean, proves the second bound of \eqref{eq: cross moment} for $h \Le 1$.
+    which, together with the bound $C h^3 (1 + |Z_0|)$ on the last three terms of $\mathcal R(\Delta Q_0)$ in \eqref{eq: product remainder}, proves the second bound of \eqref{eq: cross moment} for $h \Le 1$.
 
     There remains the pairing identity,
     \begin{align}
@@ -1262,7 +1264,7 @@ By Minkowski's inequality, \eqref{eq: local moments} bounds the local error itse
         & + \frac{4h^3}{3} \Bigl( 1 - \frac{c_3}{2} \Bigr) \nabla^2 \Delta U(Z_0) .
         \label{eq: pairing identity}
     \end{align}
-    We prove it term by term, following the four terms of $\mathcal M(\Delta Z_0)$ in \eqref{eq: martingale Z}. The second term is an even polynomial in the Brownian path while $B_h$ is odd, so its pairing vanishes by the symmetry $B \to -B$. The first and third terms are linear in the path, and $\mathbb E\bigl[ B_s B_h^\top \bigr] = s I_d$ gives
+    We prove it term by term, following the four terms of $\mathcal M(\Delta Z_0)$ in \eqref{eq: martingale Z}; the three terms on the right of \eqref{eq: pairing identity} come, in order, from the first, the third and the fourth. The second term of $\mathcal M(\Delta Z_0)$ in \eqref{eq: martingale Z} is an even polynomial in the Brownian path while $B_h$ is odd, so its pairing vanishes by the symmetry $B \to -B$. The first and third terms of $\mathcal M(\Delta Z_0)$ in \eqref{eq: martingale Z} are linear in the path, and $\mathbb E\bigl[ B_s B_h^\top \bigr] = s I_d$ gives
     \begin{equation*}
         \int_0^h (h-s)\, s\,\D s = \frac{h^3}{6} , \qquad
         \int_0^h ( s - c_1 h )\, s\,\D s = h^3 \Bigl( \frac13 - \frac{c_1}{2} \Bigr) ,
@@ -1271,23 +1273,23 @@ By Minkowski's inequality, \eqref{eq: local moments} bounds the local error itse
     \begin{equation*}
         - \frac{2h^3}{3} \bigl( \nabla^2 U(Z_0) \bigr)^2
         \qquad \text{and} \qquad
-        - 4h^3 \Bigl( \frac13 - \frac{c_1}{2} \Bigr) \nabla^3 U(Z_0)[\nabla U(Z_0)] .
+        - 4h^3 \Bigl( \frac13 - \frac{c_1}{2} \Bigr) \nabla^3 U(Z_0)[\nabla U(Z_0)] ,
     \end{equation*}
-    For the fourth term, write $\sigma_{jklm} := \delta_{jk}\delta_{lm} + \delta_{jl}\delta_{km} + \delta_{jm}\delta_{kl}$. The Gaussian product formula gives
+    the first two terms on the right of \eqref{eq: pairing identity}. For the fourth term of $\mathcal M(\Delta Z_0)$ in \eqref{eq: martingale Z}, write $\sigma_{jklm} := \delta_{jk}\delta_{lm} + \delta_{jl}\delta_{km} + \delta_{jm}\delta_{kl}$. The Gaussian product formula gives
     \begin{equation*}
         \mathbb E\bigl[ B_{s,j} B_{s,k} B_{s,l}\, B_{h,m} \bigr] = \sigma_{jklm}\, s^2 , \qquad
         \mathbb E\biggl[ \bigg( \int_0^h B_s\,\D s \bigg)_{\!j} \bigg( \int_0^h B_s\,\D s \bigg)_{\!k} \bigg( \int_0^h B_s\,\D s \bigg)_{\!l} B_{h,m} \biggr] = \sigma_{jklm}\, \frac{h^3}{3} \cdot \frac{h^2}{2} .
     \end{equation*}
-    Integrating the first over $[0,h]$ gives $\sigma_{jklm} \frac{h^3}{3}$. The second, carried by the weight $\frac{c_3}{h^2}$, gives $\sigma_{jklm} \frac{c_3 h^3}{6}$. The bracket of the fourth term therefore pairs with $B_{h,m}$ to give
+    Integrating the first over $[0,h]$ gives $\sigma_{jklm} \frac{h^3}{3}$. The second, carried by the weight $\frac{c_3}{h^2}$, gives $\sigma_{jklm} \frac{c_3 h^3}{6}$. The bracket of the fourth term of $\mathcal M(\Delta Z_0)$ in \eqref{eq: martingale Z} therefore pairs with $B_{h,m}$ to give
     \begin{equation*}
         \sigma_{jklm}\, h^3 \Bigl( \frac13 - \frac{c_3}{6} \Bigr) .
     \end{equation*}
-    Each of the three Kronecker contractions takes $\partial_i \partial_j \partial_k \partial_l U$ into $(\nabla^2 \Delta U)_{im}$, by the symmetry of $\nabla^4 U$ in its indices. Hence the pairing of the fourth term with $2\sqrt2\, B_h^\top$ is
+    Each of the three Kronecker contractions takes $\partial_i \partial_j \partial_k \partial_l U$ into $(\nabla^2 \Delta U)_{im}$, by the symmetry of $\nabla^4 U$ in its indices. Hence the pairing of the fourth term of $\mathcal M(\Delta Z_0)$ in \eqref{eq: martingale Z} with $2\sqrt2\, B_h^\top$ is
     \begin{equation*}
         2\sqrt2 \cdot \frac{\sqrt2}{3} \cdot 3 \cdot h^3 \Bigl( \frac13 - \frac{c_3}{6} \Bigr)\, \nabla^2 \Delta U(Z_0)
         = \frac{4h^3}{3} \Bigl( 1 - \frac{c_3}{2} \Bigr)\, \nabla^2 \Delta U(Z_0) .
     \end{equation*}
-    Summing the three pairings proves \eqref{eq: pairing identity}.
+    the third term on the right of \eqref{eq: pairing identity}. Summing the three pairings proves \eqref{eq: pairing identity}, and with it $\mathbb E_0[\mathcal M(\Delta Q_0)] = 0$ for the mean-zero term \eqref{eq: product martingale}.
 \end{proof}
 
 \subsection{Proof of Corollary~\ref{cor: strong}: strong error analysis}
