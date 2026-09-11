@@ -507,12 +507,12 @@
   {%
       \def\@oddfoot{{%
             \hbox to \textwidth{\parbox{\textwidth}{\hspace*{1pt}\vspace*{20pt}\newline%
-            \fontsize{7bp}{8}\fontshape{n}\selectfont\raggedleft \copyright\space The Author(s) \@copyrightyear. \@copyrightstatement%
+            \fontsize{7bp}{8}\fontshape{n}\selectfont\raggedleft \ifx\@copyrightstatement\@empty\else\copyright\space The Author(s) \@copyrightyear. \@copyrightstatement\fi%
               }}%
             }}%
       \def\@evenfoot{{%
             \hbox to \textwidth{\parbox{\textwidth}{\hspace*{1pt}\vspace*{20pt}\newline%
-            \fontsize{7bp}{8}\fontshape{n}\selectfont\raggedleft \copyright\space The Author(s) \@copyrightyear. \@copyrightstatement%
+            \fontsize{7bp}{8}\fontshape{n}\selectfont\raggedleft \ifx\@copyrightstatement\@empty\else\copyright\space The Author(s) \@copyrightyear. \@copyrightstatement\fi%
               }}%
             }}%
   \let\@evenhead\relax
@@ -856,8 +856,8 @@
   \if@twocolumn\else\vspace*{-10pt}\fi
           \hbox to \textwidth{%
           \raisebox{-2pt}[0pt]{%
-          \parbox[b]{\textwidth}{{\hspace*{-.5pt}\fontsize{10bp}{12pt}\selectfont\itshape\@journaltitle\rm\ (\@copyrightyear) \textbf{\@vol}, \thepage--\thelastpage}\\
-          \hspace*{-.5pt}{\fontsize{10bp}{12pt}\selectfont\href{https://doi.org/\@DOI}{https://doi.org/\@DOI}}\\
+          \parbox[b]{\textwidth}{\ifx\@DOI\@empty\else{\hspace*{-.5pt}\fontsize{10bp}{12pt}\selectfont\itshape\@journaltitle\rm\ (\@copyrightyear) \textbf{\@vol}, \thepage--\thelastpage}\\
+          \hspace*{-.5pt}{\fontsize{10bp}{12pt}\selectfont\href{https://doi.org/\@DOI}{https://doi.org/\@DOI}}\\\fi
           %{\ifx\@access\@empty\else{\fontsize{10bp}{12pt}\selectfont\@access}\fi}
           %\vskip-.9pt
           %{\ifx\@appnotes\@empty\else{\fontsize{10bp}{12pt}\selectfont\@appnotes}\\[-.9pt]\fi}
@@ -892,7 +892,7 @@
     % Editor below space
     \vspace{10\p@}
     % History here
-        {\fontsize{10bp}{12pt}\selectfont\leftskip0pt plus1fill\rightskip0pt plus1fill [\@history] \par}
+        \ifx\@history\@empty\else{\fontsize{10bp}{12pt}\selectfont\leftskip0pt plus1fill\rightskip0pt plus1fill [\@history] \par}\fi
     % History below space
     \vspace*{10.5pt}
     % Abstract here

@@ -24,13 +24,8 @@
 
 \begin{document}
 
-\DOI{DOI HERE}
 \copyrightyear{2026}
-\vol{00}
 \pubyear{2026}
-\access{Advance Access Publication Date: Day Month Year}
-\appnotes{Paper}
-\copyrightstatement{Published by Oxford University Press on behalf of the Institute of Mathematics and its Applications. All rights reserved.}
 \firstpage{1}
 
 \title[Mean Square Error of Stochastic Runge--Kutta Integrators]{Mean Square Error Analysis of Stochastic Runge--Kutta Integrators}
@@ -41,8 +36,6 @@
 \authormark{X. Ye}
 
 \corresp[*]{Corresponding author: \href{mailto:ye481@purdue.edu}{ye481@purdue.edu}}
-
-\received{Date}{0}{Year}
 
 \abstract{We analyze the mean square error of stochastic Runge--Kutta integrators for overdamped Langevin dynamics whose potential is convex outside a bounded region. A decomposition splits the local error into a mean-zero term and a smaller remainder, and the discrete Poisson equation turns their moments into a bound on the error of a time average. We carry this out for two stochastic Runge--Kutta integrators proposed by Yang \& Wang (2026), both of strong order $\frac32$ and weak order 2, which evaluate the gradient of the potential and no higher derivative. We show that their laws approach the law of the exact solution at second order in Wasserstein-1 distance, up to a logarithm, uniformly in the number of steps. For a test function with bounded derivatives up to third order, we prove that the mean square error over $N$ steps with step size $h$ is $\mathcal O ( \frac{1}{Nh} + h^4 )$, which is the optimal order in the discretization. Experiments measure the strong and weak orders and the sampling bias on a nonconvex potential in $\mathbb R^2$, and compare the integrators on a diffusion model of CIFAR-10.}
 \keywords{overdamped Langevin dynamics; stochastic Runge--Kutta integrator; mean square error; discrete Poisson equation; time average; weak order; Wasserstein distance.\\ \textit{MSC 2020:} Primary 65C30; Secondary 60H10, 60H35, 65C05, 65C40.}
