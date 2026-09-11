@@ -1,0 +1,78 @@
+== lake build, 2026-09-11T13:13Z, leanprover/lean4:v4.33.1 ==
+⚠ [8706/8711] Built Poisson.Basic (1.6s)
+warning: Poisson/Basic.lean:40:40: Variable name `ha` is not explicitly referenced.
+
+Hint: The binding can be removed (if unused) or named `_` (if used implicitly). Alternatively, prefix the name with `_` to silence this warning:
+  [apply] _ha
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+⚠ [8707/8711] Built Poisson.Lemma1 (1.9s)
+warning: Poisson/Lemma1.lean:38:26: Variable name `hh` is not explicitly referenced.
+
+Hint: The binding can be removed (if unused) or named `_` (if used implicitly). Alternatively, prefix the name with `_` to silence this warning:
+  [apply] _hh
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+warning: Poisson/Lemma1.lean:111:33: Variable name `hh` is not explicitly referenced.
+
+Hint: The binding can be removed (if unused) or named `_` (if used implicitly). Alternatively, prefix the name with `_` to silence this warning:
+  [apply] _hh
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+warning: Poisson/Lemma1.lean:152:6: try 'simp' instead of 'simpa'
+
+Note: This linter can be disabled with `set_option linter.unnecessarySimpa false`
+warning: Poisson/Lemma1.lean:183:29: Variable name `hh` is not explicitly referenced.
+
+Hint: The binding can be removed (if unused) or named `_` (if used implicitly). Alternatively, prefix the name with `_` to silence this warning:
+  [apply] _hh
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+⚠ [8708/8711] Built Poisson.Lemma2 (1.9s)
+warning: Poisson/Lemma2.lean:142:45: Variable name `hC` is not explicitly referenced.
+
+Hint: The binding can be removed (if unused) or named `_` (if used implicitly). Alternatively, prefix the name with `_` to silence this warning:
+  [apply] _hC
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+warning: Poisson/Lemma2.lean:142:58: Variable name `hh` is not explicitly referenced.
+
+Hint: The binding can be removed (if unused) or named `_` (if used implicitly). Alternatively, prefix the name with `_` to silence this warning:
+  [apply] _hh
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+warning: Poisson/Lemma2.lean:142:71: Variable name `hZ` is not explicitly referenced.
+
+Hint: The binding can be removed (if unused) or named `_` (if used implicitly). Alternatively, prefix the name with `_` to silence this warning:
+  [apply] _hZ
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+⚠ [8709/8711] Built Poisson.Theorem1 (2.2s)
+warning: Poisson/Theorem1.lean:35:32: Variable name `hM` is not explicitly referenced.
+
+Hint: The binding can be removed (if unused) or named `_` (if used implicitly). Alternatively, prefix the name with `_` to silence this warning:
+  [apply] _hM
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+warning: Poisson/Theorem1.lean:35:45: Variable name `hs` is not explicitly referenced.
+
+Hint: The binding can be removed (if unused) or named `_` (if used implicitly). Alternatively, prefix the name with `_` to silence this warning:
+  [apply] _hs
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+✔ [8710/8711] Built Poisson (1.4s)
+Build completed successfully (8711 jobs).
+== lake build exit 0 ==
+
+== #print axioms, Poisson/Theorem1.lean ==
+'Poisson.duhamel_K' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Poisson.theta_source' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Poisson.variance_bound' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Poisson.decay_of_split' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Poisson.grid_sum_le' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Poisson.grid_tsum' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Poisson.poisson_bound_of_decay' depends on axioms: [propext, Classical.choice, Quot.sound]
+== axioms check exit 0 ==
+
+== sorry search ==
+no sorry in the sources

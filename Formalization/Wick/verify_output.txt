@@ -1,0 +1,18 @@
+Zero conditional mean, coefficients as printed
+  E[ M(dZ_0) ] = 0                             OK
+  E[ M(dQ_0) ] = 0                             OK
+
+Each coefficient is the only one that makes the mean vanish
+  stage square in M(dZ_0)                      OK   (paper: 3/(2*h))
+  (grad^2 U)^2 in M(dQ_0)                      OK   (paper: 2*h**3/3)
+  grad^3 U[grad U] in M(dQ_0)                  OK   (paper: 4*h**3*(1/3 - c1/2))
+  grad^2 Laplace U in M(dQ_0)                  OK   (paper: -4*h**3*(1 - c3/2)/3)
+
+Which expectation pins which coefficient
+  perturbed coefficient              E[M(dZ)]     E[M(dQ)]
+  stage square  3/(2h) + 1           caught       invisible
+  shift         c1 + 1               invisible    caught
+  grad^4 U      2 sqrt2 / 3          invisible    caught
+  stage cube    (c3 + 1)/h^2         invisible    caught
+
+all checks passed

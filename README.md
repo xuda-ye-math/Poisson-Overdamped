@@ -24,6 +24,11 @@ Codes/
                      sampling error; pure JAX on CPU
   Diffusion_CIFAR/   Section 5.3: the score model, its training, and sampling
                      with the compared integrators
+Formalization/
+  Wick/              exact symbolic check (sympy) of the coefficients of
+                     Lemmas 1 and 2, with the saved output of verify.py
+  Lean/              Lean 4 formalization of the constants of Theorem 1 and
+                     Lemmas 1 and 2
 ```
 
 ## Building the manuscript
@@ -50,3 +55,22 @@ run times:
 The figures in `Paper/figures/` are copies of the files the scripts write to
 `Codes/Convergence/finite-time/results/`, `Codes/Convergence/long-time/results/`
 and `Codes/Diffusion_CIFAR/results/`.
+
+## Checking the proofs
+
+`Formalization/` holds two independent machine checks of the local error
+decompositions, Lemmas 1 and 2 of the paper, whose coefficients are the part of
+the proofs hardest to verify by hand.
+
+- `Formalization/Wick/` computes the expectations of the mean-zero terms
+  exactly with sympy, from the covariance of Brownian motion alone, and shows
+  that every printed coefficient is the unique value that makes them vanish;
+  `remainder.py` checks the decompositions as pathwise identities. The saved
+  runs are `verify_output.txt` and `remainder_output.txt`.
+- `Formalization/Lean/` proves the same constants, and those of Theorem 1, in
+  Lean 4 with Mathlib, with the stochastic inputs as hypotheses; `lake build`
+  runs with no `sorry`, and `build_output.txt` is the saved build with the
+  axioms of every Theorem 1 statement.
+
+`Formalization/README.md` describes both routes, how to run them, and what they
+do not cover.

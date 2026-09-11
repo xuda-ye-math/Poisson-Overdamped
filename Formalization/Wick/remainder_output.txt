@@ -1,0 +1,14 @@
+dZ_0 = M(dZ_0) + R(dZ_0), as an identity in the path
+  SRK-I: eq: remainder I                             OK
+  SRK-II: eq: remainder II                           OK
+
+A wrong remainder coefficient is detected
+  SRK-I  deterministic 3h^3/8 -> h^3/8               detected
+  SRK-I  stage cube 9 sqrt2/(2h^2) -> 5 sqrt2/h^2    detected
+  SRK-II deterministic h^3/4 -> 3h^3/8               detected
+  SRK-II stage cube 5 sqrt2/h^2 -> 9 sqrt2/(2h^2)    detected
+
+The product remainder, eq: product remainder
+  M(dQ_0) + R(dQ_0) = dQ_0                           OK
+
+all checks passed
