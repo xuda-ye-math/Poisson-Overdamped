@@ -1122,15 +1122,13 @@ The remainder of Lemma~\ref{lem: cross moment} is
         \frac{2h}{3}\, D_{\mathrm I}^{\otimes j} = \frac{2h}{3} \Bigl( \frac32 \Bigr)^{\! j} D_{\mathrm{II}}^{\otimes j} ,
     \end{equation*}
     its \emph{exact part} and its \emph{stage part}. This gives
-    \begin{equation}
-    \begin{aligned}
+    \begin{align}
         \Delta Z_0 & = \nabla^2 U(Z_0) \bigg[ \int_0^h W_s\,\D s - h D_{\mathrm{II}} \bigg]
-        + \frac12\, \nabla^3 U(Z_0) \bigg[ \int_0^h W_s^{\otimes 2}\,\D s - \frac{3h}{2}\, D_{\mathrm{II}}^{\otimes 2} \bigg] \\
+        + \frac12\, \nabla^3 U(Z_0) \bigg[ \int_0^h W_s^{\otimes 2}\,\D s - \frac{3h}{2}\, D_{\mathrm{II}}^{\otimes 2} \bigg] \notag \\
         & + \frac16\, \nabla^4 U(Z_0) \bigg[ \int_0^h W_s^{\otimes 3}\,\D s - \frac{2h}{3}\, D_{\mathrm I}^{\otimes 3} \bigg]
         + \int_0^h r(W_s)\,\D s - \frac{2h}{3}\, r(D_{\mathrm I}) .
-    \end{aligned}
     \label{eq: bracket decomposition}
-    \end{equation}
+    \end{align}
     The terms in $r$ pass to the remainder unchanged: they are the fifth term of $\mathcal R(\Delta Z_0)$ in \eqref{eq: remainder I}. The three brackets of \eqref{eq: bracket decomposition} are now treated in turn, and each is split into a piece of $\mathcal M(\Delta Z_0)$ in \eqref{eq: martingale Z} and a piece of $\mathcal R(\Delta Z_0)$ in \eqref{eq: remainder I}.
 
     In the $\nabla^2 U$ bracket of \eqref{eq: bracket decomposition}, the noise of $\int_0^h W_s\,\D s$ and of $h D_{\mathrm{II}}$ is the same term $\sqrt2 \int_0^h B_s\,\D s$ and cancels, and the drift of $h D_{\mathrm{II}}$ is $- \frac{h^2}{2} \nabla U(Z_0)$. Exchanging the order of integration gives
@@ -1164,7 +1162,7 @@ The remainder of Lemma~\ref{lem: cross moment} is
     \end{equation*}
     the third term of $\mathcal M(\Delta Z_0)$ in \eqref{eq: martingale Z}, with $c_1 = \frac34$; here the identity $\nabla^3 U(Z_0)[a \otimes b + b \otimes a] = 2\, \nabla^3 U(Z_0)[a \otimes b]$ cancels the prefactor $\frac12$.
 
-    Two pieces are left, and they are the two $\nabla^3 U$ terms of $\mathcal R(\Delta Z_0)$ in \eqref{eq: remainder I}. The cross terms $\sqrt2 ( B_s \otimes q_s + q_s \otimes B_s )$ of the exact part, which the same symmetry turns into $\sqrt2\, \nabla^3 U(Z_0) \bigl[ \int_0^h q_s \otimes B_s\,\D s \bigr]$, are the second term of $\mathcal R(\Delta Z_0)$ in \eqref{eq: remainder I}. The square $\int_0^h ( W_s - \sqrt2\, B_s )^{\otimes 2}\,\D s$ of the exact part, standing against the deterministic term $\frac{3h^3}{8}\, \nabla U(Z_0)^{\otimes 2}$ of the stage part, is the third term of $\mathcal R(\Delta Z_0)$ in \eqref{eq: remainder I}, under the prefactor $\frac12$.
+    Two pieces of the $\nabla^3 U$ bracket of \eqref{eq: bracket decomposition} are left, the cross terms and the square of the exact part together with the deterministic term of the stage part, and they are the two $\nabla^3 U$ terms of $\mathcal R(\Delta Z_0)$ in \eqref{eq: remainder I}. The cross terms $\sqrt2 ( B_s \otimes q_s + q_s \otimes B_s )$ of the exact part, which the same symmetry turns into $\sqrt2\, \nabla^3 U(Z_0) \bigl[ \int_0^h q_s \otimes B_s\,\D s \bigr]$, are the second term of $\mathcal R(\Delta Z_0)$ in \eqref{eq: remainder I}. The square $\int_0^h ( W_s - \sqrt2\, B_s )^{\otimes 2}\,\D s$ of the exact part, standing against the deterministic term $\frac{3h^3}{8}\, \nabla U(Z_0)^{\otimes 2}$ of the stage part, is the third term of $\mathcal R(\Delta Z_0)$ in \eqref{eq: remainder I}, under the prefactor $\frac12$.
 
     In the $\nabla^4 U$ bracket of \eqref{eq: bracket decomposition}, the exact part has its pure-noise term peeled off by
     \begin{equation*}
@@ -1236,7 +1234,7 @@ By Minkowski's inequality, \eqref{eq: local moments} bounds the local error itse
         \Delta Q_0 = 2\sqrt2\; \mathcal M(\Delta Z_0)\, B_h^\top + \mathcal M(\Delta Z_0)\, \Gamma_0^\top + \mathcal R(\Delta Z_0) \bigl( 2\sqrt2\, B_h + \Gamma_0 \bigr)^{\!\top} ,
         \label{eq: product three}
     \end{equation}
-    a sum of three products. The first product of \eqref{eq: product three}, $2\sqrt2\, \mathcal M(\Delta Z_0)\, B_h^\top$, is the first term of $\mathcal M(\Delta Q_0)$ in \eqref{eq: product martingale}; the second and third products of \eqref{eq: product three} are the first two terms of $\mathcal R(\Delta Q_0)$ in \eqref{eq: product remainder}. The three deterministic matrices that close \eqref{eq: product martingale} are added to $\mathcal M(\Delta Q_0)$ and subtracted from $\mathcal R(\Delta Q_0)$, where they are the last three terms of \eqref{eq: product remainder}, so \eqref{eq: product decomposition} is an algebraic identity. That $\mathbb E_0\bigl[ \mathcal M(\Delta Q_0) \bigr] = 0$ is the pairing identity \eqref{eq: pairing identity}, proved below: the three matrices added in \eqref{eq: product martingale} are minus the conditional mean of its first term $2\sqrt2\, \mathcal M(\Delta Z_0)\, B_h^\top$.
+    a sum of three products. Only the first, $2\sqrt2\, \mathcal M(\Delta Z_0)\, B_h^\top$, is of order $h^{5/2}$, and it opens $\mathcal M(\Delta Q_0)$ in \eqref{eq: product martingale}; the other two are of order $h^3$ and open $\mathcal R(\Delta Q_0)$ in \eqref{eq: product remainder}. The first product is not centered, however: its conditional mean is the pairing identity \eqref{eq: pairing identity}, proved below, and the three deterministic matrices of \eqref{eq: product martingale} are that mean with the sign reversed. Adding them to $\mathcal M(\Delta Q_0)$ makes it centered, subtracting them from $\mathcal R(\Delta Q_0)$, where they close \eqref{eq: product remainder}, keeps \eqref{eq: product decomposition} an identity.
 
     For the moment estimates \eqref{eq: cross moment}, since $\norm{v w^\top} = |v|\,|w|$, Cauchy--Schwarz with \eqref{eq: local moments} and $\pnorm{B_h}_4 \Le C \sqrt h$ gives
     \begin{equation*}
