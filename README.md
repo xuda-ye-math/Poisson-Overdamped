@@ -12,7 +12,7 @@ averages, and the quality of samples from a diffusion model of CIFAR-10.
 The dynamics is the overdamped Langevin equation
 
 $$
-\mathrm{d}X_t = -\nabla U(X_t)\,\mathrm{d}t + \sqrt{2}\,\mathrm{d}B_t ,
+dX_t = -\nabla U(X_t) dt + \sqrt{2} dB_t ,
 $$
 
 whose invariant measure is $\pi(x) \propto e^{-U(x)}$. A chain $(Z_k)_{k \ge 0}$
@@ -21,7 +21,7 @@ integrators use the increment and the time integral of the Brownian path,
 
 $$
 \Delta B_k = B_{(k+1)h} - B_{kh}, \qquad
-I_k = \int_{kh}^{(k+1)h} \bigl( B_s - B_{kh} \bigr)\,\mathrm{d}s ,
+I_k = \int_{kh}^{(k+1)h} ( B_s - B_{kh} ) ds ,
 $$
 
 a Gaussian pair that is drawn exactly. The two stochastic Runge--Kutta (SRK)
@@ -32,9 +32,9 @@ derivative.
 
 $$
 \begin{aligned}
-H_k &= Z_k - \frac{3h}{4}\,\nabla U(Z_k) + \frac{3\sqrt{2}}{2h}\, I_k , \\
-Z_{k+1} &= Z_k - \frac{h}{3}\,\nabla U(Z_k) - \frac{2h}{3}\,\nabla U(H_k)
-          + \sqrt{2}\,\Delta B_k .
+H_k &= Z_k - \frac{3h}{4}\nabla U(Z_k) + \frac{3\sqrt{2}}{2h} I_k , \\
+Z_{k+1} &= Z_k - \frac{h}{3}\nabla U(Z_k) - \frac{2h}{3}\nabla U(H_k)
+          + \sqrt{2}\Delta B_k .
 \end{aligned}
 $$
 
@@ -42,10 +42,10 @@ $$
 
 $$
 \begin{aligned}
-H_k^{\pm} &= Z_k - \frac{h}{2}\,\nabla U(Z_k)
-             + \frac{\sqrt{2}}{h}\Bigl( 1 \pm \frac{1}{\sqrt{2}} \Bigr) I_k , \\
-Z_{k+1} &= Z_k - \frac{h}{2}\bigl( \nabla U(H_k^{+}) + \nabla U(H_k^{-}) \bigr)
-          + \sqrt{2}\,\Delta B_k .
+H_k^{\pm} &= Z_k - \frac{h}{2}\nabla U(Z_k)
+             + \frac{\sqrt{2}}{h} \left( 1 \pm \frac{1}{\sqrt{2}} \right) I_k , \\
+Z_{k+1} &= Z_k - \frac{h}{2} \left( \nabla U(H_k^{+}) + \nabla U(H_k^{-}) \right)
+          + \sqrt{2}\Delta B_k .
 \end{aligned}
 $$
 
@@ -65,8 +65,8 @@ $h \le h_0$ and every number of steps $N$ with $Nh \ge 1$,
 
 $$
 \mathrm{MSE}(N,h)
-= \mathbb{E}\,\biggl| \frac{1}{N} \sum_{k=0}^{N-1} f(Z_k) - \pi(f) \biggr|^2
-\le C L^2 \bigl( 1 + |Z_0| \bigr)^{12} \Bigl( \frac{1}{Nh} + h^4 \Bigr) ,
+= \mathbb{E} \left| \frac{1}{N} \sum_{k=0}^{N-1} f(Z_k) - \pi(f) \right|^2
+\le C L^2 (1 + |Z_0|)^{12} \left( \frac{1}{Nh} + h^4 \right) ,
 $$
 
 with $C$ and $h_0$ depending only on $m$, $M$, $R$ and $d$. Both terms are
@@ -77,8 +77,8 @@ at every finite $N$, not in an ergodic limit.
 **Uniform-in-time Wasserstein bound** (Theorem 3). For every $N \ge 1$,
 
 $$
-\mathcal{W}_1\bigl( \mathrm{Law}(Z_N), \mathrm{Law}(X_{Nh}) \bigr)
-\le C \bigl( 1 + |Z_0| \bigr)^{6}\, h^2 \Bigl( 1 + \log \frac{1}{h} \Bigr) ,
+\mathcal{W}_1(\mathrm{Law}(Z_N), \mathrm{Law}(X_{Nh}))
+\le C (1 + |Z_0|)^{6} h^2 \left( 1 + \log \frac{1}{h} \right) ,
 $$
 
 with the right side independent of $N$.
