@@ -94,9 +94,7 @@ Paper/
   references.bib              the cited works
   plainnat-ima.bst            bibliography style, author-year, small-caps
                               author names
-  ima-authoring-template.cls  document class (Oxford University Press, LaTeX
-                              Project Public License), with the journal header,
-                              history line and copyright footer switched off
+  ima-authoring-template.cls  the document class
   main.pdf                    the compiled manuscript
   figures/                    the figures of Section 5, copies of the results below
 Codes/
