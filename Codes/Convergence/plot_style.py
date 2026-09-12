@@ -20,11 +20,16 @@ LABELS = {
     "srk2": "stochastic Runge\u2013Kutta II",
     "stochastic_heun": "stochastic Heun",
     "random_splitting_rk3": "random splitting LMC (RK3)",
+    "euler_maruyama": "Euler\u2013Maruyama",
+    "leimkuhler_matthews_y": "Leimkuhler\u2013Matthews",
+    "leimkuhler_matthews_z": "Leimkuhler\u2013Matthews",
 }
 
 STYLE = {
     "euler_maruyama":      ("#4C72B0", "o"),
     "leimkuhler_matthews": ("#937860", "v"),
+    "leimkuhler_matthews_y": ("#937860", "v"),
+    "leimkuhler_matthews_z": ("#937860", "v"),
     "stochastic_heun":     ("#55A868", "s"),
     "randomized_midpoint": ("#8172B3", "^"),
     "srk1":                ("#DD8452", "D"),

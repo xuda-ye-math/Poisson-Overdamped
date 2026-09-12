@@ -25,11 +25,13 @@ from potential import grad_potential as gU
 SQRT2 = jnp.sqrt(2.0)
 
 
-def _scan(step, z0, xs, traj=False):
+def _scan(step, z0, xs, traj=False, unroll=1):
+    """`unroll` is passed to jax.lax.scan; it changes the compiled loop, not
+    the arithmetic, so the trajectory is the same to the last bit."""
     if not traj:
-        z, _ = jax.lax.scan(lambda z, x: (step(z, x), None), z0, xs)
+        z, _ = jax.lax.scan(lambda z, x: (step(z, x), None), z0, xs, unroll=unroll)
         return z
-    z, ys = jax.lax.scan(lambda z, x: (lambda zn: (zn, zn))(step(z, x)), z0, xs)
+    z, ys = jax.lax.scan(lambda z, x: (lambda zn: (zn, zn))(step(z, x)), z0, xs, unroll=unroll)
     return jnp.concatenate([z0[None], ys], axis=0)
 
 
@@ -40,7 +42,11 @@ def _scan(step, z0, xs, traj=False):
 def euler_maruyama(z0, h, DB, DA=None, extra=None, traj=False):
     def step(z, dB):
         return z - h * gU(z) + SQRT2 * dB
-    return _scan(step, z0, DB, traj)
+    # unroll=2: under jax 0.11.1 the default lowering of this loop at six steps
+    # per window (cost 6 of the long-time study) runs 175 times slower than
+    # every other (scheme, stride); unrolling by two removes it and leaves the
+    # samples bit-identical (checked at strides 6 and 48)
+    return _scan(step, z0, DB, traj, unroll=2)
 
 
 def leimkuhler_matthews(z0, h, DB, DA=None, extra=None, traj=False):
@@ -56,6 +62,49 @@ def leimkuhler_matthews(z0, h, DB, DA=None, extra=None, traj=False):
         dB, dBn = d
         return z - h * gU(z) + (dB + dBn) / SQRT2
     return _scan(step, z0, (DB, DBnext), traj)
+
+
+def leimkuhler_matthews_y(z0, h, DB, DA=None, extra=None, traj=False):
+    """Markov form of Leimkuhler--Matthews (Appendix D of the manuscript):
+
+        Y_{k+1} = Y_k - h grad U( Y_k + sqrt(h/2) chi_k ) + sqrt(2h) chi_k ,
+
+    with chi_k = DB_k / sqrt(h), so the step consumes the same increment
+    sqrt(2) DB_k as the exact solution and every other scheme, and (Y_k) is
+    compared with X_{kh} directly.  Z_k = Y_k + sqrt(h/2) chi_k recovers the
+    original form.  `extra` is unused.
+    """
+    def step(z, dB):
+        return z - h * gU(z + dB / SQRT2) + SQRT2 * dB
+    return _scan(step, z0, DB, traj)
+
+
+def leimkuhler_matthews_z(z0, h, DB, DA=None, extra=None, traj=False):
+    """The original Leimkuhler--Matthews recursion as a Markov chain in the
+    extended state (Z_k, dB_{k-1}):
+
+        Z_{k+1} = Z_k - h grad U(Z_k) + ( dB_{k-1} + dB_k ) / sqrt2 ,
+
+    i.e. sqrt(h/2) (chi_{k-1} + chi_k) with chi_k = dB_k / sqrt(h): each step
+    reuses the Gaussian of the previous one, as in `leimkuhler_matthews`, the
+    indexing shifted by one step so that no increment beyond the current one
+    is needed.  The state is (paths, 4): Z in the first two columns, the
+    increment of the previous step in the last two.  A (paths, 2) start is
+    completed with `extra`, an independent N(0, h I) increment standing for
+    the step before the horizon.  With traj=True the trajectory of Z alone is
+    returned, as for every other scheme.
+    """
+    if z0.shape[-1] == 2:
+        z0 = jnp.concatenate([z0, extra], axis=-1)
+
+    def step(s, dB):
+        z, prev = s[:, :2], s[:, 2:]
+        zn = z - h * gU(z) + (prev + dB) / SQRT2
+        return jnp.concatenate([zn, dB], axis=-1)
+
+    if not traj:
+        return _scan(step, z0, DB, traj=False)
+    return _scan(step, z0, DB, traj=True)[:, :, :2]
 
 
 # --------------------------------------------------------------------------
@@ -181,6 +230,8 @@ def srk_ld(z0, h, DB, DA, extra=None, traj=False):
 METHODS = {
     "euler_maruyama":     (euler_maruyama,        1, "Euler–Maruyama"),
     "leimkuhler_matthews":(leimkuhler_matthews,   1, "Leimkuhler–Matthews"),
+    "leimkuhler_matthews_y":(leimkuhler_matthews_y, 1, "Leimkuhler–Matthews"),
+    "leimkuhler_matthews_z":(leimkuhler_matthews_z, 1, "Leimkuhler–Matthews"),
     "stochastic_heun":    (stochastic_heun,       2, "stochastic Heun"),
     "randomized_midpoint":(randomized_midpoint,   2, "randomized midpoint"),
     "srk1":               (srk1,                   2, "stochastic Runge–Kutta I"),

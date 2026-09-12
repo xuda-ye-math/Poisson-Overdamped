@@ -24,6 +24,9 @@ import matplotlib.pyplot as plt
 from matplotlib.lines import Line2D
 import numpy as np
 
+# the serif style of the other figures of the manuscript (../Convergence/plot_style.py)
+plt.rcParams.update({"mathtext.fontset": "cm", "font.family": "serif"})
+
 HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, HERE)
 

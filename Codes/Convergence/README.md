@@ -15,7 +15,7 @@ works whatever the working directory holds.
 ```
 potential.py     the 2-D two-well potential, its gradient and Hessian, X0, T_FINAL
 noise.py         the exact Brownian pair (dB, dA) and its aggregation to a step size
-integrators.py   the seven compared schemes, plus srk_ld, the strong-order-3/2 reference
+integrators.py   the compared schemes and the two forms of Leimkuhler–Matthews, plus srk_ld, the strong-order-3/2 reference
 observables.py   the family of 1-Lipschitz test functions behind both weak errors
 plot_style.py    shared rcParams, colours, labels, log axes, slope guides
 finite-time/     strong and weak error against the exact solution over [0, T]
@@ -51,7 +51,19 @@ number of evaluations of $\nabla U$. See `finite-time/README.md`.
 
 `long-time/` — the weak error of the time average,
 $\max_i |\overline{f_i} - \pi(f_i)|$, to $T = 1.6 \cdot 10^9$ from the origin,
-for integrators I and II at five costs, $C = 6, 12, 24, 48, 96$ evaluations of
-$\nabla U$ per unit time. Ten independent chains, 248 billion steps, sampled
-once per unit time and streamed to disk in resumable segments. See
-`long-time/README.md`.
+for six schemes (SRK-I, SRK-II, stochastic Heun, random splitting LMC (RK3),
+Euler–Maruyama, Leimkuhler–Matthews) at five costs each, $C = 6, 12, 24, 48,
+96$ evaluations of $\nabla U$ per unit time. Thirty independent chains, about
+1.09 trillion steps, sampled once per unit time and streamed to disk in
+resumable segments. See `long-time/README.md`.
+
+Leimkuhler–Matthews enters the two studies in two forms of the same chain,
+both drawn as "Leimkuhler–Matthews". The finite-time study, which compares a
+scheme with the exact solution driven by the same Brownian path, uses the
+Markov form `Y_{k+1} = Y_k - h grad U(Y_k + sqrt(h/2) chi_k) + sqrt(2h) chi_k`
+(`leimkuhler_matthews_y`): the original form reuses the Gaussian of the
+previous step, so its increment over a step is not the one of the driving
+path, and a pathwise comparison would be unfair to it. The long-time study,
+which needs no reference path, runs the original form
+`Z_{k+1} = Z_k - h grad U(Z_k) + sqrt(h/2)(chi_k + chi_{k+1})`
+(`leimkuhler_matthews_z`), the integrator as it is used.

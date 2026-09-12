@@ -25,14 +25,16 @@ NPZ = os.path.join(HERE, "artifacts", "trajectories.npz")
 FIG = os.path.join(HERE, "results", "weak_error.png")
 CSV = os.path.join(HERE, "artifacts", "weak_error_summary.csv")
 
-# (order, value at the first cost, position along, y offset, text); the labels
-# sit on the right of the figure, clear of every curve by 1.8 and 2.1 octaves
-GUIDES = ((1.0, 0.30, 0.80, 2.64, r"slope $=-1$"),
-          (2.0, 0.16, 0.85, 2.22, r"slope $=-2$"))
+# (order, value at the first cost, position along, y offset, text): the slope -1
+# guide runs just above the first order bundle, the slope -2 guide just below
+# the two SRK curves, so neither crosses a curve and both sit next to the
+# curves they refer to
+GUIDES = ((1.0, 0.10, 0.80, 2.64, r"slope $=-1$"),
+          (2.0, 0.008, 0.85, 0.45, r"slope $=-2$"))
 # the methods drawn, in legend order: the two SRK schemes last.  The RK4
 # random splitting is saved but not drawn, since it gives the same error as
 # the RK3 one at equal step.
-DRAWN = ["euler_maruyama", "leimkuhler_matthews", "stochastic_heun", "randomized_midpoint",
+DRAWN = ["euler_maruyama", "leimkuhler_matthews_y", "stochastic_heun", "randomized_midpoint",
          "random_splitting_rk3", "srk1", "srk2"]
 
 

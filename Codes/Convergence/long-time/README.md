@@ -1,9 +1,12 @@
 # Long-time weak error of the time average
 
-The two integrators of the manuscript run to `T = 1.6 * 10^9` from the origin, at
-five costs each, and the weak error of the running time average is plotted
-against the horizon. Ten independent chains in all: five costs times two
-schemes, one trajectory and one seed each.
+Six schemes run to `T = 1.6 * 10^9` from the origin, at five costs each, and
+the weak error of the running time average is plotted against the horizon:
+the two SRK integrators of the manuscript, stochastic Heun, the random
+splitting LMC with the RK3 drift flow, Euler–Maruyama, and Leimkuhler–Matthews
+in its original form `Z_k` (see `../README.md` for the two forms). Thirty
+independent chains in all: five costs times six schemes, one trajectory and
+one seed each.
 
 The definition is the one `../finite-time/` uses, with the exact solution
 replaced by the measure the average converges to:
@@ -17,28 +20,30 @@ the empirical measure of the trajectory and `pi`.
 ## The equal-cost grid
 
 Cost is the number of gradient evaluations spent per unit of time, taken along
-`C = 6, 12, 24, 48, 96`. Integrator I takes 2 evaluations per step and
-integrator II takes 3, so a cost fixes `h = 2/C` and `h = 3/C`, and the two
-cover the horizon in different numbers of steps for the same budget. The
-baseline `C = 6` is `h = 1/3` against `h = 1/2`.
+`C = 6, 12, 24, 48, 96`. A scheme at `e` evaluations per step runs at
+`h = e/C`, so the schemes cover the horizon in different numbers of steps for
+the same budget: `e = 2` for integrator I and stochastic Heun, `e = 3` for
+integrator II and the RK3 random splitting, `e = 1` for Euler–Maruyama and
+Leimkuhler–Matthews. At the baseline `C = 6` this is `h = 1/3`, `1/2` and
+`1/6`.
 
-| `C` | I: `h` | I: steps | II: `h` | II: steps |
-| --- | --- | --- | --- | --- |
-| 6 | 1/3 | 4,800,000,000 | 1/2 | 3,200,000,000 |
-| 12 | 1/6 | 9,600,000,000 | 1/4 | 6,400,000,000 |
-| 24 | 1/12 | 19,200,000,000 | 1/8 | 12,800,000,000 |
-| 48 | 1/24 | 38,400,000,000 | 1/16 | 25,600,000,000 |
-| 96 | 1/48 | 76,800,000,000 | 1/32 | 51,200,000,000 |
+| `C` | `e = 1`: `h`, steps | `e = 2`: `h`, steps | `e = 3`: `h`, steps |
+| --- | --- | --- | --- |
+| 6 | 1/6, 9,600,000,000 | 1/3, 4,800,000,000 | 1/2, 3,200,000,000 |
+| 12 | 1/12, 19,200,000,000 | 1/6, 9,600,000,000 | 1/4, 6,400,000,000 |
+| 24 | 1/24, 38,400,000,000 | 1/12, 19,200,000,000 | 1/8, 12,800,000,000 |
+| 48 | 1/48, 76,800,000,000 | 1/24, 38,400,000,000 | 1/16, 25,600,000,000 |
+| 96 | 1/96, 153,600,000,000 | 1/48, 76,800,000,000 | 1/32, 51,200,000,000 |
 
-Cost per unit time is the same for both schemes at a given `C`, so time and
+Cost per unit time is the same for every scheme at a given `C`, so time and
 cost are the same axis and any two curves are comparable at every point.
-248 billion steps in all.
+About 1.09 trillion steps in all.
 
 ## Sampling
 
 The chain is stepped at `h` but recorded once per unit of time, so every run
 stores the same `1.6 * 10^9` samples whatever its step size: 25.6 GB each and
-256 GB for the ten, where keeping every step would have been four petabytes.
+768 GB for the thirty, where keeping every step would have been many petabytes.
 The stride `C / evals` is a whole number for every cost in the grid, so a
 sample always lands exactly on a step.
 
@@ -52,9 +57,9 @@ It is the average over those samples that the figures report.
 | --- | --- |
 | `invariant.py` | `pi(f_i)` for every test function, by quadrature against `exp(-U)` |
 | `simulate.py` | one integrator at one cost: the trajectory to `T`, in segments |
-| `run_long.py` | the ten runs in parallel, one pinned core each |
+| `run_long.py` | the thirty runs in parallel, one pinned core each |
 | `weak_error.py` | sweeps every stored sample once and saves the curves |
-| `plot_weak.py` | the two figures, from the saved curves alone |
+| `plot_weak.py` | one figure per scheme, from the saved curves alone |
 
 ## Reproducing
 
@@ -64,18 +69,20 @@ Run from `Convergence/`:
 python long-time/invariant.py    # -> artifacts/pi_observables.npz   (once)
 python long-time/run_long.py     # -> artifacts/trajectory_*_segNN.npy, logs/
 python long-time/weak_error.py   # -> artifacts/weak_error.npz       (once)
-python long-time/plot_weak.py    # -> results/long_time_weak_error_{I,II}.png
+python long-time/plot_weak.py    # -> results/long_time_weak_error_{I,II,heun,rk3,em,lmz}.png
 ```
 
 The measurement and the drawing are separate, because the trajectories are
-239 GB and the curves drawn from them are a few megabytes. `weak_error.py`
+768 GB and the curves drawn from them are a few megabytes. `weak_error.py`
 reads every stored sample once and writes the running weak error at a grid of
 checkpoints to `artifacts/weak_error.npz`; `plot_weak.py` opens that file and
 nothing else, so a figure can be redrawn in a second without going near the
 trajectories again.
 
-`run_long.py` takes about eight hours: ten chains, one pinned core each, 248
-billion steps in total, and the longest of them sets the wall clock. To have
+`run_long.py` takes about six hours: thirty chains, one pinned core each,
+about 1.09 trillion steps in total, and the longest of them, the
+one-evaluation schemes at `C = 96` with 153.6 billion steps, sets the wall
+clock. Both scripts accept a list of scheme names to run or sweep a subset. To have
 it outlive the shell that starts it:
 
 ```sh
@@ -133,8 +140,8 @@ integrates in blocks of `100000` unit-time windows, writes each block's
 samples into the memory-mapped `.npy`, releases the block before starting the
 next and drops the segment's map when the segment closes, so a worker's
 footprint is set by the block and not by the horizon: the 76.8-billion-step
-run holds a few hundred MB of live memory, and the ten together sit near 11 GB
-resident, most of it reclaimable page cache.
+run holds a few hundred MB of live memory, and the thirty together sit near
+30 GB resident, most of it reclaimable page cache.
 
 `weak_error.py` sweeps the same way. Each segment is memory mapped and read in
 blocks of `400000` samples, and only the running sum of the 20 test functions
@@ -167,10 +174,11 @@ enforce.
 
 ## What the figure shows
 
-Two figures, one per integrator, five non-negative curves each: simulation
-time on a uniform axis from `0` to the horizon reached, the error on a log
-axis in powers of two. Shade is the cost, lightest at `C = 6`. The two share
-one pair of axis limits, so they can be read side by side. Only finished
+One figure per scheme, five non-negative curves each: simulation time on a
+uniform axis from `0` to the horizon reached, the error on a log axis in
+powers of two, one colour per step size. Each figure has its own axis
+limits, except that the two SRK figures share one pair, so they can be read
+side by side. Only finished
 segments are read, so the figures can be drawn while the simulation is still
 running and will show whatever horizon has been reached.
 
@@ -190,6 +198,13 @@ only where the plateau is flat and well above the others is the bias what is
 being read. Separating the two at the finer costs would need several
 independent paths per point.
 
+Euler–Maruyama gives five flat plateaus that halve from one cost to the
+next: first order. Leimkuhler–Matthews is second order in its plateaus,
+`2.5e-3`, `7.6e-4`, `2.0e-4` at `C = 6, 12, 24`, and reaches the sampling
+floor of a single trajectory two costs earlier than the SRK schemes; at equal
+cost it lies below both SRK integrators at every `C`, by a factor 15 to 19
+where its bias is resolved.
+
 ## Notes
 
 The noise is drawn directly at the step size. `fine_noise` returns the
@@ -197,6 +212,6 @@ increment and its exact time integral over each step, so the pair the schemes
 consume is exact for the Brownian path and nothing is discretized.
 
 No reference trajectory is involved. A long-time average is judged by whether
-it settles as the horizon grows, and by the two integrators agreeing at equal
-cost, not by comparison against an exact solution over a fixed interval; that
-is what `../finite-time/` measures.
+it settles as the horizon grows, and by schemes of the same order agreeing at
+equal cost, not by comparison against an exact solution over a fixed
+interval; that is what `../finite-time/` measures.

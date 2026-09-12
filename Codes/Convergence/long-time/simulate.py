@@ -63,7 +63,8 @@ N_SEGMENTS = 16                       # total horizon T = N_SEGMENTS * SEGMENT
 T_FINAL = N_SEGMENTS * SEGMENT
 Z0 = jnp.zeros(2)                     # the chain starts at the origin
 COSTS = [6 * 2**j for j in range(5)]  # 6, 12, 24, 48, 96 evaluations per unit time
-METHOD_NAMES = ["srk1", "srk2", "stochastic_heun", "random_splitting_rk3"]
+METHOD_NAMES = ["srk1", "srk2", "stochastic_heun", "random_splitting_rk3",
+                "euler_maruyama", "leimkuhler_matthews_z"]
 WINDOWS = 100_000                     # unit-time windows per block; divides SEGMENT
 FLUSH_EVERY = 25                      # blocks between flushes of the segment map
 BASE_SEED = 20260831
@@ -93,7 +94,9 @@ def block_run(name, windows, stride):
 
         def window(z, d):
             zn = fn(z, h, d[0], d[1], d[2])
-            return zn, zn
+            # the original Leimkuhler--Matthews form carries (Z, previous
+            # increment); the sample recorded is Z, the first two columns
+            return zn, zn[:, :2]
 
         return jax.lax.scan(window, z,
                             (dB.reshape(shape), dA.reshape(shape), extra))
@@ -219,6 +222,12 @@ def run(name, cost, start=None, fresh=False):
     os.makedirs(os.path.join(HERE, "artifacts"), exist_ok=True)
     stem = os.path.join(HERE, "artifacts", f"trajectory_{name}_c{cost}")
     done, z, key, seconds = load_state(stem, seed, blocks, start, fresh)
+    if name == "leimkuhler_matthews_z" and z.shape[-1] == 2:
+        # the increment of the step before t = 0, from a key of its own so the
+        # block key sequence, and its replay on resume, is the same for every
+        # scheme; a resumed run takes the full state from the checkpoint
+        z = jnp.concatenate([z, jnp.sqrt(h) * jax.random.normal(
+            jax.random.PRNGKey(seed + 1), (1, 2))], axis=-1)
 
     print(f"{name} cost {cost}: h = {h:.6g}, stride {stride}, "
           f"{blocks} blocks of {block_steps:,} steps per segment, "

@@ -35,10 +35,14 @@ from plot_style import plt, LABELS, DPI
 RESULTS = os.path.join(HERE, "results")
 CURVES = os.path.join(HERE, "artifacts", "weak_error.npz")
 TAG = {"srk1": "I", "srk2": "II", "stochastic_heun": "heun",
-       "random_splitting_rk3": "rk3"}
+       "random_splitting_rk3": "rk3", "euler_maruyama": "em",
+       "leimkuhler_matthews_z": "lmz"}
 # smaller than the finite-time panels, so that at the same width on the page
 # the fonts come out correspondingly larger
 FIGSIZE = (4.5, 3.5)
+SHARED = ("srk1", "srk2")   # the two SRK figures share their y-range
+# (method, cost index) whose step-size label is written below its curve
+LABEL_BELOW = {("leimkuhler_matthews_z", 3)}
 STRIDE = 1           # plot every STRIDE-th checkpoint; the file keeps them all
 # the default colour cycle, one colour per step size.  The two integrators run
 # different step sizes at the same cost, so the k-th coarsest of each carries
@@ -56,6 +60,14 @@ def step_label(h):
 
 
 def main():
+    """Draw every method in TAG, or only the ones named on the command line:
+
+        python plot_weak.py                                       all methods
+        python plot_weak.py euler_maruyama leimkuhler_matthews_y  these only
+
+    The shared axis limits are taken over the methods drawn, so a partial call
+    leaves the figures of the other methods exactly as they are.
+    """
     d = np.load(CURVES, allow_pickle=False)
     t = d["t"][::STRIDE]
     err = d["err"][:, ::STRIDE]
@@ -64,10 +76,16 @@ def main():
     order = sorted(set(costs))
     T = float(d["t"][-1])
 
-    lo, hi = err.min(), err.max()
+    drawn = sys.argv[1:] or list(TAG)
+    assert all(m in TAG for m in drawn), drawn
     os.makedirs(RESULTS, exist_ok=True)
-    for m in TAG:
+    for m in drawn:
         rows = [i for i, mm in enumerate(methods) if mm == m]
+        # every figure has its own y-range, except that the two SRK figures
+        # share one, so that they can be read side by side
+        share = SHARED if m in SHARED else (m,)
+        lim = [i for i, mm in enumerate(methods) if mm in share]
+        lo, hi = err[lim].min(), err[lim].max()
         if not rows:                 # not swept yet: no figure for it
             continue
         fig, ax = plt.subplots(figsize=FIGSIZE)
@@ -75,10 +93,13 @@ def main():
             c = order.index(costs[i])
             ax.plot(t, err[i], color=COLOURS[c], linewidth=1.1)
             # the step size written on the curve itself, a third of an octave
-            # above it, rather than in a legend
+            # above it, rather than in a legend; below it where the two finest
+            # curves of a panel overlap and the labels would collide
             j = len(t) // 2
-            ax.text(t[j], err[i][j] * 2**0.33, step_label(float(d["h"][i])),
-                    color=COLOURS[c], fontsize=9, ha="center", va="bottom")
+            below = (m, c) in LABEL_BELOW
+            ax.text(t[j], err[i][j] * 2**(-0.33 if below else 0.33),
+                    step_label(float(d["h"][i])), color=COLOURS[c],
+                    fontsize=9, ha="center", va="top" if below else "bottom")
         ax.set_yscale("log", base=2)
         ax.set_xlim(0.0, T)
         ax.set_xticks(np.linspace(0.0, T, 5))

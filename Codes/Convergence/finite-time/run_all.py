@@ -121,7 +121,9 @@ def merge(shards, subset=False):
         print(f"merged seed {i:2d}", flush=True)
     out["reference_self_gap"] = float(np.mean(gaps))
 
-    for n in names:                      # every listed method must carry data
+    for n in names:                      # every listed method must carry data,
+        if subset and f"msd|{n}|{COSTS[0]}" not in out:
+            continue                     # unless it was never run in this study
         assert f"msd|{n}|{COSTS[0]}" in out, f"no data for {n}"
 
     np.savez_compressed(OUT, **out)

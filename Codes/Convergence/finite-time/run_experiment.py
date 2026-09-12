@@ -140,7 +140,7 @@ def run_chunk(key, n_paths, want_gap, methods):
             h = T_FINAL / n_steps
             DB, DA = coarsen(dB, dA, n_steps, dt)
             extra = None
-            if name == "leimkuhler_matthews":
+            if name in ("leimkuhler_matthews", "leimkuhler_matthews_z"):
                 key, k = jax.random.split(key)
                 extra = jnp.sqrt(h) * jax.random.normal(k, (n_paths, 2))
             elif name == "randomized_midpoint":

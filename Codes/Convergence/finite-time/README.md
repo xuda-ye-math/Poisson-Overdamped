@@ -1,12 +1,19 @@
 # Strong and weak error over a finite horizon
 
-Produces the two panels of Figure 1 in `../../../Paper/main.tex`: strong error
+Produces the two panels of Figure 1 of the manuscript (`../../IMA/main.tex`): strong error
 $\max_k (\mathbb E |Z_k - X_{kh}|^2)^{1/2}$ and weak error
 $\max_i \max_k |\mathbb E f_i(Z_k) - \mathbb E f_i(X_{kh})|$, both against the
 number of evaluations of $\nabla U$, at $T = 1$.
 
 The potential, the noise, the integrators and the figure style are shared and
 live one level up; see `../README.md`. Run everything from `Convergence/`.
+
+Leimkuhler–Matthews is drawn in its Markov form `leimkuhler_matthews_y`, the
+form that consumes the same Brownian increment as the exact solution and the
+other schemes; the original form reuses the previous step's Gaussian and a
+pathwise comparison against the driving path is unfair to it (see
+`../README.md`). Every scheme of `integrators.METHODS` is simulated and saved;
+`DRAWN` in the two plot scripts selects the curves.
 
 ## Files
 
@@ -26,13 +33,13 @@ python finite-time/plot_strong.py   # -> results/strong_error.png, artifacts/str
 python finite-time/plot_weak.py     # -> results/weak_error.png,   artifacts/weak_error_summary.csv
 ```
 
-`run_all.py` takes about 13 minutes: 16 seeds of 4096 trajectories, every
+`run_all.py` takes about 20 minutes: 16 seeds of 4096 trajectories, every
 scheme at every cost `3*4^j` for `j = 1..6`, one worker per core. It writes
 `artifacts/trajectories.npz` outright. The plots read that file and simulate
 nothing, so either panel rebuilds in seconds.
 
-The two files in `results/` are copied to `../../../Paper/figures/` for the
-manuscript.
+The two files in `results/` are copied into `../../IMA/figures/` when the
+manuscript is updated.
 
 ## Memory
 

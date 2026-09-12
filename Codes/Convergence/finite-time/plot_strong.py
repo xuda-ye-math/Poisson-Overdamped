@@ -25,13 +25,12 @@ CSV = os.path.join(HERE, "artifacts", "strong_error_summary.csv")
 # (order, value at the first cost, position along, y offset, text); the labels
 # sit on the right of the figure, clear of every curve by 2.3, 1.4 and 1.1
 # octaves
-GUIDES = ((0.5, 0.90, 0.60, 2.22, r"slope $=-0.5$"),
-          (1.0, 0.11, 0.80, 0.45, r"slope $=-1$"),
+GUIDES = ((1.0, 0.11, 0.80, 0.45, r"slope $=-1$"),
           (1.5, 0.080, 0.85, 0.38, r"slope $=-1.5$"))
 # the methods drawn, in legend order: the two SRK schemes last.  The RK4
 # random splitting is saved but not drawn, since it gives the same error as
 # the RK3 one at equal step.
-DRAWN = ["euler_maruyama", "leimkuhler_matthews", "stochastic_heun", "randomized_midpoint",
+DRAWN = ["euler_maruyama", "leimkuhler_matthews_y", "stochastic_heun", "randomized_midpoint",
          "random_splitting_rk3", "srk1", "srk2"]
 
 
