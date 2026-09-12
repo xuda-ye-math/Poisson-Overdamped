@@ -754,7 +754,7 @@ Conditions \eqref{eq: onesided} and \eqref{eq: distant} are exactly the input of
 
 \begin{lemma}
 \label{lem: contraction}
-    Under Assumption~\ref{ass: U}, there are constants $\lambda > 0$ and $C \Ge 1$, depending only on $m$, $M$ and $R$, such that for every $g \in C^1(\mathbb R^d)$ with bounded gradient and all $x, y \in \mathbb R^d$, $t \Ge 0$,
+    Under Assumption~\ref{ass: U}, there are constants $\lambda > 0$ and $C \Ge 1$, depending only on $m$, $M$ and $R$, such that for every $g \in C^1(\mathbb R^d)$ with $\norm{\nabla g}_\infty < \infty$ and all $x, y \in \mathbb R^d$, $t \Ge 0$,
     \begin{equation}
         |P_t g(x) - P_t g(y)| \Le C\, e^{-\lambda t}\, \norm{\nabla g}_\infty\, |x - y| .
         \label{eq: contraction}
@@ -858,7 +858,7 @@ The bounds \eqref{eq: short time} and \eqref{eq: short time third} still use $\n
 
 \begin{lemma}
 \label{lem: BEL}
-    Under Assumption~\ref{ass: U}, for $g \in C^3(\mathbb R^d)$ with bounded derivatives up to third order, $\tau > 0$ and $v \in \mathbb R^d$,
+    Under Assumption~\ref{ass: U}, for $g \in C^3(\mathbb R^d)$ with $\norm{\nabla^i g}_\infty < \infty$ for $i = 1, 2, 3$, $\tau > 0$ and $v \in \mathbb R^d$,
     \begin{equation}
         v \cdot \nabla P_{2\tau} g(x) = \frac{1}{\sqrt2\,\tau}\, \mathbb E^x \bigg[ (P_\tau g)(X_\tau) \int_0^\tau (J_s v) \cdot \D B_s \bigg] .
         \label{eq: BEL}
@@ -876,7 +876,7 @@ The bounds \eqref{eq: short time} and \eqref{eq: short time third} still use $\n
 
 \begin{lemma}
 \label{lem: hessian from lipschitz}
-    Under Assumption~\ref{ass: U}, for $g \in C^3(\mathbb R^d)$ with bounded derivatives up to third order and $0 < t \Le 1$,
+    Under Assumption~\ref{ass: U}, for $g \in C^3(\mathbb R^d)$ with $\norm{\nabla^i g}_\infty < \infty$ for $i = 1, 2, 3$ and $0 < t \Le 1$,
     \begin{equation}
         \norm{\nabla^2 P_t g(x)} \Le e^{2M} \bigl( t^{-1/2} + \sqrt{d}\, M \bigr)\, \norm{\nabla g}_\infty , \qquad \forall x \in \mathbb R^d .
         \label{eq: hessian from lipschitz}
@@ -935,7 +935,7 @@ Differentiating \eqref{eq: differentiated BEL} once more removes $\norm{\nabla^3
 
 \begin{lemma}
 \label{lem: third from lipschitz}
-    Under Assumption~\ref{ass: U}, there is a constant $C$, depending only on $M$ and $d$, such that for $g \in C^3(\mathbb R^d)$ with bounded derivatives up to third order and $0 < t \Le 1$,
+    Under Assumption~\ref{ass: U}, there is a constant $C$, depending only on $M$ and $d$, such that for $g \in C^3(\mathbb R^d)$ with $\norm{\nabla^i g}_\infty < \infty$ for $i = 1, 2, 3$ and $0 < t \Le 1$,
     \begin{equation}
         \norm{\nabla^3 P_t g(x)} \Le C\, t^{-1}\, \norm{\nabla g}_\infty , \qquad \forall x \in \mathbb R^d .
         \label{eq: third from lipschitz}
@@ -1012,7 +1012,7 @@ In the proof above, $\nabla^2 f$ and $\nabla^3 f$ enter only near $t = 0$: for $
 
 \begin{lemma}
 \label{lem: smoothing}
-    Under Assumption~\ref{ass: U} alone, with $\lambda$ the rate of Lemma~\ref{lem: contraction} and $C$ depending only on $m$, $M$, $R$ and $d$, for every $g \in C^3(\mathbb R^d)$ with bounded derivatives up to third order and every $t > 0$,
+    Under Assumption~\ref{ass: U} alone, with $\lambda$ the rate of Lemma~\ref{lem: contraction} and $C$ depending only on $m$, $M$, $R$ and $d$, for every $g \in C^3(\mathbb R^d)$ with $\norm{\nabla^i g}_\infty < \infty$ for $i = 1, 2, 3$ and every $t > 0$,
     \begin{equation}
         \norm{\nabla^2 P_t g}_\infty \Le C \min(1,t)^{-1/2}\, e^{-\lambda t}\, \norm{\nabla g}_\infty , \qquad
         \norm{\nabla^3 P_t g}_\infty \Le C \min(1,t)^{-1}\, e^{-\lambda t}\, \norm{\nabla g}_\infty .
@@ -1392,7 +1392,7 @@ This subsection bounds the local weak error of one step, the consistency stateme
 
 \begin{lemma}
 \label{lem: weak}
-    Let Assumption~\ref{ass: U} hold, let $h \in (0,1]$, and let $G \in C^3(\mathbb R^d)$ have bounded derivatives up to third order. Then, with $C$ depending only on $M$ and $d$, for every $k \Ge 0$,
+    Let Assumption~\ref{ass: U} hold, let $h \in (0,1]$, and let $G \in C^3(\mathbb R^d)$ with $\norm{\nabla^i G}_\infty < \infty$ for $i = 1, 2, 3$. Then, with $C$ depending only on $M$ and $d$, for every $k \Ge 0$,
     \begin{equation}
         \Bigl| \mathbb E_k \bigl[ G(Z_{k+1}) - G(Z_k(h)) \bigr] \Bigr|
         \Le C h^3 \bigl( \norm{\nabla G}_\infty + \norm{\nabla^2 G}_\infty + \norm{\nabla^3 G}_\infty \bigr) \bigl( 1 + |Z_k| \bigr)^{6} .
