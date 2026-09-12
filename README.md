@@ -15,8 +15,8 @@ $$
 dX_t = -\nabla U(X_t) dt + \sqrt{2} dB_t ,
 $$
 
-whose invariant measure is $\pi(x) \propto e^{-U(x)}$. A chain $(Z_k)_{k \ge 0}$
-with step size $h$ approximates $X_{kh}$. Over the step $[kh, (k+1)h]$ both
+whose invariant measure is $`\pi(x) \propto e^{-U(x)}`$. A chain $`(Z_k)_{k \ge 0}`$
+with step size $`h`$ approximates $`X_{kh}`$. Over the step $`[kh, (k+1)h]`$ both
 integrators use the increment and the time integral of the Brownian path,
 
 $$
@@ -25,10 +25,10 @@ I_k = \int_{kh}^{(k+1)h} ( B_s - B_{kh} ) ds ,
 $$
 
 a Gaussian pair that is drawn exactly. The two stochastic Runge--Kutta (SRK)
-integrators, proposed by Yang & Wang (2026), evaluate $\nabla U$ and no higher
+integrators, proposed by Yang & Wang (2026), evaluate $`\nabla U`$ and no higher
 derivative.
 
-**SRK-I**, two evaluations of $\nabla U$ per step:
+**SRK-I**, two evaluations of $`\nabla U`$ per step:
 
 $$
 \begin{aligned}
@@ -38,7 +38,7 @@ Z_{k+1} &= Z_k - \frac{h}{3}\nabla U(Z_k) - \frac{2h}{3}\nabla U(H_k)
 \end{aligned}
 $$
 
-**SRK-II**, three evaluations of $\nabla U$ per step:
+**SRK-II**, three evaluations of $`\nabla U`$ per step:
 
 $$
 \begin{aligned}
@@ -49,19 +49,19 @@ Z_{k+1} &= Z_k - \frac{h}{2} \left( \nabla U(H_k^{+}) + \nabla U(H_k^{-}) \right
 \end{aligned}
 $$
 
-Both are of strong order $3/2$ and weak order $2$ (Corollaries 1 and 2 of the
+Both are of strong order $`3/2`$ and weak order $`2`$ (Corollaries 1 and 2 of the
 paper).
 
 ## Main results
 
-The potential $U \in C^5(\mathbb{R}^d)$ has $|\nabla U(0)| \le M$ and
-derivatives of orders $2$ to $5$ bounded by $M$, and is convex outside a
-bounded region: $\nabla^2 U(x) \succeq m I_d$ for $|x| \ge R$. No global
-convexity is assumed, so $U$ may have several wells. The test function
-$f \in C^3(\mathbb{R}^d)$ has its first three derivatives bounded by $L$.
+The potential $`U \in C^5(\mathbb{R}^d)`$ has $`|\nabla U(0)| \le M`$ and
+derivatives of orders $`2`$ to $`5`$ bounded by $`M`$, and is convex outside a
+bounded region: $`\nabla^2 U(x) \succeq m I_d`$ for $`|x| \ge R`$. No global
+convexity is assumed, so $`U`$ may have several wells. The test function
+$`f \in C^3(\mathbb{R}^d)`$ has its first three derivatives bounded by $`L`$.
 
 **Mean square error of the time average** (Theorem 2). For every step size
-$h \le h_0$ and every number of steps $N$ with $Nh \ge 1$,
+$`h \le h_0`$ and every number of steps $`N`$ with $`Nh \ge 1`$,
 
 $$
 \mathrm{MSE}(N,h)
@@ -69,19 +69,19 @@ $$
 \le C L^2 (1 + |Z_0|)^{12} \left( \frac{1}{Nh} + h^4 \right) ,
 $$
 
-with $C$ and $h_0$ depending only on $m$, $M$, $R$ and $d$. Both terms are
-optimal: $1/(Nh)$ is the sampling variance of a time average over a trajectory
-of length $Nh$, and $h^4$ is the square of a second order bias. The bound holds
-at every finite $N$, not in an ergodic limit.
+with $`C`$ and $`h_0`$ depending only on $`m`$, $`M`$, $`R`$ and $`d`$. Both terms are
+optimal: $`1/(Nh)`$ is the sampling variance of a time average over a trajectory
+of length $`Nh`$, and $`h^4`$ is the square of a second order bias. The bound holds
+at every finite $`N`$, not in an ergodic limit.
 
-**Uniform-in-time Wasserstein bound** (Theorem 3). For every $N \ge 1$,
+**Uniform-in-time Wasserstein bound** (Theorem 3). For every $`N \ge 1`$,
 
 $$
 \mathcal{W}_1(\mathrm{Law}(Z_N), \mathrm{Law}(X_{Nh}))
 \le C (1 + |Z_0|)^{6} h^2 \left( 1 + \log \frac{1}{h} \right) ,
 $$
 
-with the right side independent of $N$.
+with the right side independent of $`N`$.
 
 Both results rest on a discrete Poisson equation and on elliptic estimates for
 its solution under convexity outside a bounded region (Theorem 1): the
