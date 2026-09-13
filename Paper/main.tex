@@ -71,7 +71,7 @@ where $C$ depends on the potential, the dimension, the test function and the ini
 \begin{itemize}
 	\setlength{\itemsep}{0pt}
     \item \emph{No global convexity.} The potential is assumed convex only outside a bounded region (Assumption~\ref{ass: U}), so multiple wells are allowed.
-    \item \emph{MSE at finite steps.} The bound holds at every number of steps with $Nh \Ge 1$, with explicit dependence on $N$ and $h$, and no ergodic limit is invoked.
+    \item \emph{MSE at finite steps.} The bound holds at every number of steps, with explicit dependence on $N$ and $h$, and no ergodic limit is invoked.
     \item \emph{Second order convergence.} The discretization enters at $h^4$, that is, at second order in the bias, for an integrator that evaluates $\nabla U$ and no derivative of it.
 \end{itemize}
 
@@ -509,7 +509,7 @@ The sums of the martingale differences $\Psi_k$ and $\mathcal M(\Upsilon_k)$ hav
     \mathbb E \biggl| \sum_{k=0}^{N-1} \Psi_k \biggr|^2 = \sum_{k=0}^{N-1} \mathbb E |\Psi_k|^2 , \qquad
     \mathbb E \biggl| \sum_{k=0}^{N-1} \mathcal M(\Upsilon_k) \biggr|^2 = \sum_{k=0}^{N-1} \mathbb E |\mathcal M(\Upsilon_k)|^2 ,
 \end{equation*}
-whereas the remainders $\mathcal R(\Upsilon_k)$ accumulate linearly in $N$. Theorem~\ref{thm: mse} then bounds $\mathrm{MSE}(N,h)$ by $\frac1{Nh} + h^4$ for $Nh \Ge 1$, verifying the second order discretization error in SRK-I and SRK-II.
+whereas the remainders $\mathcal R(\Upsilon_k)$ accumulate linearly in $N$. Theorem~\ref{thm: mse} then bounds $\mathrm{MSE}(N,h)$ by $\frac1{Nh} + h^4$, verifying the second order discretization error in SRK-I and SRK-II.
 
 Neither \eqref{eq: mse decomposition} nor \eqref{eq: upsilon expansion} is particular to a scheme: the bound improves as the local error decreases. Stochastic Runge--Kutta integrators raise the order of exactly the remainders $\mathcal R(\Delta Z_k)$ and $\mathcal R(\Delta Q_k)$, and the fourth moment of $\Delta Z_k$, using evaluations of $\nabla U$ alone.
 
@@ -520,7 +520,7 @@ Theorem~\ref{thm: mse} bounds the three terms of \eqref{eq: mse decomposition}, 
 
 \begin{theorem}
 \label{thm: mse}
-    Let Assumptions~\ref{ass: U} and \ref{ass: f} hold. For every step size $h \in (0, h_0]$ and every number of steps $N$ with $Nh \Ge 1$, the MSE \eqref{eq: mse} of the time average of $f$ along the chain satisfies
+    Let Assumptions~\ref{ass: U} and \ref{ass: f} hold. For every step size $h \in (0, h_0]$ and every number of steps $N \Ge 1$, the MSE \eqref{eq: mse} of the time average of $f$ along the chain satisfies
     \begin{equation}
         \mathrm{MSE}(N, h) \Le C L^2 \bigl( 1 + |Z_0| \bigr)^{12} \Bigl( \frac{1}{Nh} + h^4 \Bigr) .
         \label{eq: mse bound}
@@ -669,7 +669,7 @@ Taken together, the three studies rank the integrators. In the finite-time regim
 
 We have given a route from the local error of an integrator of \eqref{eq: langevin} to the mean square error of a time average along its chain: the local error decomposition of Section~\ref{subsec: local error} splits the local error into a mean-zero term and a remainder, and the time-averaged error formula of Section~\ref{subsec: time averaged} converts the resulting moments into a bound on the mean square error, with Theorem~\ref{thm: u decay} supplying the derivative bounds the conversion needs.
 
-This paper analyzes the two stochastic Runge--Kutta integrators SRK-I and SRK-II of \citet{yang2026accelerating}. The local error decomposition yields three results of second order. They are the mean square error bound $\frac{1}{Nh} + h^4$ of Theorem~\ref{thm: mse}, the finite-horizon weak order $2$ of Corollary~\ref{cor: finite weak}, and the Wasserstein-1 bound of order $h^2$ up to a logarithm of Theorem~\ref{thm: wasserstein}, uniform in the number of steps. The rates of Theorem~\ref{thm: mse} are the expected ones, and they are obtained without global convexity of $U$, at every finite $N$ with $Nh \Ge 1$ rather than in an ergodic limit, and for integrators that evaluate $\nabla U$ alone. The elliptic estimates of Theorem~\ref{thm: u decay} bound the derivatives up to third order of the solution of the Poisson equation under a potential convex only outside a bounded set, and may be of use beyond the stochastic Runge--Kutta integrators studied here. The experiments of Section~\ref{sec: numerics} confirm the second order of Theorem~\ref{thm: wasserstein} against Lipschitz test functions and the second order of the sampling bias, and on a diffusion model of CIFAR-10 they rank the four schemes as their strong errors do.
+This paper analyzes the two stochastic Runge--Kutta integrators SRK-I and SRK-II of \citet{yang2026accelerating}. The local error decomposition yields three results of second order. They are the mean square error bound $\frac{1}{Nh} + h^4$ of Theorem~\ref{thm: mse}, the finite-horizon weak order $2$ of Corollary~\ref{cor: finite weak}, and the Wasserstein-1 bound of order $h^2$ up to a logarithm of Theorem~\ref{thm: wasserstein}, uniform in the number of steps. The rates of Theorem~\ref{thm: mse} are the expected ones, and they are obtained without global convexity of $U$, at every finite $N$ rather than in an ergodic limit, and for integrators that evaluate $\nabla U$ alone. The elliptic estimates of Theorem~\ref{thm: u decay} bound the derivatives up to third order of the solution of the Poisson equation under a potential convex only outside a bounded set, and may be of use beyond the stochastic Runge--Kutta integrators studied here. The experiments of Section~\ref{sec: numerics} confirm the second order of Theorem~\ref{thm: wasserstein} against Lipschitz test functions and the second order of the sampling bias, and on a diffusion model of CIFAR-10 they rank the four schemes as their strong errors do.
 
 Three extensions are possible. The first is a scheme of higher weak order, built by adding stages: each stage brings free weights, and the weights are calibrated so that the moments of one step match those of the exact step one order further. Such a scheme would enter \eqref{eq: mse decomposition} by the same route. The difficulty lies in the analysis: weak order $p$ requires $p+1$ derivatives of $\phi_h$, and Theorem~\ref{thm: u decay} supplies $3$. Stochastic gradients enter the bias at first order with a coefficient proportional to their variance \citep{lu2025mse}, so a high order discretization is advantageous there only with variance reduction, and multi-stage schemes have no natural stochastic gradient form. The second extension is to the underdamped dynamics, where the UBU integrator reaches second order at one evaluation per step \citep{sanz2021wasserstein} and where the elliptic estimates must be replaced by hypoelliptic ones. A third direction is a mean square error bound for the Leimkuhler--Matthews integrator, whose sampling error in Section~\ref{subsec: sampling numerics} is the smallest measured. Its second order is a long-time property: over a finite horizon the scheme is of weak order one, and the second order of its bias comes from the vanishing mean under $\pi$ of the leading coefficient of its error expansion \citep{leimkuhler2014long}. The route of this paper turns a local weak error of order $h^3$ into the $h^4$ term of Theorem~\ref{thm: mse} and has no such term to work with for a local weak error of order $h^2$; using the cancellation inside the discrete Poisson equation would be the additional step.
 
@@ -1677,7 +1677,11 @@ and the proof estimates them in turn.
         \mathrm{MSE}(N,h) \Le C L^2 \bigl( 1 + |Z_0| \bigr)^{12}
         \Bigl( \frac{1}{N^2h^2} + \frac{h^2}{N} + h^4 + \frac{1}{Nh} \Bigr) .
     \end{equation*}
-    Since $h \Le 1$, the term $h^2 / N = h^3 (Nh)^{-1}$ is absorbed into $(Nh)^{-1}$, and since $Nh \Ge 1$, the term $1/(N^2h^2)$ is absorbed as well. This gives \eqref{eq: mse bound} and completes the proof.
+    Since $h \Le 1$, the term $h^2 / N = h^3 (Nh)^{-1}$ is absorbed into $(Nh)^{-1}$. If $Nh \Ge 1$, the term $1/(N^2h^2)$ is absorbed as well, which gives \eqref{eq: mse bound}. If $Nh < 1$, then $(Nh)^{-1} > 1$, and \eqref{eq: mse bound} follows from a bound that holds for every $N$: by Assumption~\ref{ass: f} and the finite first moment of $\pi$ (Appendix~\ref{sec: gradient}), $|f(x) - \pi(f)| \Le L \int_{\mathbb R^d} |x - y|\, \pi(y)\,\D y \Le C L \bigl( 1 + |x| \bigr)$, so \eqref{eq: mse} and \eqref{eq: moment bounds} with $q = 1$ give
+    \begin{equation*}
+        \mathrm{MSE}(N, h) \Le \frac1N \sum_{k=0}^{N-1} \mathbb E \bigl| f(Z_k) - \pi(f) \bigr|^2 \Le C L^2 \bigl( 1 + |Z_0| \bigr)^2 .
+    \end{equation*}
+    This completes the proof.
 \end{proof}
 
 \subsection{Proof of Theorem~\ref{thm: wasserstein}}
