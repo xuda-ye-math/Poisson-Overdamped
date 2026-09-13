@@ -488,13 +488,13 @@ Next we decompose the discretization term $\Upsilon_k$ into a mean-zero term and
 \end{equation}
 where the two parts are
 \begin{align}
+    h\, \mathcal M(\Upsilon_k)
+    & := \nabla \phi_h(Z_k)^\top \mathcal M(\Delta Z_k)
+    + \frac12\, \nabla^2 \phi_h(Z_k) : \mathcal M(\Delta Q_k) , \label{eq: upsilon fluctuation} \\
     h\, \mathcal R(\Upsilon_k)
     & := \nabla \phi_h(Z_k)^\top \mathcal R(\Delta Z_k)
     + \frac12\, \nabla^2 \phi_h(Z_k) : \mathcal R(\Delta Q_k)
-    + \varrho_k , \label{eq: upsilon bias} \\
-    h\, \mathcal M(\Upsilon_k)
-    & := \nabla \phi_h(Z_k)^\top \mathcal M(\Delta Z_k)
-    + \frac12\, \nabla^2 \phi_h(Z_k) : \mathcal M(\Delta Q_k) . \label{eq: upsilon fluctuation}
+    + \varrho_k . \label{eq: upsilon bias}
 \end{align}
 Lemmas~\ref{lem: martingale rep} and \ref{lem: cross moment} give $\mathbb E_k \bigl[ \mathcal M(\Delta Z_k) \bigr] = 0$ and $\mathbb E_k \bigl[ \mathcal M(\Delta Q_k) \bigr] = 0$, hence $\mathbb E_k \bigl[ \mathcal M(\Upsilon_k) \bigr] = 0$. The mean-zero term \eqref{eq: upsilon fluctuation} is therefore a martingale difference, of order $h$ by the bounds of \eqref{eq: local moments} and \eqref{eq: cross moment} on $\mathcal M(\Delta Z_k)$ and $\mathcal M(\Delta Q_k)$. The remainder \eqref{eq: upsilon bias} is of order $h^2$ by their bounds on $\mathcal R(\Delta Z_k)$ and $\mathcal R(\Delta Q_k)$, together with \eqref{eq: upsilon remainder} and the displacement bounds \eqref{eq: displacement moments} and \eqref{eq: stage moments}.
 
