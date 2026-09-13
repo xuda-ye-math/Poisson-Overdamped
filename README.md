@@ -61,7 +61,7 @@ convexity is assumed, so $`U`$ may have several wells. The test function
 $`f \in C^3(\mathbb{R}^d)`$ has its first three derivatives bounded by $`L`$.
 
 **Mean square error of the time average** (Theorem 2). For every step size
-$`h \le h_0`$ and every number of steps $`N`$ with $`Nh \ge 1`$,
+$`h \le h_0`$ and every number of steps $`N \ge 1`$,
 
 $$
 \mathrm{MSE}(N,h)

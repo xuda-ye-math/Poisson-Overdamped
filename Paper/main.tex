@@ -531,7 +531,7 @@ Theorem~\ref{thm: mse} bounds the three terms of \eqref{eq: mse decomposition}, 
 The two terms of \eqref{eq: mse bound} have distinct origins.
 \begin{itemize}
 	\setlength{\itemsep}{2pt}
-    \item \emph{Sampling variance.} The $\frac{1}{Nh}$ term arises from the martingale differences $\Psi_k$ and is the variance of a time average over a trajectory of length $Nh$, which the exact dynamics has as well; the contribution of the first and last states is smaller once $Nh \Ge 1$.
+    \item \emph{Sampling variance.} The $\frac{1}{Nh}$ term arises from the martingale differences $\Psi_k$ and is the variance of a time average over a trajectory of length $Nh$, which the exact dynamics has as well.
     \item \emph{Discretization bias.} The $h^4$ term is the square of the $\mathcal O(h^2)$ bias of the integrator, and it is the order the calibrated stage weights give: a weak order $1$ scheme leaves $h^2$ in its place.
 \end{itemize}
 Optimizing \eqref{eq: mse bound} over $h$ at fixed $N$ gives $h$ of order $N^{-1/5}$ and $\mathrm{MSE} = \mathcal O(N^{-4/5})$, against $h$ of order $N^{-1/3}$ and $\mathcal O(N^{-2/3})$ at weak order $1$, the trade-off observed by \citet{chen2015convergence}. The bound requires bounded derivatives of $f$ up to third order (Assumption~\ref{ass: f}), against Lipschitz continuity alone in Theorem~\ref{thm: wasserstein}: this is the cost of controlling the error of a single trajectory rather than of a law.
