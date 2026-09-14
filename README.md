@@ -112,9 +112,9 @@ integrators coincide, as they do for every quadratic potential, their invariant
 law $`\pi_h`$ is Gaussian, and
 
 $$
-\mathcal{W}_1(\pi_h, \pi) = \frac{1}{12}\sqrt{\frac{2}{\pi}}\, h^2 + O(h^3) ,
+\mathcal{W}_1(\pi_h, \pi) = \frac{1}{12}\sqrt{\frac{2}{\pi}} h^2 + O(h^3) ,
 \qquad
-\liminf_{N \to \infty} \mathrm{MSE}(N,h) \ge \frac{e^{-1}}{144}\, h^4 + O(h^5)
+\liminf_{N \to \infty} \mathrm{MSE}(N,h) \ge \frac{e^{-1}}{144} h^4 + O(h^5)
 \quad \text{for } f(x) = \cos x ,
 $$
 
