@@ -706,7 +706,7 @@ The argument acts on expectations rather than on single paths. Under global conv
 \subsection{Gradient decay and pointwise bound on $u$}
 \label{sec: gradient}
 
-Let $J_t = \nabla_x X_t \in \mathbb R^{d\times d}$ be the first variation process of the Langevin dynamics \eqref{eq: langevin}; it measures the sensitivity of the exact solution $(X_t)_{t \Ge 0}$ to its initial state $X_0 = x$. Differentiating \eqref{eq: langevin} in $x$ gives
+Let $J_t = \partial_x X_t \in \mathbb R^{d\times d}$ be the first variation process of the Langevin dynamics \eqref{eq: langevin}; it measures the sensitivity of the exact solution $(X_t)_{t \Ge 0}$ to its initial state $X_0 = x$. Differentiating \eqref{eq: langevin} in $x$ gives
 \begin{equation}
     \frac{\D J_t}{\D t} = -\nabla^2 U(X_t)\, J_t , \qquad J_0 = I_d.
     \label{eq: first variation}
@@ -716,7 +716,7 @@ We write $P_t := e^{t\mathcal L}$ for the semigroup of \eqref{eq: langevin}, $P_
     \nabla P_t g(x) = \mathbb E^x\bigl[ J_t^\top \nabla g(X_t) \bigr]
     \label{eq: grad rep}
 \end{equation}
-for every $g \in C^1(\mathbb R^d)$ with bounded gradient, and in particular $\nabla u(x,t) = \mathbb E^x[J_t^\top \nabla f(X_t)]$. The exchange of $\nabla_x$ with the expectation, and the continuity in $x$ of the right side, follow by dominated convergence from the deterministic bound $\norm{J_t} \Le e^{Mt}$ of Lemma~\ref{lem: variation bounds}.
+for every $g \in C^1(\mathbb R^d)$ with bounded gradient, and in particular $\nabla u(x,t) = \mathbb E^x[J_t^\top \nabla f(X_t)]$. The exchange of $\partial_x$ with the expectation, and the continuity in $x$ of the right side, follow by dominated convergence from the deterministic bound $\norm{J_t} \Le e^{Mt}$ of Lemma~\ref{lem: variation bounds}.
 
 Assumption~\ref{ass: U} controls the drift $-\nabla U$ between two points in the following form.
 
@@ -891,7 +891,7 @@ The bounds \eqref{eq: short time} and \eqref{eq: short time third} still use $\n
         + \bigl(\psi(X_\tau) - c\bigr) \int_0^\tau (K_s[w]\, v) \cdot \D B_s \bigg] ,
         \label{eq: differentiated BEL}
     \end{equation}
-    where the constant $c$ may be inserted freely because the second stochastic integral has mean zero. We choose $c = \mathbb E^x[\psi(X_\tau)]$. The exchange of $\nabla_x$ with the expectation and the stochastic integral is justified in two steps. The difference quotients of the integrand $J_s v$ converge to $K_s[w]\, v$ in $L^2([0,\tau] \times \Omega)$, since $x \mapsto (X_\tau, J, K)$ is differentiable pathwise and the bounds of Lemma~\ref{lem: variation bounds} are uniform in $x$; by the It\^o isometry the difference quotients of $\int_0^\tau (J_s v) \cdot \D B_s$ then converge in $L^2(\Omega)$. Both factors multiplying them lie in $L^2(\Omega)$, so Cauchy--Schwarz passes the limit through the expectation.
+    where the constant $c$ may be inserted freely because the second stochastic integral has mean zero. We choose $c = \mathbb E^x[\psi(X_\tau)]$. The exchange of $\partial_x$ with the expectation and the stochastic integral is justified in two steps. The difference quotients of the integrand $J_s v$ converge to $K_s[w]\, v$ in $L^2([0,\tau] \times \Omega)$, since $x \mapsto (X_\tau, J, K)$ is differentiable pathwise and the bounds of Lemma~\ref{lem: variation bounds} are uniform in $x$; by the It\^o isometry the difference quotients of $\int_0^\tau (J_s v) \cdot \D B_s$ then converge in $L^2(\Omega)$. Both factors multiplying them lie in $L^2(\Omega)$, so Cauchy--Schwarz passes the limit through the expectation.
 
     Next we bound the two terms of \eqref{eq: differentiated BEL}. Each is the expectation of a product of a random variable with a stochastic integral, and Cauchy--Schwarz bounds it by the product of their $L^2$ norms; the first factor is bounded in the supremum norm and the second by the It\^o isometry. For the first term, $\norm{\nabla \psi}_\infty \Le e^{M\tau}\norm{\nabla g}_\infty$ by \eqref{eq: short time}, $\norm{J_\tau} \Le e^{M\tau}$, and
     \begin{equation*}
