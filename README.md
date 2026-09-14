@@ -83,6 +83,44 @@ $$
 
 with the right side independent of $`N`$.
 
+## The sharp companion note
+
+`Sharp/` holds a second, self-contained manuscript, *A sharp uniform-in-time
+Wasserstein-1 bound for stochastic Runge--Kutta integrators of Langevin
+dynamics*, which removes the logarithm from Theorem 3 and shows that the order
+$`h^2`$ is optimal.
+
+**Log-free uniform-in-time Wasserstein bound** (Theorem 1 of the note). Under
+the same assumption on $`U`$, for every $`h \le h_0`$ and every $`N \ge 1`$,
+
+$$
+\mathcal{W}_1(\mathrm{Law}(Z_N), \mathrm{Law}(X_{Nh})) \le C (1 + |Z_0|)^{6} h^2 ,
+\qquad
+\mathcal{W}_1(\mathrm{Law}(Z_N), \pi) \le C (1 + |Z_0|) e^{-\lambda N h} + C (1 + |Z_0|)^{6} h^2 .
+$$
+
+The logarithm of Theorem 3 comes from the third derivative of the propagated
+test function. The note averages the local weak error of one step over the law
+of $`Z_k`$ and moves one derivative onto that law by an integration by parts, at
+the price of its Fisher information, which the Gaussian part of each step keeps
+bounded by $`C(1 + (kh)^{-1})`$ through Stam's inequality. The two singular
+factors that remain sit at opposite ends of the chain, and their product is
+summable.
+
+**Sharpness** (Theorem 2 of the note). For $`d = 1`$ and $`U(x) = x^2/2`$ the two
+integrators coincide, as they do for every quadratic potential, their invariant
+law $`\pi_h`$ is Gaussian, and
+
+$$
+\mathcal{W}_1(\pi_h, \pi) = \frac{1}{12}\sqrt{\frac{2}{\pi}}\, h^2 + O(h^3) ,
+\qquad
+\liminf_{N \to \infty} \mathrm{MSE}(N,h) \ge \frac{e^{-1}}{144}\, h^4 + O(h^5)
+\quad \text{for } f(x) = \cos x ,
+$$
+
+so the order $`h^2`$ of the Wasserstein bound and the squared bias $`h^4`$ of the
+mean square error bound are both attained.
+
 Both results rest on a discrete Poisson equation and on elliptic estimates for
 its solution under convexity outside a bounded region (Theorem 1): the
 Kolmogorov solution and its first three derivatives decay exponentially in
@@ -97,6 +135,12 @@ Paper/
   ima-authoring-template.cls  the document class
   main.pdf                    the compiled manuscript
   figures/                    the figures of Section 5, copies of the results below
+Sharp/
+  main.tex                    the companion note: the log-free bound and the
+                              sharpness example
+  references.bib, plainnat-ima.bst, ima-authoring-template.cls
+                              as in Paper/
+  main.pdf                    the compiled note
 Codes/
   Convergence/       Sections 5.1 and 5.2: the potential, the schemes, the
                      finite-time strong and weak errors, the long-time
@@ -117,8 +161,9 @@ cd Paper
 pdflatex main && bibtex main && pdflatex main && pdflatex main
 ```
 
-The class and the bibliography style are the two local files above; every
-other package is on CTAN.
+The same commands in `Sharp/` build the companion note. The class and the
+bibliography style are the two local files above; every other package is on
+CTAN.
 
 ## Reproducing the experiments
 
