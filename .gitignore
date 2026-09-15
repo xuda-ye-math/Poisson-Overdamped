@@ -28,3 +28,6 @@ __pycache__/
 # Lean build artefacts
 Lean/.lake/
 Formalization/Lean/.lake/
+
+# packaged manuscript
+Paper.zip
