@@ -1,7 +1,7 @@
-# Mean square error analysis of stochastic Runge--Kutta integrators
+# Mean square error analysis of stochastic Runge–Kutta integrators
 
 Manuscript and source code for the mean square error analysis of two stochastic
-Runge--Kutta integrators for overdamped Langevin dynamics with a potential that
+Runge–Kutta integrators for overdamped Langevin dynamics with a potential that
 is convex outside a bounded region. The
 analysis goes through the discrete Poisson equation; the experiments measure
 the finite-time strong and weak errors, the step-size bias of long time
@@ -24,7 +24,7 @@ $$
 I_k = \int_{kh}^{(k+1)h} ( B_s - B_{kh} ) ds ,
 $$
 
-a Gaussian pair that is drawn exactly. The two stochastic Runge--Kutta (SRK)
+a Gaussian pair that is drawn exactly. The two stochastic Runge–Kutta (SRK)
 integrators, proposed by Yang & Wang (2026), evaluate $`\nabla U`$ and no higher
 derivative.
 
@@ -86,7 +86,7 @@ with the right side independent of $`N`$.
 ## The sharp companion note
 
 `Sharp/` holds a second, self-contained manuscript, *A sharp uniform-in-time
-Wasserstein-1 bound for stochastic Runge--Kutta integrators of Langevin
+Wasserstein-1 bound for stochastic Runge–Kutta integrators of Langevin
 dynamics*, which removes the logarithm from Theorem 3 and shows that the order
 $`h^2`$ is optimal.
 
