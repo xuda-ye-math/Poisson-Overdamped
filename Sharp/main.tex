@@ -13,6 +13,12 @@
 \newtheorem{theorem}{Theorem}
 \newtheorem{lemma}{Lemma}
 \newtheorem{assumption}{Assumption}
+\newtheorem{remark}{Remark}
+
+\usepackage{todonotes}
+\newcommand{\ywnotes}[1]{\todo[color=blue!35]{YW: #1}}
+\newcommand{\yw}[1]{\todo[inline,color=blue!35]{YW: #1}}
+\newcommand{\xy}[1]{\todo[inline,color=black!15]{XY: #1}}
 
 \makeatletter
 \def\NAT@sort{\@ne}  % sorted multiple citations; the class omits natbib's sort option
@@ -26,16 +32,18 @@
 \pubyear{2026}
 \firstpage{1}
 
-\title[Sharp Wasserstein-1 Bound for Stochastic Runge--Kutta Integrators]{A Sharp Uniform-in-Time Wasserstein-1 Bound for Stochastic Runge--Kutta Integrators of Langevin Dynamics}
+\title[A Sharp Wasserstein-1 Bound for Stochastic Runge--Kutta Integrators]{A Sharp Uniform-in-Time Wasserstein-1 Bound for Stochastic Runge--Kutta Integrators of Langevin Dynamics}
 
-\author{Xuda Ye*
+\author{Yuliang Wang
+\address{\orgdiv{Department of Mathematics}, \orgname{Duke University}, \orgaddress{Durham, NC 27708, \country{USA}}}}
+
+\author{Xuda Ye
 \address{\orgdiv{Department of Mathematics}, \orgname{Purdue University}, \orgaddress{West Lafayette, IN 47907, \country{USA}}}}
 
-\authormark{X. Ye}
+\authormark{Y. Wang \& X. Ye}
 
-\corresp[*]{Corresponding author: \href{mailto:ye481@purdue.edu}{ye481@purdue.edu}}
-
-\abstract{We consider two stochastic Runge--Kutta integrators proposed by Yang \& Wang (2026) for overdamped Langevin dynamics whose potential is convex outside a bounded region. In the companion paper (Ye, 2026) the law of the numerical solution was shown to approach the law of the exact solution at second order in Wasserstein-1 distance, uniformly in the number of steps, up to a logarithm of the step size. We remove the logarithm, and a Gaussian example shows that the second order is attained by the bias of the invariant law of the integrators, and that the squared bias of their time averages attains the order $h^4$ of the mean square error bound of the companion paper.}
+%\yw{strongly convex?}
+\abstract{We consider two stochastic Runge--Kutta integrators proposed by Yang \& Wang (2026) for overdamped Langevin dynamics whose potential is strongly convex outside a bounded region. In the companion paper (Ye, 2026) the law of the numerical solution was shown to approach the law of the exact solution at second order in Wasserstein-1 distance, uniformly in the number of steps, up to a logarithm of the step size. We remove the logarithm, and a Gaussian example shows that the second order is attained by the bias of the invariant law of the integrators, and that the squared bias of their time averages attains the order $h^4$ of the mean square error bound of the companion paper.}
 \keywords{overdamped Langevin dynamics; stochastic Runge--Kutta integrator; Wasserstein distance; Fisher information; uniform-in-time error bound; sharpness.}
 
 \maketitle
@@ -54,18 +62,23 @@ where $(B_t)_{t \Ge 0}$ is a standard Brownian motion in $\mathbb R^d$, and $U(x
     \label{eq: mse}
 \end{equation}
 
-\citet{yang2026accelerating} proposed two stochastic Runge--Kutta (SRK) integrators for \eqref{eq: langevin}, which evaluate $\nabla U$ and no higher derivative, and established their strong order $\frac32$. In the companion paper \citep{ye2026mse}, the author proved for these integrators, under a potential that is convex outside a bounded region, the mean square error bound $\mathrm{MSE}(N,h) = \mathcal O(\frac{1}{Nh} + h^4)$ for test functions with bounded derivatives up to third order, and the uniform-in-time Wasserstein-1 bound
+\citet{yang2026accelerating} proposed, for \eqref{eq: langevin}, two stochastic Runge--Kutta (SRK) integrators that evaluate $\nabla U$ and no higher derivative. They established the strong order $\frac32$ of both integrators. In the companion paper \citep{ye2026mse}, the second author proved for these integrators, under a potential that is strongly convex outside a bounded region, the mean square error bound $\mathrm{MSE}(N,h) = \mathcal O(\frac{1}{Nh} + h^4)$ for test functions with bounded derivatives up to third order, and the uniform-in-time Wasserstein-1 bound
 \begin{equation*}
-    \sup_{N \Ge 1}\, \mathcal W_1\bigl( \mathrm{Law}(Z_N), \mathrm{Law}(X_{Nh}) \bigr) \Le C \bigl( 1 + |Z_0| \bigr)^{6} h^2 \Bigl( 1 + \log\frac1h \Bigr)
+    \sup_{N \Ge 1}\, \mathcal W_1\bigl( \mathrm{Law}(Z_N), \mathrm{Law}(X_{Nh}) \bigr) \Le C \bigl( 1 + |Z_0| \bigr)^{6} h^2 \Bigl( 1 + \log\frac1h \Bigr).
 \end{equation*}
-against Lipschitz test functions. The logarithm comes from the proof. The local weak error of one step is read through the test function propagated by the semigroup of \eqref{eq: langevin}, whose third derivative is bounded by $t^{-1}$ after a propagation time $t$ when the test function is Lipschitz, and summing $h^3 t^{-1}$ over the steps with propagation time $t \Le 1$ produces $h^2 \log\frac1h$. For the random splitting Langevin Monte Carlo, under the same convexity outside a bounded region, \citet{li2025random} prove a Wasserstein-1 bound of order $h^2$ without a logarithm, by a local error in relative entropy that requires a regular initial density; Theorem~\ref{thm: wasserstein} starts from a deterministic state and obtains the regularity it needs along the chain.
 
-This paper removes the logarithm and shows that the order $h^2$ is sharp. Theorem~\ref{thm: wasserstein} bounds $\mathcal W_1(\mathrm{Law}(Z_N), \mathrm{Law}(X_{Nh}))$ by $C (1 + |Z_0|)^6 h^2$ uniformly in $N$, and $\mathcal W_1(\mathrm{Law}(Z_N), \pi)$ by the same quantity plus a term decaying exponentially in $Nh$. Theorem~\ref{thm: sharpness} takes $U(x) = \frac12 x^2$ with $d = 1$, where both integrators reduce to the same Gaussian recursion: the Wasserstein-1 distance between their invariant law and $\pi$ is $\frac1{12}\sqrt{2/\pi}\, h^2$ to leading order, and the squared bias $h^4$ of the mean square error bound is attained by the test function $\cos x$.
+The additional logarithm comes from the proof \emph{per se}. The local weak error of one step is read through the test function propagated by the semigroup of \eqref{eq: langevin}; the third derivative of the propagated function is bounded by $t^{-1}$ after time $t$ when the test function is Lipschitz, and summing $h^3 t^{-1}$ over the steps with propagation time $t \Le 1$ produces $h^2 \log\frac1h$. For the random splitting Langevin Monte Carlo, under the same strong convexity outside a bounded region, \citet{li2025random} prove a Wasserstein-1 bound of order $h^2$ without a logarithm, by a local error in relative entropy that requires a regular initial density; Theorem~\ref{thm: wasserstein} starts from a deterministic state and obtains the regularity it needs along the chain.
 
-The third derivative of the propagated test function enters only because the local weak error of one step is estimated pointwise in the state. Averaged over the law $\mu_k$ of $Z_k$, one derivative can be moved from the test function onto $\mu_k$ by an integration by parts, at the price of the Fisher information of $\mu_k$. The integrators control that Fisher information themselves: one step of either integrator is a near-identity map of the state followed by an independent Gaussian of covariance $\frac h2 I_d$, and the Gaussian part regularizes the law at the rate $I(\mu_k) \Le C (1 + (kh)^{-1})$ by Stam's inequality. The two singular factors that remain, $(kh)^{-1/2}$ from the Fisher information and $((N-k-1)h)^{-1/2}$ from the second derivative of the propagated test function, sit at opposite ends of the chain, and their product is summable without a logarithm. The estimates of the exact dynamics and of one step of the integrators are those of \citet{ye2026mse}.
+This paper removes the logarithm and shows that the order $h^2$ is sharp. Under the same conditions of \citet{ye2026mse}, Theorem~\ref{thm: wasserstein} proves the uniform-in-time Wasserstein-1 bound
+\begin{equation*}
+    \sup_{N \Ge 1}\, \mathcal W_1\bigl( \mathrm{Law}(Z_N), \mathrm{Law}(X_{Nh}) \bigr) \Le C \bigl( 1 + |Z_0| \bigr)^{6} h^2.
+\end{equation*}
+without the logarithm factor.
+Theorem~\ref{thm: sharpness} takes $U(x) = \frac12 x^2$ with $d = 1$ and verifies both SRK integrators reduce to the same Gaussian recursion. Moreover, the Wasserstein-1 distance between their invariant law and $\pi$ is $\frac1{12}\sqrt{2/\pi}\, h^2$ to leading order, and the squared bias $h^4$ of the mean square error bound is attained by the test function $\cos x$.
+
+The third derivative of the propagated test function enters only because the local weak error of one step is estimated pointwise in the state. Once the local weak error is averaged over the law $\mu_k$ of $Z_k$, one derivative can be moved from the test function onto $\mu_k$ by an integration by parts, at the price of the Fisher information $I(\mu_k)$ of $\mu_k$. The integrators control that Fisher information themselves: one step of either integrator is a near-identity map of the state followed by an independent Gaussian of covariance $\frac h2 I_d$, and the Gaussian part regularizes the law at the rate $I(\mu_k) \Le C (1 + (kh)^{-1})$ by Stam's inequality. The two singular factors that remain, $(kh)^{-1/2}$ from the Fisher information and $((N-k-1)h)^{-1/2}$ from the second derivative of the propagated test function, sit at opposite ends of the chain, and their product is summable without a logarithm. The estimates of the exact dynamics and of one step of the integrators are those of \citet{ye2026mse}.
 
 Section~\ref{sec: framework} states the setting, the two SRK integrators and the main results. Section~\ref{sec: recalled} recalls the results of the companion paper. Section~\ref{sec: wasserstein analysis} introduces the Fisher information technique and proves its two lemmas, Section~\ref{sec: wasserstein proof} proves Theorem~\ref{thm: wasserstein}, and Section~\ref{sec: sharpness} proves Theorem~\ref{thm: sharpness}.
-
 
 \section{Setting and main results}
 \label{sec: framework}
@@ -73,14 +86,10 @@ Section~\ref{sec: framework} states the setting, the two SRK integrators and the
 \subsection{Notation and assumptions}
 \label{subsec: notation}
 
+%\yw{shall we mention that for the Wasserstein error bound, the same Brownian motion setting is not necessary and is only used in the proof (since the result only cares about the distribution)?}
 We collect the notation and assumptions used in the paper. Fix a step size $h > 0$. The numerical solution $(Z_k)_{k \Ge 0}$ of the overdamped Langevin dynamics \eqref{eq: langevin} starts at $Z_0 = X_0$ and is driven by the same Brownian motion as the exact solution $(X_t)_{t \Ge 0}$, so that $Z_k$ approximates $X_{kh}$ along a single trajectory. For each $k$, $(Z_k(t))_{t \Ge 0}$ denotes the solution of \eqref{eq: langevin} with $Z_k(0) = Z_k$, driven by the same Brownian motion as the step from $Z_k$ to $Z_{k+1}$, so that $Z_k(h)$ is the exact step from $Z_k$, and $\mathbb E_k[\,\cdot\,] := \mathbb E[\,\cdot\,|Z_k]$ is the conditional expectation at step $k$. The law of $Z_k$ is written $\mu_k$ and the law of $X_{kh}$ is written $\nu_k$; the bounds below compare $\mu_N$ with $\nu_N$ as $h$ decreases and with $\pi$ as $N$ grows. A measure and its density are written alike. The chain $(Z_k)_{k\Ge0}$ is Markov and the dynamics is time-homogeneous, so every statement about one step made at the step index $0$ applies to the step from any $Z_k$ after shifting the Brownian motion.
 
 For probability measures $\mu,\nu$ on $\mathbb R^d$, $\mathcal W_1$ denotes the Wasserstein-1 distance,
-\begin{equation*}
-    \mathcal W_1(\mu,\nu) = \inf_{\gamma\in\Gamma(\mu,\nu)} \int_{\mathbb R^{2d}}
-    |x-y|\, \gamma(x,y)\,\D x\,\D y ,
-\end{equation*}
-where $\Gamma(\mu,\nu)$ is the set of joint distributions on $\mathbb R^{2d}$ with marginals $\mu$ and $\nu$. By Kantorovich--Rubinstein duality, it is also
 \begin{equation}
     \mathcal W_1(\mu,\nu) = \sup_{f\in \mathrm{Lip}_1(\mathbb R^d)}
     \bigg| \int_{\mathbb R^d} f(x)\, \mu(x)\, \D x - \int_{\mathbb R^d} f(x)\, \nu(x)\, \D x \bigg| ,
@@ -100,20 +109,45 @@ Throughout, $C$ denotes a positive constant depending only on the parameters $m$
 
 \begin{assumption}
 	\label{ass: U}
-	$U(x) \in C^5(\mathbb R^d)$ satisfies
+	$U \in C^5(\mathbb R^d)$, and there is a constant $M > 0$ such that $U$ satisfies
 	\begin{equation*}
 		|\nabla U(0)| \Le M , \qquad \max_{2 \Le i \Le 5}\, \norm{\nabla^i U(x)} \Le M , \qquad \forall x \in \mathbb R^d ,
 	\end{equation*}
-	and there are constants $m > 0$ and $R \Ge 0$ such that
-	\begin{equation*}
-		\nabla^2 U(x) \succeq m I_d , \qquad \forall\, |x| \Ge R .
-	\end{equation*}
+	and there are constants $m > 0$ and $R \Ge 0$ such that $\nabla^2 U(x) \succeq m I_d$ for every $|x| \Ge R$.
 \end{assumption}
+
+\begin{remark}[Convergence under slightly weaker assumptions]
+The boundedness of $\nabla^i U$, $i=3,4,5$ above, can be relaxed to the polynomial growth
+\[
+    \|\nabla^i U(x)\| \Le A(1+|x|)^r,
+    \qquad i=3,4,5,
+\]
+for some $A>0$ and $r\Ge 1$. 
+The same result still holds after a few modifications to the proof. One key observation is that, the uniform-in-time moment
+bounds in Lemma \ref{lem: moments} remain valid, mainly using the fact that the drift is still globally Lipschitz and far-field dissipative. Consequently, in the modified proof, the local-error and higher-variation
+estimates must instead carry polynomial weights, which are
+absorbed by higher moments in Lemma \ref{lem: averaged weak}. The Hessian smoothing
+estimate in Lemma~\ref{lem: smoothing} can be recovered from the equation for
+$\nabla P_tg$ and a first-variation formula, using only the
+bounded Hessian. For the Fisher information estimate in Lemma \ref{lem: fisher}, the uniform log-Jacobian estimate
+can be replaced by Gaussian integration by parts over a block of
+steps, conditional on the stage noises; the bound
+$\|\partial_x \mathcal T_{h,a}-I_d\|_\infty\Le Ch$ suffices to retain
+$I(\mu_k)\Le C(1+(kh)^{-1})$.
+% Mollification of the propagated
+% test functions and local strong-error estimates at the two
+% endpoint steps avoid requiring globally bounded third
+% derivatives of those test functions. 
+% The final time summation
+% is unchanged. 
+To simplify the presentation, we retain the stronger boundedness assumptions from Assumption \ref{ass: U} in the detailed proof below.
+\end{remark}
+
 
 \subsection{Stochastic Runge--Kutta integrators}
 \label{sec: srk}
 
-We consider two SRK integrators proposed by \citet{yang2026accelerating}. The first is a two-stage scheme, at two evaluations of $\nabla U$ per step, which we name SRK-I:
+We consider two SRK integrators proposed by \citet{yang2026accelerating}. The first, which we name SRK-I, evaluates $\nabla U$ twice per step:
 \begin{equation}
 \mathrm{(I):~}
 	\boxed{\begin{aligned}
@@ -122,18 +156,17 @@ We consider two SRK integrators proposed by \citet{yang2026accelerating}. The fi
 	\end{aligned}}
 	\label{eq: srk1}
 \end{equation}
-The second, which we name SRK-II, has three stages. Both stages entering the update carry the weight $\frac12$ and the noise coefficients $1 \pm \frac1{\sqrt2}$:
+The second, which we name SRK-II, evaluates $\nabla U$ three times per step. Both stages entering the update carry the weight $\frac12$ and the noise coefficients $1 \pm \frac1{\sqrt2}$:
 \begin{equation}
 	\mathrm{(II):~}
 	\boxed{
 \begin{aligned}
     H_k^{\pm} &= Z_k - \frac h2\, \nabla U(Z_k) + \frac{\sqrt2}{h} \Bigl( 1 \pm \frac{1}{\sqrt2} \Bigr) \int_{kh}^{(k+1)h} \bigl( B_s - B_{kh} \bigr) \D s , \\
-    Z_{k+1} &= Z_k - \frac h2 \bigl( \nabla U(H_k^{+}) + \nabla U(H_k^{-}) \bigr) + \sqrt2\, \bigl( B_{(k+1)h} - B_{kh} \bigr) ,
+    Z_{k+1} &= Z_k - \frac h2 \bigl( \nabla U(H_k^{+}) + \nabla U(H_k^{-}) \bigr) + \sqrt2\, \bigl( B_{(k+1)h} - B_{kh} \bigr) .
 \end{aligned}}
 \label{eq: srk2}
 \end{equation}
-at three evaluations of $\nabla U$ per step. Both integrators are of strong order $\frac32$ and weak order $2$ \citep{ye2026mse}, the weak order measured against test functions with bounded derivatives up to third order; the Wasserstein-1 bound of Theorem~\ref{thm: wasserstein} holds against Lipschitz test functions.
-
+Both integrators are of strong order $\frac32$ \citep{yang2026accelerating} and weak order $2$ \citep{ye2026mse}, the weak order measured against test functions with bounded derivatives up to third order; the Wasserstein-1 bound of Theorem~\ref{thm: wasserstein} holds against Lipschitz test functions.
 
 \subsection{Main results}
 \label{subsec: wasserstein results}
@@ -158,7 +191,7 @@ The proof of Theorem~\ref{thm: wasserstein} sums the bounds of Section~\ref{sec:
     \emph{(Proof in Section~\ref{sec: wasserstein proof}.)}
 \end{theorem}
 
-Theorem~\ref{thm: wasserstein} removes the logarithm from the bound $h^2 ( 1 + \log\frac1h )$ of \citet{ye2026mse}. The order $h^2$ is tested on a Gaussian example.
+The order $h^2$ of Theorem~\ref{thm: wasserstein} is tested on a Gaussian example.
 
 \begin{theorem}
 \label{thm: sharpness}
@@ -175,15 +208,14 @@ Theorem~\ref{thm: wasserstein} removes the logarithm from the bound $h^2 ( 1 + \
     \emph{(Proof in Section~\ref{sec: sharpness}.)}
 \end{theorem}
 
-The coincidence of SRK-I and SRK-II is not particular to $U(x) = \frac12 x^2$: for every quadratic potential on $\mathbb R^d$, $\nabla U$ is affine, so each update depends on the stages only through $\nabla U$ at their weighted average, and that average is the same state $Z_k + D_{\mathrm{II}}$ for both integrators by \eqref{eq: mean stage}. The two integrators are therefore identical, pathwise, for all quadratic potentials.
+The pathwise coincidence of SRK-I and SRK-II is not particular to $U(x) = \frac12 x^2$: for every quadratic potential on $\mathbb R^d$, $\nabla U$ is affine, so each update depends on the stages only through $\nabla U$ at their weighted average, and that average is the same state $Z_k + D_{\mathrm{II}}$ for both integrators, with $D_{\mathrm{II}}$ the common vector \eqref{eq: mean stage}, the weighted average of the stage displacements.
 
-Theorem~\ref{thm: sharpness} shows that the second order is optimal in Wasserstein-1 distance and in mean square error. In its setting the law of $Z_N$ is Gaussian with mean and variance converging to those of $\pi_h$, so $\mu_N \to \pi_h$ in $\mathcal W_1$ as $N \to \infty$; letting $N \to \infty$ in \eqref{eq: wasserstein pi} with $Z_0 = 0$ gives $\mathcal W_1(\pi_h, \pi) \Le C h^2$ for $h \in (0, h_0]$, and \eqref{eq: sharp wasserstein} shows that this order is attained. Likewise the $h^4$ term of the mean square error bound $\mathcal O(\frac{1}{Nh} + h^4)$ of \citet{ye2026mse} is attained by \eqref{eq: sharp mse}.
-
+Theorem~\ref{thm: sharpness} shows that the second order is optimal in Wasserstein-1 distance and in mean square error. In its setting the law of $Z_N$ is Gaussian with mean and variance converging to those of $\pi_h$, so $\mu_N \to \pi_h$ in $\mathcal W_1$ as $N \to \infty$, by the coupling of two Gaussian laws through one standard Gaussian used in Section~\ref{sec: sharpness}; letting $N \to \infty$ in \eqref{eq: wasserstein pi} with $Z_0 = 0$ gives $\mathcal W_1(\pi_h, \pi) \Le C h^2$ for $h \in (0, h_0]$, and \eqref{eq: sharp wasserstein} shows that this order is attained. Likewise the $h^4$ term of the mean square error bound $\mathcal O(\frac{1}{Nh} + h^4)$ of \citet{ye2026mse} is attained by \eqref{eq: sharp mse}.
 
 \section{Results from the companion paper}
 \label{sec: recalled}
 
-This section states the results of \citet{ye2026mse} that the proofs below use: the variation processes of the exact dynamics with their bounds, its contraction and smoothing properties, the notation of one step and the decomposition of the local error with its moment bounds, and, for the chain, its moment bound, the telescoping formula and the bound on the local weak error of one step. The statements are given in full, in the notation of Section~\ref{sec: framework}, and their proofs are in \citet{ye2026mse}.
+This section states the results of \citet{ye2026mse} that the proofs below use: the variation processes of the exact dynamics with their bounds, the contraction and smoothing properties of the dynamics, the notation of one step and the decomposition of the local error with its moment bounds, and, for the chain, its moment bound, the telescoping formula and the bound on the local weak error of one step. The statements are given in full, in the notation of Section~\ref{sec: framework}, and their proofs are in \citet{ye2026mse}. Every external result the paper uses is stated here, so the paper is self-contained except for the results imported from \citet{ye2026mse}.
 
 \subsection{The exact dynamics}
 \label{sec: gradient}
@@ -243,18 +275,20 @@ Bounded derivatives of $P_t g$ beyond the first come from the smoothing of the d
 \subsection{The local error of one step}
 \label{subsec: local error}
 
-The \emph{local error} of one step is
+Although the Wasserstein-1 error compares only the distribution laws, the proof needs the pathwise coupling: Lemma~\ref{lem: step map} differentiates the numerical and exact steps along a fixed Brownian path.
+
+By coupling the same Brownian motion, the \emph{local error} of one step is
 \begin{equation}
     \Delta Z_k := Z_{k+1} - Z_k(h) ,
     \label{eq: local error}
 \end{equation}
-the discrepancy between one numerical step and one exact step from a common state $Z_k$ under the same Brownian path, and the second quantity of the analysis is the product
+the discrepancy between one numerical step and one exact step from a common state $Z_k$. The second quantity of the analysis is the product term
 \begin{equation}
     \Delta Q_k := \Delta Z_k \bigl( Z_{k+1} + Z_k(h) - 2 Z_k \bigr)^{\!\top} .
     \label{eq: delta Q}
 \end{equation}
 
-Take the step index $0$, with $(B_s)_{0 \Le s \Le h}$, $B_0 = 0$, the Brownian motion of the step; $\Delta Z_0$ and $\Delta Q_0$ are the local error \eqref{eq: local error} and the product \eqref{eq: delta Q} of that step, for whichever of the two integrators generates the step. This subsection splits $\Delta Z_0$ into a \emph{mean-zero} term $\mathcal M(\Delta Z_0)$, of zero conditional mean given $Z_0$, and a \emph{remainder} $\mathcal R(\Delta Z_0)$, as \citet{sanz2021wasserstein} do for the UBU integrator of the underdamped dynamics, where the local error estimates were corrected by \citet{paulin2024correction}.
+Take the step index $0$, with $(B_s)_{0 \Le s \Le h}$, $B_0 = 0$, the Brownian motion of the step; $\Delta Z_0$ and $\Delta Q_0$ are the local error \eqref{eq: local error} and the product \eqref{eq: delta Q} of that step, for whichever of the two integrators generates the step. This subsection splits $\Delta Z_0$ into a \emph{mean-zero} term $\mathcal M(\Delta Z_0)$, of zero conditional mean given $Z_0$, and a \emph{remainder} $\mathcal R(\Delta Z_0)$.
 
 SRK-I, SRK-II and the exact step all carry the same noise increment $\sqrt2\, B_h$, so it cancels in the local error of both integrators:
 \begin{align}
@@ -264,33 +298,39 @@ SRK-I, SRK-II and the exact step all carry the same noise increment $\sqrt2\, B_
     \Delta Z_0 & = \int_0^h \nabla U(Z_0(s))\,\D s - \frac h2 \bigl( \nabla U(H_0^{+}) + \nabla U(H_0^{-}) \bigr) .
     \label{eq: local error integral}
 \end{align}
-The \emph{stages} of an integrator are the states at which its update evaluates $\nabla U$: for SRK-I, $Z_0$ with weight $\frac13$ and $H_0$ of \eqref{eq: srk1} with weight $\frac23$; for SRK-II, $H_0^{+}$ and $H_0^{-}$ of \eqref{eq: srk2} with weight $\frac12$ each. The weights sum to one in both cases, and the step subtracts $h$ times the weighted average, the \emph{stage drift} $\Sigma_0$:
+The \emph{stages} of an integrator are the states at which its update evaluates $\nabla U$: for SRK-I, $Z_0$ with weight $\frac13$ and $H_0$ of \eqref{eq: srk1} with weight $\frac23$; for SRK-II, $H_0^{+}$ and $H_0^{-}$ of \eqref{eq: srk2} with weight $\frac12$ each. The step subtracts the \emph{stage drift} $\Sigma_0$, which is $h$ times the weighted average of $\nabla U$ over the stages:
 \begin{align}
     \mathrm{(I):~} \Sigma_0 & = \frac h3\, \nabla U(Z_0) + \frac{2h}{3}\, \nabla U(H_0) , \notag \\
     \mathrm{(II):~} \Sigma_0 & = \frac h2 \bigl( \nabla U(H_0^{+}) + \nabla U(H_0^{-}) \bigr) ,
     \label{eq: stage drift}
 \end{align}
-so that $\Delta Z_0 = \int_0^h \nabla U(Z_0(s))\,\D s - \Sigma_0$ by \eqref{eq: local error integral}. Define the Gaussian \emph{stage noise} $A_0$ by
+so that, by \eqref{eq: local error integral} and by the updates in \eqref{eq: srk1} and \eqref{eq: srk2},
+\begin{equation}
+    \Delta Z_0 = \int_0^h \nabla U(Z_0(s))\,\D s - \Sigma_0 , \qquad Z_1 - Z_0 = \sqrt2\, B_h - \Sigma_0 .
+    \label{eq: step in stage drift}
+\end{equation}
+Define the Gaussian \emph{stage noise} $A_0$ by
 \begin{equation}
     A_0 := \frac{\sqrt2}{h} \int_0^h B_s\,\D s , \qquad \mathrm{Cov}(A_0) = \frac{2h}{3}\, I_d .
     \label{eq: stage noise}
 \end{equation}
 The displacements of the exact solution $Z_0(s)$ and of the stages $H_0,H_0^{\pm}$ from $Z_0$ are
-\begin{equation*}
+\begin{equation}
 \begin{aligned}
     W_s &= Z_0(s) - Z_0 = - \int_0^s \nabla U(Z_0(s'))\,\D s' + \sqrt2\, B_s , \\
     D_{\mathrm I} &= H_0 - Z_0 = - \frac{3h}{4}\, \nabla U(Z_0) + \frac32\, A_0 , \\
     D_{\mathrm{II}}^{\pm} &= H_0^{\pm} - Z_0 = - \frac h2\, \nabla U(Z_0) + \Bigl( 1 \pm \frac{1}{\sqrt2} \Bigr) A_0 .
 \end{aligned}
-\end{equation*}
-Each \emph{stage displacement} is a drift plus a multiple of $A_0$. Averaged with the weights of \eqref{eq: stage drift}, the stage displacements give the same vector for the two integrators, the stage $Z_0$ of SRK-I having displacement $0$:
+\label{eq: displacements}
+\end{equation}
+Each \emph{stage displacement} in \eqref{eq: displacements} is a drift plus a multiple of $A_0$. Averaged with the weights of \eqref{eq: stage drift}, the stage displacements give the same vector for the two integrators, the stage $Z_0$ of SRK-I having displacement $0$:
 \begin{equation}
     D_{\mathrm{II}} := \frac12 \bigl( D_{\mathrm{II}}^{+} + D_{\mathrm{II}}^{-} \bigr)
     = - \frac h2\, \nabla U(Z_0) + A_0
     = \frac23\, D_{\mathrm I} .
     \label{eq: mean stage}
 \end{equation}
-This common vector is written $D_{\mathrm{II}}$ in the analysis of SRK-I as well. Across steps, let $\mathcal F_k := \sigma\bigl( Z_0, (B_s)_{s \Le kh} \bigr)$ be the $\sigma$-algebra generated by the initial state and by the driving path up to time $kh$. Both $Z_{k+1}$ and $Z_k(h)$ are functions of $Z_k$ and of the increments $(B_s - B_{kh})_{kh \Le s \Le (k+1)h}$, so every one-step quantity is $\mathcal F_{k+1}$-measurable. Those increments are independent of $\mathcal F_k$, so $\mathbb E\bigl[\,\cdot\, \big| \mathcal F_k \bigr] = \mathbb E_k[\,\cdot\,]$.
+This common vector is written $D_{\mathrm{II}}$ in the analysis of SRK-I as well. Across steps, let $\mathcal F_k := \sigma\bigl( Z_0, (B_s)_{s \Le kh} \bigr)$ be the $\sigma$-algebra generated by the initial state and by the driving path up to time $kh$. Both $Z_{k+1}$ and $Z_k(h)$ are functions of $Z_k$ and of the increments $(B_s - B_{kh})_{kh \Le s \Le (k+1)h}$, so every one-step quantity is $\mathcal F_{k+1}$-measurable. Those increments are independent of $\mathcal F_k$, so $\mathbb E\bigl[\,\cdot\, \big| \mathcal F_k \bigr] = \mathbb E_k[\,\cdot\,]$ for every one-step quantity.
 
 From here on, $\pnorm{X}_p := \mathbb E_0\bigl[ |X|^p \bigr]^{1/p}$ for a random vector $X$ and $p \Ge 1$, with $|X|$ replaced by the operator norm $\norm{X}$ when $X$ is a random tensor of order two or more. Throughout this subsection, $C$ depends only on $M$ and $d$, as in Lemmas~\ref{lem: martingale rep} and \ref{lem: cross moment}, and never on $h$ or on $Z_0$; every exponent $p$ occurring below is at most $4$, so that the dependence of $C$ on $p$ is absorbed into its dependence on $M$ and $d$. The following basic inequalities are used repeatedly:
 \begin{equation*}
@@ -301,9 +341,9 @@ From here on, $\pnorm{X}_p := \mathbb E_0\bigl[ |X|^p \bigr]^{1/p}$ for a random
     & |\nabla U(Z_0)| \Le M (1 + |Z_0|) .
 \end{aligned}
 \end{equation*}
-Every tensor contracted against $\nabla^3 U(Z_0)$ or $\nabla^4 U(Z_0)$ in the moment estimates below is an integral or a tensor power of tensor products of vectors. The operator norm bound $M$ of Assumption~\ref{ass: U} therefore applies inside the integral, against the product of the vector lengths.
+Every tensor contracted against $\nabla^3 U(Z_0)$ or $\nabla^4 U(Z_0)$ in the moment estimates below is a sum of tensor products of vectors, integrated over $s$ or not, so the operator norm bound $M$ of Assumption~\ref{ass: U} bounds each summand by $M$ times the product of the vector lengths. The matrix $\nabla^2 \Delta U(Z_0)$ of \eqref{eq: product martingale} is $\nabla^4 U(Z_0)$ contracted against $I_d$, so $\norm{\nabla^2 \Delta U} \Le d M$.
 
-For the stage displacements, the definition of $W_s$ and $|\nabla U(Z_0(s'))| \Le |\nabla U(Z_0)| + M |W_{s'}|$ give, by Gr\"onwall's inequality, the pathwise bound
+For the displacement of the exact solution, the definition of $W_s$ in \eqref{eq: displacements} and $|\nabla U(Z_0(s'))| \Le |\nabla U(Z_0)| + M |W_{s'}|$ give, by Gr\"onwall's inequality, the pathwise bound
 \begin{equation*}
     |W_s| \Le e^{M h} \Bigl( s\, |\nabla U(Z_0)| + \sqrt2 \max_{s' \Le h} |B_{s'}| \Bigr) , \qquad 0 \Le s \Le h ,
 \end{equation*}
@@ -313,7 +353,7 @@ so for $h \Le 1$,
     \pnorm{W_s - \sqrt2\, B_s}_p \Le C h\, (1 + |Z_0|) .
     \label{eq: displacement moments}
 \end{equation}
-The same $\sqrt h$ bound holds for the stage displacements and for the step itself, since $Z_1 - Z_0 = \sqrt2\, B_h - \Sigma_0$:
+The same $\sqrt h$ bound holds for the stage displacements of \eqref{eq: displacements}, by the covariance of $A_0$ in \eqref{eq: stage noise}, and for the step itself, by \eqref{eq: step in stage drift}:
 \begin{align}
     \pnorm{D}_p & \Le C \sqrt h\, (1 + |Z_0|) \quad \text{for } D \in \{ D_{\mathrm I}, D_{\mathrm{II}}^{+}, D_{\mathrm{II}}^{-} \} , \notag \\
     \pnorm{Z_1 - Z_0}_p & \Le C \sqrt h\, (1 + |Z_0|) .
@@ -337,7 +377,7 @@ Lemma~\ref{lem: martingale rep} below writes $\mathcal M(\Delta Z_0)$ explicitly
     + \frac{\sqrt2}{3}\, \nabla^4 U(Z_0) \biggl[ \int_0^h B_s^{\otimes 3}\,\D s - \frac{c_3}{h^2} \bigg( \int_0^h B_s\,\D s \bigg)^{\!\otimes 3} \biggr] ,
     \label{eq: martingale Z}
 \end{align}
-    with $c_1 = \frac34$, $c_3 = \frac94$ for SRK-I and $c_1 = \frac12$, $c_3 = \frac52$ for SRK-II. The remainder $\mathcal R(\Delta Z_0) = \Delta Z_0 - \mathcal M(\Delta Z_0)$ is given explicitly in \citet{ye2026mse}.
+    with $c_1 = \frac34$, $c_3 = \frac94$ for SRK-I and $c_1 = \frac12$, $c_3 = \frac52$ for SRK-II.
     
     For $h \in (0, 1]$ there is a constant $C$, depending only on $M$ and $d$, such that for all $Z_0 \in \mathbb R^d$,
     \begin{equation}
@@ -362,7 +402,7 @@ The product $\Delta Q_0$ in \eqref{eq: delta Q} admits the same treatment: a mea
         - \frac{4h^3}{3} \Bigl( 1 - \frac{c_3}{2} \Bigr) \nabla^2 \Delta U(Z_0) ,
     \label{eq: product martingale}
     \end{align}
-    with $c_1$, $c_3$ of Lemma~\ref{lem: martingale rep}. The remainder $\mathcal R(\Delta Q_0) = \Delta Q_0 - \mathcal M(\Delta Q_0)$ is given explicitly in \citet{ye2026mse}.
+    with $c_1$, $c_3$ of Lemma~\ref{lem: martingale rep}.
     
     For $h \in (0, 1]$, there is a constant $C$, depending only on $M$ and $d$, such that for all $Z_0 \in \mathbb R^d$,
     \begin{equation}
@@ -387,15 +427,15 @@ as
 \begin{equation}
     G(Z_{k+1}) - G(Z_k(h))
     = \bigl\langle \nabla G(Z_k),\, \Delta Z_k \bigr\rangle
-    + \frac12\, \nabla^2 G(Z_k) : \Delta Q_k + \varrho_k ,
+    + \frac12\, \nabla^2 G(Z_k) : \Delta Q_k + \varrho_k^G ,
     \label{eq: G expansion}
 \end{equation}
 with the remainder
 \begin{equation}
-    \varrho_k = \int_0^1 \!\! \int_0^1 (1-s)\, \Bigl\langle \nabla^3 G\bigl( Z_k + s (Y_\theta - Z_k) \bigr) \bigl[ (Y_\theta - Z_k)^{\otimes 2} \bigr] ,\, \Delta Z_k \Bigr\rangle \,\D s\,\D\theta .
+    \varrho_k^G = \int_0^1 \!\! \int_0^1 (1-s)\, \Bigl\langle \nabla^3 G\bigl( Z_k + s (Y_\theta - Z_k) \bigr) \bigl[ (Y_\theta - Z_k)^{\otimes 2} \bigr] ,\, \Delta Z_k \Bigr\rangle \,\D s\,\D\theta .
     \label{eq: G remainder integral}
 \end{equation}
-The mean-zero terms of $\Delta Z_k$ and $\Delta Q_k$ drop out of the conditional mean of \eqref{eq: G expansion}, and the remainders $\mathcal R(\Delta Z_k)$ and $\mathcal R(\Delta Q_k)$ of \eqref{eq: local decomposition} and \eqref{eq: product decomposition}, together with $\varrho_k$, are of order $h^3$: this is the local weak error of one step, which Lemma~\ref{lem: weak} below bounds.
+By taking the expectation of \eqref{eq: G expansion} conditioned on $Z_k$, the mean-zero terms of $\Delta Z_k$ and $\Delta Q_k$ drop out, and the remainders $\mathcal R(\Delta Z_k)$ and $\mathcal R(\Delta Q_k)$ of \eqref{eq: local decomposition} and \eqref{eq: product decomposition}, together with $\varrho_k^G$, are of order $h^3$: this is the local weak error of one step, which Lemma~\ref{lem: weak} below bounds.
 
 \subsection{Stability and local weak error}
 \label{subsec: chain}
@@ -434,14 +474,14 @@ where $G_k := P_{(N-k-1)h}\, g$ is the test function $g$ propagated by the semig
 \section{Fisher information technique}
 \label{sec: wasserstein analysis}
 
-The bound of \citet{ye2026mse} carries a logarithm because the local weak error of one step, Lemma~\ref{lem: weak}, costs the third derivative of the propagated test function, and \eqref{eq: smoothing} bounds that derivative only by $t^{-1}$ at propagation time $t$. This section replaces the pointwise estimate of Lemma~\ref{lem: weak} by an estimate of the local weak error averaged over the law $\mu_k$ of $Z_k$: an integration by parts moves one derivative from the test function onto $\mu_k$, at the price of the Fisher information of $\mu_k$, and the Gaussian part of each step of the integrators keeps that Fisher information bounded by $C ( 1 + (kh)^{-1} )$.
+This section replaces the pointwise estimate of Lemma~\ref{lem: weak}, in which the third derivative of the propagated test function produces the logarithm in the bound of \citet{ye2026mse}, by an estimate of the local weak error averaged over the law $\mu_k$ of $Z_k$.
 
 Fix a smooth test function $g$ with $\norm{\nabla g}_\infty \Le 1$. The telescoping formula \eqref{eq: telescope} writes the error between the laws of the numerical solution $Z_N$ and the exact solution $X_{Nh}$ as
 \begin{equation*}
     \mathbb E \bigl[g(Z_N)\bigr] - \mathbb E \bigl[g(X_{Nh})\bigr]
     = \sum_{k=0}^{N-1} \mathbb E\Bigl[ \mathbb E_k \bigl[ G_k(Z_{k+1}) - G_k(Z_k(h)) \bigr] \Bigr] , \qquad G_k = P_{(N-k-1)h}\, g ,
 \end{equation*}
-and the summand at step $k$ is an average over the law $\mu_k$ of $Z_k$. Lemma~\ref{lem: weak} bounds it through the derivatives of $G_k$ up to third order. Another control of that average, one that spares the third derivative, comes from the Fisher information
+and the summand at step $k$ is an average over $\mu_k$. Lemma~\ref{lem: weak} bounds it through the derivatives of $G_k$ up to third order. Another control of that average, one that spares the third derivative, comes from the Fisher information
 \begin{equation}
     I(\mu) := \int_{\mathbb R^d} \bigl| \nabla \log \mu(x) \bigr|^2 \mu(x)\,\D x ,
     \label{eq: fisher information}
@@ -450,7 +490,7 @@ taken at $\mu = \mu_k$.
 
 \begin{lemma}
 \label{lem: averaged weak}
-    Let Assumption~\ref{ass: U} hold and let $h \in (0, h_0]$. Let the law $\mu_0$ of $Z_0$ be positive and $C^1$ with $I(\mu_0)$ of \eqref{eq: fisher information} finite and $\mathbb E (1 + |Z_0|)^{12} < \infty$, and let $G \in C^3(\mathbb R^d)$ with $\norm{\nabla^i G}_\infty < \infty$ for $i = 1, 2, 3$. Then
+    Let Assumption~\ref{ass: U} hold and let $h \in (0, h_0]$. Let $Z_0$ be independent of the Brownian motion driving the step, with law $\mu_0$ positive and $C^1$, $I(\mu_0)$ of \eqref{eq: fisher information} finite and $\mathbb E (1 + |Z_0|)^{12} < \infty$, and let $G \in C^3(\mathbb R^d)$ with $\norm{\nabla^i G}_\infty < \infty$ for $i = 1, 2, 3$. Then
     \begin{equation}
         \Bigl| \mathbb E \bigl[ G(Z_1) - G(Z_0(h)) \bigr] \Bigr|
         \Le C h^3 \bigl( \norm{\nabla G}_\infty + \norm{\nabla^2 G}_\infty \bigr) \Bigl( 1 + \sqrt{I(\mu_0)} \Bigr) \bigl( \mathbb E ( 1 + |Z_0| )^{12} \bigr)^{1/2} .
@@ -459,7 +499,7 @@ taken at $\mu = \mu_k$.
     \emph{(Proof in Section~\ref{sec: averaged weak proof}.)}
 \end{lemma}
 
-The Fisher information of $\mu_k$ is controlled by the scheme itself. One step of SRK-I and SRK-II is a near-identity map of the state followed by an independent Gaussian of covariance $\frac h2 I_d$, the structure \eqref{eq: step map}. The map raises Fisher information to at most $(1 + Ch) I(\mu_k) + Ch$ by \eqref{eq: fisher transport}, and the Gaussian lowers it through Stam's inequality \eqref{eq: stam} \citep{stam1959some, blachman1965convolution}, which adds $h/(2d)$ to the reciprocal Fisher information of the transported law.
+Compared with Lemma~\ref{lem: weak}, the bound \eqref{eq: averaged weak} carries $\norm{\nabla G}_\infty$ and $\norm{\nabla^2 G}_\infty$ alone: the third derivative of $G$ enters the hypotheses but not the bound, and the price is regularity of the law $\mu_0$, together with its twelfth moment, whereas averaging \eqref{eq: weak} would ask only for the sixth. To apply Lemma~\ref{lem: averaged weak} at the steps $1 \Le k \Le N-2$, it remains to bound the Fisher information $I(\mu_k)$, and this bound the integrators provide themselves. One step of SRK-I and SRK-II is a near-identity map of the state followed by an independent Gaussian of covariance $\frac h2 I_d$, the structure \eqref{eq: step map}. The map raises Fisher information to at most $(1 + Ch) I(\mu_k) + Ch$ by \eqref{eq: fisher transport}, and the Gaussian lowers it through Stam's inequality \eqref{eq: stam} \citep{stam1959some, blachman1965convolution}, which adds $h/(2d)$ to the reciprocal Fisher information of the transported law.
 
 \begin{lemma}
 \label{lem: fisher}
@@ -471,36 +511,41 @@ The Fisher information of $\mu_k$ is controlled by the scheme itself. One step o
     \emph{(Proof in Section~\ref{sec: fisher proof}.)}
 \end{lemma}
 
-The two lemmas, with the moment bound \eqref{eq: moment bounds} of the chain, bound the summand at step $k$ by
+Lemmas~\ref{lem: averaged weak} and \ref{lem: fisher}, with the moment bound \eqref{eq: moment bounds} of the chain, bound the summand at step $k$, for $1 \Le k \Le N-2$, by
 \begin{equation}
     C \bigl( 1 + |Z_0| \bigr)^{6} h^3 \bigl( 1 + (kh)^{-1/2} \bigr) \bigl( 1 + (ih)^{-1/2} \bigr) e^{-\lambda i h} , \qquad i := N - k - 1 ,
     \label{eq: two singularities}
 \end{equation}
-the factor $(kh)^{-1/2}$ from \eqref{eq: fisher bound} and the factor $(ih)^{-1/2} e^{-\lambda i h}$ from the bound \eqref{eq: smoothing} on $\nabla^2 G_k$. The two singular factors of \eqref{eq: two singularities} sit at opposite ends of the chain and $\int_0^1 (t(1-t))^{-1/2}\,\D t$ is finite, so the sum over $k$ is of order $h^2$, uniformly in $N$.
+the factor $\bigl( 1 + (kh)^{-1/2} \bigr)$ from \eqref{eq: fisher bound} and the factor $\bigl( 1 + (ih)^{-1/2} \bigr) e^{-\lambda i h}$ from the bounds \eqref{eq: grad decay} and \eqref{eq: smoothing} on $\nabla G_k$ and $\nabla^2 G_k$. The two singular factors of \eqref{eq: two singularities} sit at opposite ends of the chain and $\int_0^1 (t(1-t))^{-1/2}\,\D t$ is finite, so the sum over $k$ is of order $h^2$, uniformly in $N$.
 
-
-Section~\ref{sec: step map proof} bounds the derivatives of one step, and Sections~\ref{sec: averaged weak proof} and \ref{sec: fisher proof} use them to prove Lemmas~\ref{lem: averaged weak} and \ref{lem: fisher}. In the rest of this section, the step runs from $Z_0 = x$: $Z_1$ is the numerical step, $Z_0(h)$ the exact step and $\Delta Z_0$ the local error, each a function of $x$ and of the path; $C$ depends only on $M$ and $d$ unless another dependence is stated, and the two integrators enter only through the stage drift $\Sigma_0$ of \eqref{eq: stage drift}.
+Section~\ref{sec: step map proof} bounds the derivatives of one step, and Sections~\ref{sec: averaged weak proof} and \ref{sec: fisher proof} use those bounds to prove Lemmas~\ref{lem: averaged weak} and \ref{lem: fisher}. In the rest of this section, the step runs from $Z_0 = x$: $Z_1$ is the numerical step, $Z_0(h)$ the exact step and $\Delta Z_0$ the local error, each a function of $x$ and of the path; $C$ depends only on $M$ and $d$, and the two integrators enter only through the stage drift $\Sigma_0$ of \eqref{eq: stage drift}.
 
 \subsection{The step as a map of the state}
 \label{sec: step map proof}
 
-The stage noise $A_0$ and the increment $\sqrt2\, B_h$ are jointly Gaussian, with $\mathrm{Cov}(\sqrt2\, B_h, A_0) = h\, I_d$ and the covariance of $A_0$ recorded in \eqref{eq: stage noise}, so the conditional mean of $\sqrt2\, B_h$ given $A_0$ is $\frac32\, A_0$ and the residual has covariance $\frac h2 I_d$,
+The stage noise $A_0$ and the increment $\sqrt2\, B_h$ are jointly Gaussian, with $\mathrm{Cov}(\sqrt2\, B_h, A_0) = h\, I_d$ and the covariance of $A_0$ recorded in \eqref{eq: stage noise}. Regressing $\sqrt2\, B_h$ on $A_0$ therefore gives
 \begin{equation}
     \sqrt2\, B_h = \frac32\, A_0 + \sqrt{\frac h2}\; \eta_0 , \qquad \eta_0 \sim \mathcal N(0, I_d) \text{ independent of } A_0 .
     \label{eq: gaussian regression}
 \end{equation}
-Each stage displacement of Section~\ref{subsec: local error} is a drift depending on $Z_0$ plus a multiple of $A_0$, so the stage drift of \eqref{eq: stage drift} is a function of the state and of $A_0$ alone, and $\Sigma_0(x,a)$ denotes its value at $Z_0 = x$ and $A_0 = a$. Since $Z_1 - Z_0 = \sqrt2\, B_h - \Sigma_0$, one step is a map of the state followed by an independent Gaussian,
+The randomness of $B_h$ and $\int_0^h B_s\,\D s$ is thus carried by the two independent Gaussian vectors $A_0$ and $\eta_0$. By \eqref{eq: displacements}, the stage drift \eqref{eq: stage drift} is a function $\Sigma_0(x, a)$ of the state $Z_0 = x$ and the stage noise $A_0 = a$ alone, so \eqref{eq: step in stage drift} and \eqref{eq: gaussian regression} write one step as a map of the state followed by an independent Gaussian:
 \begin{equation}
     Z_1 = \mathcal T_{h, A_0}(Z_0) + \sqrt{\frac h2}\; \eta_0 , \qquad
-    \mathcal T_{h,a}(x) := x - \Sigma_0(x, a) + \frac32\, a .
+    \mathcal T_{h,a}(x) := x - \Sigma_0(x, a) + \frac32\, a ,
     \label{eq: step map}
 \end{equation}
-The map $\mathcal T_{h,a}$ is the \emph{step map} of the integrator. With the stage displacements of Section~\ref{subsec: local error} at $Z_0 = x$ and $A_0 = a$, the step maps of SRK-I and SRK-II are
-\begin{align}
-    \mathrm{(I):~} \mathcal T_{h,a}(x) & = x - \frac h3\, \nabla U(x) - \frac{2h}{3}\, \nabla U\bigl( x + D_{\mathrm I} \bigr) + \frac32\, a , \notag \\
-    \mathrm{(II):~} \mathcal T_{h,a}(x) & = x - \frac h2 \bigl( \nabla U(x + D_{\mathrm{II}}^{+}) + \nabla U(x + D_{\mathrm{II}}^{-}) \bigr) + \frac32\, a .
-    \label{eq: step maps}
-\end{align}
+where the stage drift function $\Sigma_0(x, a)$ is, for SRK-I and SRK-II,
+\begin{equation}
+\begin{aligned}
+    \mathrm{(I):~} \Sigma_0(x, a) & = \frac h3\, \nabla U(x) + \frac{2h}{3}\, \nabla U\Bigl( x \underbrace{- \frac{3h}{4}\, \nabla U(x) + \frac32\, a}_{D_{\mathrm I}} \Bigr) , \\
+    \mathrm{(II):~} \Sigma_0(x, a) & = \frac h2\, \nabla U\Bigl( x \underbrace{- \frac h2\, \nabla U(x) + \Bigl( 1 + \frac{1}{\sqrt2} \Bigr) a}_{D_{\mathrm{II}}^{+}} \Bigr)
+    + \frac h2\, \nabla U\Bigl( x \underbrace{- \frac h2\, \nabla U(x) + \Bigl( 1 - \frac{1}{\sqrt2} \Bigr) a}_{D_{\mathrm{II}}^{-}} \Bigr) .
+\end{aligned}
+\label{eq: stage drift explicit}
+\end{equation}
+The map $\mathcal T_{h,a}$ is the \emph{step map} of the integrator. The displacements $D_{\mathrm I}$ and $D_{\mathrm{II}}^{\pm}$ also depend on $x$ explicitly, through the gradient $\nabla U(x)$, and we drop this dependence for notational convenience.
+
+Lemma~\ref{lem: step map} below establishes the regularity of the step map $\mathcal T_{h,a}$; its proof is tedious but standard in stochastic analysis. In particular, the constant $C$ in Lemma~\ref{lem: step map} does not depend on $h$ or $a$.
 
 \begin{lemma}
 \label{lem: step map}
@@ -516,111 +561,144 @@ The map $\mathcal T_{h,a}$ is the \emph{step map} of the integrator. With the st
     \end{equation}
     The derivative of the local error satisfies, for every $x \in \mathbb R^d$,
     \begin{equation}
-        \pnorm{\partial_x \Delta Z_0(x)}_2 \Le C h^2 \bigl( 1 + |x| \bigr)^2 .
+        \pnorm{\partial_x \Delta Z_0}_2 \Le C h^2 \bigl( 1 + |x| \bigr)^2 .
         \label{eq: local error derivative}
     \end{equation}
 \end{lemma}
 
 \begin{proof}[Proof of Lemma~\ref{lem: step map}]
-    The proof is written for SRK-I; the changes for SRK-II are recorded at the end. Differentiating the form (I) of \eqref{eq: step maps} in $x$ gives
+    The proof is written for SRK-I; the changes for SRK-II are recorded at the end. Since $\partial_x \mathcal T_{h,a} = I_d - \partial_x \Sigma_0$ by \eqref{eq: step map}, differentiating the form (I) of \eqref{eq: stage drift explicit} in $x$, where the stage argument is $x + D_{\mathrm I}$ with $\partial_x D_{\mathrm I} = - \frac{3h}{4}\, \nabla^2 U(x)$, gives the Jacobian difference
     \begin{equation}
         \partial_x \mathcal T_{h,a}(x) - I_d = - \frac h3\, \nabla^2 U(x) - \frac{2h}{3}\, \nabla^2 U(x + D_{\mathrm I}) \Bigl( I_d - \frac{3h}{4}\, \nabla^2 U(x) \Bigr) ,
         \label{eq: step map jacobian}
     \end{equation}
-    and one more derivative in the direction $v$ gives
-    \begin{align*}
-        \partial_x^2 \mathcal T_{h,a}(x)[v] = {} & - \frac h3\, \nabla^3 U(x)[v] + \frac{h^2}{2}\, \nabla^2 U(x + D_{\mathrm I})\, \nabla^3 U(x)[v] \\
+    and one more derivative in the direction $v$ gives 
+    \begin{align}
+        \partial_x^2 \mathcal T_{h,a}(x)[v] = {} & - \frac h3\, \nabla^3 U(x)[v] + \frac{h^2}{2}\, \nabla^2 U(x + D_{\mathrm I})\, \nabla^3 U(x)[v] \notag \\
         & - \frac{2h}{3}\, \nabla^3 U(x + D_{\mathrm I}) \Bigl[ \Bigl( I_d - \frac{3h}{4}\, \nabla^2 U(x) \Bigr) v \Bigr] \Bigl( I_d - \frac{3h}{4}\, \nabla^2 U(x) \Bigr) .
-    \end{align*}
-    Since $\norm{\nabla^2 U}, \norm{\nabla^3 U} \Le M$ and $h \Le 1$,
+        \label{eq: step map hessian}
+    \end{align}
+    Since $\norm{\nabla^2 U}, \norm{\nabla^3 U} \Le M$ and $h \Le 1$, \eqref{eq: step map jacobian} and \eqref{eq: step map hessian} give
     \begin{equation*}
         \norm{\partial_x \mathcal T_{h,a} - I_d}_\infty \Le M h \Bigl( 1 + \frac{M h}{2} \Bigr) , \qquad
         \norm{\partial_x^2 \mathcal T_{h,a}}_\infty \Le M h \Bigl( 1 + \frac{3 M h}{4} \Bigr)^2 + \frac{M^2 h^2}{2} ,
     \end{equation*}
-    both at most $C h$. Let $h_0 \Le 1$ be such that the right sides of \eqref{eq: step map bounds} and \eqref{eq: step derivatives} are at most $\frac12$. Then $\mathcal T_{h,a} - \mathrm{id}$ is Lipschitz with constant $\frac12$, so $\mathcal T_{h,a}$ is injective, and for every $y$ the map $x \mapsto y - ( \mathcal T_{h,a} - \mathrm{id} )(x)$ is a contraction of constant $\frac12$, whose fixed point solves $\mathcal T_{h,a}(x) = y$; hence $\mathcal T_{h,a}$ is a bijection. Its Jacobian satisfies
+    both at most $C h$. Let $h_0 \Le 1$ be such that the right sides of \eqref{eq: step map bounds} and \eqref{eq: step derivatives} are at most $\frac12$ for $h \Le h_0$; $h_0$ depends only on $M$ and $d$. Then $\mathcal T_{h,a} - \mathrm{id}$ is Lipschitz with constant $\frac12$, so $\mathcal T_{h,a}$ is injective, and for every $y$ the map $x \mapsto y - ( \mathcal T_{h,a} - \mathrm{id} )(x)$ is a contraction of constant $\frac12$, whose fixed point solves $\mathcal T_{h,a}(x) = y$; hence $\mathcal T_{h,a}$ is a bijection. Its Jacobian is invertible at every point, so by the inverse function theorem the inverse map is $C^2$ as well, and $\mathcal T_{h,a}$ is a $C^2$ diffeomorphism. Its Jacobian satisfies
     \begin{equation*}
         \bigl\| ( \partial_x \mathcal T_{h,a} )^{-1} \bigr\| \Le \bigl( 1 - \norm{\partial_x \mathcal T_{h,a} - I_d} \bigr)^{-1} \Le 2 ,
     \end{equation*}
-    and $\det \partial_x \mathcal T_{h,a}$ is positive, equal to $1$ at $h = 0$ and nowhere zero. Finally, for every $v \in \mathbb R^d$,
+    and $\det \partial_x \mathcal T_{h,a}$, equal to $1$ at $h = 0$ and nowhere zero, is positive. Finally, for every $v \in \mathbb R^d$,
     \begin{equation*}
         \bigl| \nabla \log\det \partial_x \mathcal T_{h,a}(x) \cdot v \bigr|
         = \bigl| \operatorname{tr}\bigl( ( \partial_x \mathcal T_{h,a} )^{-1} \partial_x^2 \mathcal T_{h,a}[v] \bigr) \bigr|
         \Le 2 d\, \norm{\partial_x^2 \mathcal T_{h,a}}\, |v| \Le C h\, |v| .
     \end{equation*}
 
-    By \eqref{eq: step map}, $\partial_x Z_1 = \partial_x \mathcal T_{h,A_0}$ and $\partial_x^2 Z_1 = \partial_x^2 \mathcal T_{h,A_0}$, so the bounds on $Z_1$ in \eqref{eq: step derivatives} are \eqref{eq: step map bounds}. For the exact step, the noise of \eqref{eq: langevin} is additive, so $Z_0(t) - \sqrt2\, B_t$ solves an ordinary differential equation with a $C^4$ vector field along every path, and $x \mapsto Z_0(h)$ is $C^2$ with $\partial_x Z_0(h) = J_h$ and $\partial_x^2 Z_0(h)[v] = K_h[v]$, the variations \eqref{eq: first variation} and \eqref{eq: second variation} along the path. Lemma~\ref{lem: variation bounds} gives $\norm{K_h[v]} \Le M h e^{2Mh} |v|$, and integrating \eqref{eq: first variation} with $\norm{J_s} \Le e^{Ms}$ gives
+    By \eqref{eq: step map}, $Z_1$ is the step map $\mathcal T_{h,A_0}$ evaluated at $Z_0 = x$ plus a noise term independent of $x$, so
+    \begin{equation*}
+        \partial_x Z_1 = \partial_x \mathcal T_{h,A_0} , \qquad \partial_x^2 Z_1 = \partial_x^2 \mathcal T_{h,A_0} ,
+    \end{equation*}
+    and the bounds on $Z_1$ in \eqref{eq: step derivatives} are contained in \eqref{eq: step map bounds}. For the exact step, the noise of \eqref{eq: langevin} is additive, so $Z_0(t) - \sqrt2\, B_t$ solves an ordinary differential equation with a $C^4$ vector field along every path, and $x \mapsto Z_0(h)$ is $C^2$ with $\partial_x Z_0(h) = J_h$ and $\partial_x^2 Z_0(h)[v] = K_h[v]$, the variations \eqref{eq: first variation} and \eqref{eq: second variation} along the path. Lemma~\ref{lem: variation bounds} gives $\norm{K_h[v]} \Le M h e^{2Mh} |v|$, and integrating \eqref{eq: first variation} with $\norm{J_s} \Le e^{Ms}$ gives
     \begin{equation*}
         \norm{J_h - I_d} = \biggl\| \int_0^h \nabla^2 U(Z_0(s))\, J_s\,\D s \biggr\| \Le M \int_0^h e^{Ms}\,\D s \Le M h\, e^{Mh} ,
     \end{equation*}
     which proves the bounds on $Z_0(h)$ in \eqref{eq: step derivatives}.
 
-    For \eqref{eq: local error derivative}, differentiate $\Delta Z_0 = \int_0^h \nabla U(Z_0(s))\,\D s - \Sigma_0$ of \eqref{eq: local error integral}:
+    For \eqref{eq: local error derivative}, differentiate the local error in \eqref{eq: step in stage drift}:
     \begin{equation}
         \partial_x \Delta Z_0 = \int_0^h \nabla^2 U(Z_0(s))\, J_s\,\D s - \partial_x \Sigma_0 .
         \label{eq: local error derivative split}
     \end{equation}
-    The two terms on the right of \eqref{eq: local error derivative split}, the integral from the exact step and $\partial_x \Sigma_0$ from the stages, are expanded about $x$ to second order; they are called the exact side and the stage side below. Write $\mathcal E_1(v) := \nabla^2 U(x + v) - \nabla^2 U(x) - \nabla^3 U(x)[v]$ for the Taylor remainder of $\nabla^2 U$ at a displacement $v$, so that $\norm{\mathcal E_1(v)} \Le \frac M2 |v|^2$. On the exact side, Taylor's formula and \eqref{eq: first variation} give
+    The two terms on the right of \eqref{eq: local error derivative split}, the integral from the exact step and $\partial_x \Sigma_0$ from the stages, are expanded about $x$ to second order; they are called the exact side and the stage side below. Write
     \begin{equation}
-        \nabla^2 U(Z_0(s)) = \nabla^2 U(x) + \nabla^3 U(x)[W_s] + \mathcal E_1(W_s) , \qquad
-        J_s = I_d - s\, \nabla^2 U(x) + \mathcal E_2(s) ,
+        \mathcal E_1(v) := \nabla^2 U(x + v) - \nabla^2 U(x) - \nabla^3 U(x)[v]
+        \label{eq: hessian taylor remainder}
+    \end{equation}
+    for the Taylor remainder of $\nabla^2 U$ at a displacement $v$, which satisfies
+    \begin{equation}
+        \norm{\mathcal E_1(v)} \Le \frac M2\, |v|^2 .
+        \label{eq: hessian taylor remainder bound}
+    \end{equation}
+    On the exact side, with $Z_0(s) = x + W_s$ by \eqref{eq: displacements}, Taylor's formula gives
+    \begin{equation}
+        \nabla^2 U(Z_0(s)) = \nabla^2 U(x) + \nabla^3 U(x)[W_s] + \mathcal E_1(W_s) .
         \label{eq: exact side expansion}
     \end{equation}
-    where \eqref{eq: exact side expansion} defines $\mathcal E_2(s)$. Integrating \eqref{eq: first variation},
+    The remainder $\mathcal E_2(s)$ is defined by the non-Gaussian part of the first variation process $J_t = \partial_x X_t$ of \eqref{eq: first variation},
+    \begin{equation}
+        J_s = I_d - s\, \nabla^2 U(x) + \mathcal E_2(s) .
+        \label{eq: first variation expansion}
+    \end{equation}
+    Integrating \eqref{eq: first variation}, $\mathcal E_2(s)$ is expressed as
     \begin{equation*}
         \mathcal E_2(s) = - \int_0^s \Bigl( \bigl( \nabla^2 U(Z_0(r)) - \nabla^2 U(x) \bigr) J_r + \nabla^2 U(x) \bigl( J_r - I_d \bigr) \Bigr) \D r ,
     \end{equation*}
     and $\norm{\nabla^2 U(Z_0(r)) - \nabla^2 U(x)} \Le M |W_r|$, $\norm{J_r} \Le e^{Mr}$, $\norm{J_r - I_d} \Le M r e^{Mr}$ with \eqref{eq: displacement moments} give
-    \begin{equation*}
+    \begin{equation}
         \pnorm{\mathcal E_2(s)}_4 \Le \int_0^s \bigl( M e^{Mr}\, \pnorm{W_r}_4 + M^2 r\, e^{Mr} \bigr) \D r \Le C s \sqrt h\, (1 + |x|) .
-    \end{equation*} On the stage side, \eqref{eq: step map} and \eqref{eq: step map jacobian} give
+        \label{eq: E2 bound}
+    \end{equation}
+    On the stage side, $\partial_x \Sigma_0 = I_d - \partial_x \mathcal T_{h,a}$ by \eqref{eq: step map}, and \eqref{eq: step map jacobian} with \eqref{eq: hessian taylor remainder} at $v = D_{\mathrm I}$ gives
     \begin{equation}
         \partial_x \Sigma_0 = \frac h3\, \nabla^2 U(x)
         + \frac{2h}{3} \Bigl( \nabla^2 U(x) + \nabla^3 U(x)[D_{\mathrm I}] + \mathcal E_1(D_{\mathrm I}) \Bigr) \Bigl( I_d - \frac{3h}{4}\, \nabla^2 U(x) \Bigr) .
         \label{eq: stage side expansion}
     \end{equation}
-    Multiplying out \eqref{eq: exact side expansion} and \eqref{eq: stage side expansion}, the terms free of $W_s$, $D_{\mathrm I}$, $\mathcal E_1$ and $\mathcal E_2$ agree on the two sides and cancel in the difference:
-    \begin{equation*}
+    When \eqref{eq: exact side expansion}, \eqref{eq: first variation expansion} and \eqref{eq: stage side expansion} are multiplied out, the terms free of $W_s$, $D_{\mathrm I}$, $\mathcal E_1$ and $\mathcal E_2$ agree on the two sides and cancel in the difference:
+    \begin{align}
         \int_0^h \nabla^2 U(x) \bigl( I_d - s\, \nabla^2 U(x) \bigr) \D s
-        = \frac h3\, \nabla^2 U(x) + \frac{2h}{3}\, \nabla^2 U(x) \Bigl( I_d - \frac{3h}{4}\, \nabla^2 U(x) \Bigr)
-        = h\, \nabla^2 U(x) - \frac{h^2}{2} \bigl( \nabla^2 U(x) \bigr)^2 .
-    \end{equation*}
-    The remaining leading terms are $\nabla^3 U(x)\bigl[ \int_0^h W_s\,\D s \bigr]$ on the exact side and $\frac{2h}{3}\, \nabla^3 U(x)[D_{\mathrm I}]$ on the stage side. The stage-side term equals $h\, \nabla^3 U(x)[D_{\mathrm{II}}]$ by \eqref{eq: mean stage}, and \eqref{eq: mean stage} with \eqref{eq: stage noise} gives
-    \begin{equation*}
+        & = \frac h3\, \nabla^2 U(x) + \frac{2h}{3}\, \nabla^2 U(x) \Bigl( I_d - \frac{3h}{4}\, \nabla^2 U(x) \Bigr) \notag \\
+        & = h\, \nabla^2 U(x) - \frac{h^2}{2} \bigl( \nabla^2 U(x) \bigr)^2 .
+        \label{eq: derivative cancellation}
+    \end{align}
+    The remaining leading terms are $\nabla^3 U(x)\bigl[ \int_0^h W_s\,\D s \bigr]$ on the exact side and $\frac{2h}{3}\, \nabla^3 U(x)[D_{\mathrm I}]$ on the stage side. The stage-side term equals $h\, \nabla^3 U(x)[D_{\mathrm{II}}]$ by \eqref{eq: mean stage}. The expression of $D_{\mathrm{II}}$ there and the definition \eqref{eq: stage noise} of $A_0$ write $h\, D_{\mathrm{II}}$ as
+    \begin{equation}
         h\, D_{\mathrm{II}} = \sqrt2 \int_0^h B_s\,\D s - \frac{h^2}{2}\, \nabla U(x) .
-    \end{equation*}
-    Subtracting the stage side from the exact side in \eqref{eq: local error derivative split},
+        \label{eq: mean stage noise}
+    \end{equation}
+    Subtracting the stage side \eqref{eq: stage side expansion} from the exact side \eqref{eq: exact side expansion} and \eqref{eq: first variation expansion} in \eqref{eq: local error derivative split}, with the cancellation \eqref{eq: derivative cancellation} and the identity \eqref{eq: mean stage noise},
     \begin{equation}
         \partial_x \Delta Z_0 = \nabla^3 U(x) \Bigl[ \int_0^h \bigl( W_s - \sqrt2\, B_s \bigr) \D s \Bigr] + \frac{h^2}{2}\, \nabla^3 U(x)\bigl[ \nabla U(x) \bigr] + \mathcal E ,
         \label{eq: local error derivative remainder}
     \end{equation}
     where $\mathcal E$ collects the products of two small factors,
-    \begin{align*}
-        \mathcal E := {} & \int_0^h \Bigl( \mathcal E_1(W_s)\, J_s + \bigl( \nabla^2 U(x) + \nabla^3 U(x)[W_s] \bigr) \mathcal E_2(s) - s\, \nabla^3 U(x)[W_s]\, \nabla^2 U(x) \Bigr) \D s \\
+    \begin{align}
+        \mathcal E := {} & \int_0^h \Bigl( \mathcal E_1(W_s)\, J_s + \bigl( \nabla^2 U(x) + \nabla^3 U(x)[W_s] \bigr) \mathcal E_2(s) - s\, \nabla^3 U(x)[W_s]\, \nabla^2 U(x) \Bigr) \D s \notag \\
         & - \frac{2h}{3}\, \mathcal E_1(D_{\mathrm I}) \Bigl( I_d - \frac{3h}{4}\, \nabla^2 U(x) \Bigr) + \frac{h^2}{2}\, \nabla^3 U(x)[D_{\mathrm I}]\, \nabla^2 U(x) .
-    \end{align*}
-    The five terms of $\mathcal E$ are bounded in $\pnorm{\,\cdot\,}_2$ by H\"older's inequality, $\norm{\mathcal E_1(v)} \Le \frac M2 |v|^2$, the bound on $\pnorm{\mathcal E_2(s)}_4$, $\norm{J_s} \Le e^{Ms}$, and \eqref{eq: displacement moments} and \eqref{eq: stage moments} for $W_s$ and $D_{\mathrm I}$:
-    \begin{align*}
-        \pnorm{\mathcal E}_2 & \Le \int_0^h \Bigl( \frac M2\, e^{Mh}\, \pnorm{W_s}_4^2 + M \bigl( 1 + \pnorm{W_s}_4 \bigr) \pnorm{\mathcal E_2(s)}_4 + s M^2\, \pnorm{W_s}_2 \Bigr) \D s \\
+        \label{eq: derivative remainder}
+    \end{align}
+    The five terms of \eqref{eq: derivative remainder} are bounded in $\pnorm{\,\cdot\,}_2$ by H\"older's inequality, the bound \eqref{eq: hessian taylor remainder bound} on $\mathcal E_1$, the bound \eqref{eq: E2 bound} on $\mathcal E_2(s)$, $\norm{J_s} \Le e^{Ms}$, and \eqref{eq: displacement moments} and \eqref{eq: stage moments} for $W_s$ and $D_{\mathrm I}$:
+    \begin{align}
+        \pnorm{\mathcal E}_2 & \Le \int_0^h \Bigl( \frac M2\, e^{Mh}\, \pnorm{W_s}_4^2 + M \bigl( 1 + \pnorm{W_s}_4 \bigr) \pnorm{\mathcal E_2(s)}_4 + s M^2\, \pnorm{W_s}_2 \Bigr) \D s \notag \\
         & \quad + \frac{2h}{3} \Bigl( 1 + \frac{3 M h}{4} \Bigr) \frac M2\, \pnorm{D_{\mathrm I}}_4^2 + \frac{h^2}{2}\, M^2\, \pnorm{D_{\mathrm I}}_2
         \Le C h^2 \bigl( 1 + |x| \bigr)^2 .
-    \end{align*}
+        \label{eq: derivative remainder bound}
+    \end{align}
     The integral in \eqref{eq: local error derivative remainder} is bounded by \eqref{eq: displacement moments} for $\pnorm{W_s - \sqrt2\, B_s}_2$,
-    \begin{equation*}
+    \begin{equation}
         \triline[\bigg] \int_0^h \bigl( W_s - \sqrt2\, B_s \bigr) \D s \triline[\bigg]_2 \Le \int_0^h \pnorm{W_s - \sqrt2\, B_s}_2\,\D s \Le C h^2 \bigl( 1 + |x| \bigr) .
-    \end{equation*}
-    With $\norm{\nabla^3 U} \Le M$ and $|\nabla U(x)| \Le M (1 + |x|)$, \eqref{eq: local error derivative remainder} gives
+        \label{eq: displacement integral bound}
+    \end{equation}
+    With $\norm{\nabla^3 U} \Le M$ and $|\nabla U(x)| \Le M (1 + |x|)$, the three terms of \eqref{eq: local error derivative remainder} are bounded, in this order, by \eqref{eq: displacement integral bound}, by these two bounds, and by \eqref{eq: derivative remainder bound}:
     \begin{equation*}
         \pnorm{\partial_x \Delta Z_0}_2 \Le C M h^2 \bigl( 1 + |x| \bigr) + \frac{h^2}{2}\, M^2 \bigl( 1 + |x| \bigr) + C h^2 \bigl( 1 + |x| \bigr)^2 \Le C h^2 \bigl( 1 + |x| \bigr)^2 ,
     \end{equation*}
-    which is \eqref{eq: local error derivative}. For SRK-II, differentiating the form (II) of \eqref{eq: step maps} gives
+    which is \eqref{eq: local error derivative}. For SRK-II, differentiating the form (II) of \eqref{eq: stage drift explicit}, where the stage arguments are $x + D_{\mathrm{II}}^{\pm}$ with $\partial_x D_{\mathrm{II}}^{\pm} = - \frac h2\, \nabla^2 U(x)$, gives
     \begin{equation*}
         \partial_x \mathcal T_{h,a}(x) - I_d = - \frac h2 \sum_{\pm} \nabla^2 U(x + D_{\mathrm{II}}^{\pm}) \Bigl( I_d - \frac h2\, \nabla^2 U(x) \Bigr)
     \end{equation*}
-    in place of \eqref{eq: step map jacobian}, and \eqref{eq: step map bounds} and \eqref{eq: step derivatives} follow as above. In \eqref{eq: stage side expansion} both stages then carry the weight $\frac h2$ and the Jacobian $I_d - \frac h2\, \nabla^2 U(x)$, and the average of $D_{\mathrm{II}}^{+}$ and $D_{\mathrm{II}}^{-}$ is $D_{\mathrm{II}}$ by \eqref{eq: mean stage}, so the leading terms of \eqref{eq: local error derivative remainder} and the bound on $\mathcal E$ are unchanged.
+    in place of \eqref{eq: step map jacobian}. One more derivative gives the analogue of \eqref{eq: step map hessian} with the two stages at weight $\frac h2$ each and $\frac{3h}{4}$ replaced by $\frac h2$, so that $\norm{\partial_x \mathcal T_{h,a} - I_d}_\infty \Le M h ( 1 + \frac{Mh}{2} )$ and $\norm{\partial_x^2 \mathcal T_{h,a}}_\infty \Le M h ( 1 + \frac{Mh}{2} )^2 + \frac{M^2 h^2}{2}$, both at most $C h$; hence \eqref{eq: step map bounds} and \eqref{eq: step derivatives} follow as for SRK-I. In place of \eqref{eq: stage side expansion}, the stage side is
+    \begin{equation}
+        \partial_x \Sigma_0 = \frac h2 \sum_{\pm} \Bigl( \nabla^2 U(x) + \nabla^3 U(x)[D_{\mathrm{II}}^{\pm}] + \mathcal E_1(D_{\mathrm{II}}^{\pm}) \Bigr) \Bigl( I_d - \frac h2\, \nabla^2 U(x) \Bigr) .
+        \label{eq: stage side expansion II}
+    \end{equation}
+    The terms of \eqref{eq: stage side expansion II} free of $D_{\mathrm{II}}^{\pm}$ and $\mathcal E_1$ sum to $h\, \nabla^2 U(x) - \frac{h^2}{2} ( \nabla^2 U(x) )^2$, the right side of \eqref{eq: derivative cancellation}. The leading term of the stage side is $\frac h2\, \nabla^3 U(x)[D_{\mathrm{II}}^{+} + D_{\mathrm{II}}^{-}] = h\, \nabla^3 U(x)[D_{\mathrm{II}}]$ by \eqref{eq: mean stage}, so \eqref{eq: local error derivative remainder} holds with the same leading terms. In \eqref{eq: derivative remainder}, the term in $\mathcal E_1(D_{\mathrm I})$ is replaced by $- \frac h2 \sum_{\pm} \mathcal E_1(D_{\mathrm{II}}^{\pm}) ( I_d - \frac h2\, \nabla^2 U(x) )$ and the term in $\nabla^3 U(x)[D_{\mathrm I}]$ by $\frac{h^2}{4}\, \nabla^3 U(x)[D_{\mathrm{II}}^{+} + D_{\mathrm{II}}^{-}]\, \nabla^2 U(x)$, which \eqref{eq: stage moments} bounds as in \eqref{eq: derivative remainder bound}.
 \end{proof}
 
 \subsection{Proof of Lemma~\ref{lem: averaged weak}}
 \label{sec: averaged weak proof}
+
+The proof rests on an integration by parts against the initial law, which trades the third derivative $\nabla^3 G$ in the remainder $\varrho_0^G$ of \eqref{eq: remainder at zero} for the second derivative $\nabla^2 G$.
 
 \begin{proof}[Proof of Lemma~\ref{lem: averaged weak}]
     Let $h_0$ be the threshold of Lemma~\ref{lem: step map}. Conditioning on $Z_0 = x$ writes the local weak error in the left side of \eqref{eq: averaged weak} as
@@ -632,21 +710,26 @@ The map $\mathcal T_{h,a}$ is the \emph{step map} of the integrator. With the st
     \begin{equation}
         \Bigl| \mathbb E_0 \bigl[ \langle \nabla G(x), \Delta Z_0 \rangle \bigr] \Bigr|
         + \Bigl| \mathbb E_0 \Bigl[ \frac12\, \nabla^2 G(x) : \Delta Q_0 \Bigr] \Bigr|
-        \Le C h^3 \bigl( \norm{\nabla G}_\infty + \norm{\nabla^2 G}_\infty \bigr) \bigl( 1 + |x| \bigr)^5 ,
+        \Le C h^3 \bigl( \norm{\nabla G}_\infty + \norm{\nabla^2 G}_\infty \bigr) \bigl( 1 + |x| \bigr)^5 .
         \label{eq: averaged leading terms}
     \end{equation}
-    which integrates against $\mu_0$, by the Cauchy--Schwarz inequality, to
-    \begin{equation*}
+    Integrating \eqref{eq: averaged leading terms} against $\mu_0$, with the Cauchy--Schwarz inequality applied to the moment, bounds the integral of its left side by
+    \begin{equation}
         C h^3 \bigl( \norm{\nabla G}_\infty + \norm{\nabla^2 G}_\infty \bigr) \int_{\mathbb R^d} \bigl( 1 + |x| \bigr)^5 \mu_0(x)\,\D x
         \Le C h^3 \bigl( \norm{\nabla G}_\infty + \norm{\nabla^2 G}_\infty \bigr) \bigl( \mathbb E ( 1 + |Z_0| )^{12} \bigr)^{1/2} .
-    \end{equation*}
-    It remains to bound the remainder $\varrho_0$ of \eqref{eq: G expansion}, which is \eqref{eq: G remainder integral} at $k = 0$, with the interpolated position $Y_\theta$ of \eqref{eq: interpolated position}:
+        \label{eq: averaged leading integrated}
+    \end{equation}
+    It remains to bound the remainder $\varrho_0^G$ of \eqref{eq: G expansion}, which is \eqref{eq: G remainder integral} at $k = 0$:
     \begin{equation}
-        \varrho_0 = \int_0^1 \!\! \int_0^1 (1 - s)\, \Bigl\langle \nabla^3 G\bigl( x + s v_\theta \bigr) \bigl[ v_\theta^{\otimes 2} \bigr] ,\, \Delta Z_0 \Bigr\rangle \D s\,\D\theta , \quad
-        v_\theta := Y_\theta - x = \theta \bigl( Z_1 - x \bigr) + (1 - \theta) \bigl( Z_0(h) - x \bigr) .
+        \varrho_0^G = \int_0^1 \!\! \int_0^1 (1 - s)\, \Bigl\langle \nabla^3 G\bigl( x + s v_\theta \bigr) \bigl[ v_\theta^{\otimes 2} \bigr] ,\, \Delta Z_0 \Bigr\rangle \D s\,\D\theta ,
         \label{eq: remainder at zero}
     \end{equation}
-    Fix $s$, $\theta$ and the Brownian path, and read $v_\theta$ of \eqref{eq: remainder at zero} and $\Delta Z_0$ as functions of $x$. By \eqref{eq: step derivatives} and the choice of $h_0$, the Jacobian $I_d + s\, \partial_x v_\theta$ of $x \mapsto x + s\, v_\theta$ satisfies
+    where $v_\theta$ is the interpolated displacement from $x$, with the interpolated position $Y_\theta$ of \eqref{eq: interpolated position},
+    \begin{equation}
+        v_\theta(x) := Y_\theta - x = \theta \bigl( Z_1 - x \bigr) + (1 - \theta) \bigl( Z_0(h) - x \bigr) , \qquad \theta \in [0, 1] .
+        \label{eq: interpolated displacement}
+    \end{equation}
+    Fix $s,\theta\in[0,1]$ and the Brownian path, and read $v_\theta$ of \eqref{eq: interpolated displacement} and $\Delta Z_0$ as functions of $x$. By \eqref{eq: step derivatives} and the choice of $h_0$, $v_\theta$ and the Jacobian $I_d + s\, \partial_x v_\theta$ of $x \mapsto x + s\, v_\theta$ satisfy
     \begin{equation}
         \norm{\partial_x v_\theta}_\infty + \norm{\partial_x^2 v_\theta}_\infty \Le C h \Le \frac12 , \qquad
         \bigl\| \bigl( I_d + s\, \partial_x v_\theta \bigr)^{-1} \bigr\|_\infty \Le 2 .
@@ -658,15 +741,12 @@ The map $\mathcal T_{h,a}$ is the \emph{step map} of the integrator. With the st
         \Lambda_{s,\theta}(x) := \nabla^2 G\bigl( x + s\, v_\theta \bigr) \bigl[ v_\theta ,\, v_\theta \bigr] .
         \label{eq: by parts objects}
     \end{equation}
-    By \eqref{eq: interpolated jacobian}, $|w_{s,\theta}| \Le 2\, |\Delta Z_0|$, and differentiating $w_{s,\theta}$ of \eqref{eq: by parts objects} gives
-    \begin{equation*}
-        \norm{\partial_x w_{s,\theta}} \Le \bigl\| \bigl( I_d + s\, \partial_x v_\theta \bigr)^{-1} \bigr\| \bigl( \norm{\partial_x \Delta Z_0} + s\, \norm{\partial_x^2 v_\theta}\, |w_{s,\theta}| \bigr) \Le 2\, \norm{\partial_x \Delta Z_0} + 4 C h\, |\Delta Z_0| ,
-    \end{equation*}
-    which with the definitions \eqref{eq: by parts objects} gives
-    \begin{equation}
-        |w_{s,\theta}| \Le 2\, |\Delta Z_0| , \qquad \norm{\partial_x w_{s,\theta}} \Le C \bigl( \norm{\partial_x \Delta Z_0} + h\, |\Delta Z_0| \bigr) , \qquad |\Lambda_{s,\theta}| \Le \norm{\nabla^2 G}_\infty\, |v_\theta|^2 .
+    By \eqref{eq: interpolated jacobian}, by the operator norm of $\nabla^2 G$, and by differentiating $w_{s,\theta}$ of \eqref{eq: by parts objects}, in this order,
+    \begin{align}
+        & |w_{s,\theta}| \Le 2\, |\Delta Z_0| , \qquad |\Lambda_{s,\theta}| \Le \norm{\nabla^2 G}_\infty\, |v_\theta|^2 , \notag \\
+        & \norm{\partial_x w_{s,\theta}} \Le \bigl\| \bigl( I_d + s\, \partial_x v_\theta \bigr)^{-1} \bigr\| \bigl( \norm{\partial_x \Delta Z_0} + s\, \norm{\partial_x^2 v_\theta}\, |w_{s,\theta}| \bigr) \Le C \bigl( \norm{\partial_x \Delta Z_0} + h\, |\Delta Z_0| \bigr) .
         \label{eq: by parts bounds}
-    \end{equation}
+    \end{align}
     Differentiating $\Lambda_{s,\theta}$ of \eqref{eq: by parts objects} gives
     \begin{equation}
         \nabla \Lambda_{s,\theta} = \bigl( I_d + s\, \partial_x v_\theta \bigr)^{\!\top} \nabla^3 G\bigl( x + s\, v_\theta \bigr) \bigl[ v_\theta^{\otimes 2} \bigr]
@@ -680,27 +760,36 @@ The map $\mathcal T_{h,a}$ is the \emph{step map} of the integrator. With the st
         \label{eq: chain rule identity}
     \end{equation}
     in which $w_{s,\theta} \cdot \nabla \Lambda_{s,\theta}$ is the term that integration by parts against $\mu_0$ turns into the two terms of \eqref{eq: by parts}. The moments of the objects involved are
-    \begin{equation*}
-    \begin{aligned}
-        \pnorm{v_\theta}_4 & \Le C \sqrt h\, (1 + |x|) , & \pnorm{\Delta Z_0}_4 & \Le C h^2 \bigl( 1 + |x| \bigr)^4 , \\
-        \pnorm{\partial_x \Delta Z_0}_2 & \Le C h^2 \bigl( 1 + |x| \bigr)^2 , & \norm{\partial_x v_\theta}_\infty & \Le C h ,
-    \end{aligned}
-    \end{equation*}
-    the bound on $v_\theta$ by \eqref{eq: displacement moments} and \eqref{eq: stage moments}, those on $\Delta Z_0$, $\partial_x \Delta Z_0$ and $\partial_x v_\theta$ by \eqref{eq: local error moment}, \eqref{eq: local error derivative} and \eqref{eq: step derivatives}. By H\"older's inequality, the three moments that control $\Lambda_{s,\theta}\, \mu_0 \operatorname{div} w_{s,\theta}$ and $\Lambda_{s,\theta}\, \nabla \mu_0 \cdot w_{s,\theta}$ of \eqref{eq: by parts} and the term in $\nabla^2 G$ of \eqref{eq: chain rule identity} obey, uniformly in $s$ and $\theta$,
+    \begin{equation}
+        \pnorm{v_\theta}_4 \Le C \sqrt h\, (1 + |x|) , \quad
+        \pnorm{\Delta Z_0}_4 \Le C h^2 \bigl( 1 + |x| \bigr)^4 , \quad
+        \pnorm{\partial_x \Delta Z_0}_2 \Le C h^2 \bigl( 1 + |x| \bigr)^2 ,
+        \label{eq: by parts ingredients}
+    \end{equation}
+    the bound on $v_\theta$ by \eqref{eq: displacement moments} and \eqref{eq: stage moments}, those on $\Delta Z_0$ and $\partial_x \Delta Z_0$ by \eqref{eq: local error moment} and \eqref{eq: local error derivative}. By H\"older's inequality with \eqref{eq: by parts ingredients} and the bound on $\partial_x v_\theta$ in \eqref{eq: interpolated jacobian}, uniformly in $s$ and $\theta$,
     \begin{equation}
         \mathbb E_0 \bigl[ |v_\theta|^2 \bigl( \norm{\partial_x \Delta Z_0} + h |\Delta Z_0| \bigr) \bigr] + \mathbb E_0 \bigl[ |v_\theta|^2 |\Delta Z_0| \bigr] + \mathbb E_0 \bigl[ \norm{\partial_x v_\theta}\, |\Delta Z_0|\, |v_\theta| \bigr]
         \Le C h^3 \bigl( 1 + |x| \bigr)^6 .
         \label{eq: by parts moments}
     \end{equation}
-    The integration by parts is carried out pathwise with a cutoff $\chi_r$, equal to $1$ on $|x| \Le r$ and to $0$ on $|x| \Ge 2r$, with $|\nabla \chi_r| \Le C/r$. The hypothesis $\norm{\nabla^3 G}_\infty < \infty$ enters here alone: it makes $\int_{\mathbb R^d} \mu_0(x)\, |w_{s,\theta}|\, |\nabla \Lambda_{s,\theta}|\,\D x$ finite, so that the identity with the cutoff $\chi_r$ has a limit as $r \to \infty$. The term the cutoff adds to that identity is $\int_{\mathbb R^d} \Lambda_{s,\theta}\, \mu_0(x)\, w_{s,\theta} \cdot \nabla \chi_r\,\D x$; after the expectation over the path, \eqref{eq: by parts bounds}, \eqref{eq: by parts moments} and the Cauchy--Schwarz inequality bound it by
+    The three moments of \eqref{eq: by parts moments} control, in this order, the terms $\Lambda_{s,\theta}\, \mu_0 \operatorname{div} w_{s,\theta}$ and $\Lambda_{s,\theta}\, \nabla \mu_0 \cdot w_{s,\theta}$ of \eqref{eq: by parts}, and the term in $\nabla^2 G$ of \eqref{eq: chain rule identity}.
+
+    The integration by parts is carried out with a cutoff $\chi_r \in C^1(\mathbb R^d)$, equal to $1$ on $|x| \Le r$ and to $0$ on $|x| \Ge 2r$, with $|\nabla \chi_r| \Le C/r$; it is performed pathwise in \eqref{eq: cutoff by parts}, and \eqref{eq: by parts} is its form after the expectation over the path. The cutoff is needed because the integral is over all of $\mathbb R^d$ and $\mu_0 w_{s,\theta}$ is not assumed to decay at infinity. Since $\chi_r \mu_0 w_{s,\theta}$ is $C^1$ with compact support,
+    \begin{align}
+        & \qquad \int_{\mathbb R^d} \chi_r\, \mu_0(x)\; w_{s,\theta} \cdot \nabla \Lambda_{s,\theta}\,\D x \notag \\
+        & = - \int_{\mathbb R^d} \chi_r\, \Lambda_{s,\theta} \bigl( \mu_0(x)\, \operatorname{div} w_{s,\theta} + \nabla \mu_0(x) \cdot w_{s,\theta} \bigr) \D x - \int_{\mathbb R^d} \Lambda_{s,\theta}\, \mu_0(x)\; w_{s,\theta} \cdot \nabla \chi_r\,\D x .
+        \label{eq: cutoff by parts}
+    \end{align}
+    The hypothesis $\norm{\nabla^3 G}_\infty < \infty$ enters at this point only: it makes $\int_{\mathbb R^d} \mathbb E_0 \bigl[ |w_{s,\theta}|\, |\nabla \Lambda_{s,\theta}| \bigr] \mu_0(x)\,\D x$ finite, so that the left side of \eqref{eq: cutoff by parts}, after $\mathbb E_0$, converges as $r \to \infty$. The last integral of \eqref{eq: cutoff by parts} is the term the cutoff adds; after the expectation over the path, \eqref{eq: by parts bounds}, \eqref{eq: by parts moments} and the Cauchy--Schwarz inequality bound it by
     \begin{align*}
         \frac{C}{r} \int_{\mathbb R^d} \mathbb E_0 \bigl[ |\Lambda_{s,\theta}|\, |w_{s,\theta}| \bigr] \mu_0(x)\,\D x
         & \Le \frac{C}{r}\, \norm{\nabla^2 G}_\infty \int_{\mathbb R^d} \mathbb E_0 \bigl[ |v_\theta|^2 |\Delta Z_0| \bigr] \mu_0(x)\,\D x \\
         & \Le \frac{C}{r}\, h^3 \norm{\nabla^2 G}_\infty \bigl( \mathbb E ( 1 + |Z_0| )^{12} \bigr)^{1/2} ,
     \end{align*}
-    so it drops out as $r \to \infty$, leaving
+    so it drops out as $r \to \infty$, and \eqref{eq: cutoff by parts} after $\mathbb E_0$ leaves
     \begin{equation}
-        \int_{\mathbb R^d} \mu_0(x)\; w_{s,\theta} \cdot \nabla \Lambda_{s,\theta}\,\D x = - \int_{\mathbb R^d} \Lambda_{s,\theta} \bigl( \mu_0(x)\, \operatorname{div} w_{s,\theta} + \nabla \mu_0(x) \cdot w_{s,\theta} \bigr) \D x .
+        \int_{\mathbb R^d} \mathbb E_0 \bigl[ w_{s,\theta} \cdot \nabla \Lambda_{s,\theta} \bigr] \mu_0(x)\,\D x
+        = - \int_{\mathbb R^d} \mathbb E_0 \Bigl[ \Lambda_{s,\theta} \bigl( \mu_0(x)\, \operatorname{div} w_{s,\theta} + \nabla \mu_0(x) \cdot w_{s,\theta} \bigr) \Bigr] \D x .
         \label{eq: by parts}
     \end{equation}
     Taking the expectation of \eqref{eq: chain rule identity}, integrating against $\mu_0$ and inserting \eqref{eq: by parts} with $|\operatorname{div} w_{s,\theta}| \Le d\, \norm{\partial_x w_{s,\theta}}$ gives, for fixed $s$ and $\theta$,
@@ -710,22 +799,25 @@ The map $\mathcal T_{h,a}$ is the \emph{step map} of the integrator. With the st
         + \int_{\mathbb R^d} \mathbb E_0 \bigl[ |\Lambda_{s,\theta}|\, |w_{s,\theta}| \bigr]\, |\nabla \mu_0(x)|\,\D x ,
     \end{align*}
     and \eqref{eq: by parts bounds} with \eqref{eq: by parts moments} bounds both expectations by $C h^3 \norm{\nabla^2 G}_\infty ( 1 + |x| )^6$. Integrating over $s$ and $\theta$ with the weight $1 - s$ of \eqref{eq: remainder at zero},
-    \begin{align*}
-        \biggl| \int_{\mathbb R^d} \mathbb E_0 \bigl[ \varrho_0 \bigr]\, \mu_0(x)\,\D x \biggr|
-        & \Le C h^3 \norm{\nabla^2 G}_\infty \int_{\mathbb R^d} \bigl( 1 + |x| \bigr)^6 \bigl( \mu_0(x) + |\nabla \mu_0(x)| \bigr) \D x \\
+    \begin{align}
+        \biggl| \int_{\mathbb R^d} \mathbb E_0 \bigl[ \varrho_0^G \bigr]\, \mu_0(x)\,\D x \biggr|
+        & \Le C h^3 \norm{\nabla^2 G}_\infty \int_{\mathbb R^d} \bigl( 1 + |x| \bigr)^6 \bigl( \mu_0(x) + |\nabla \mu_0(x)| \bigr) \D x \notag \\
         & \Le C h^3 \norm{\nabla^2 G}_\infty \Bigl( 1 + \sqrt{I(\mu_0)} \Bigr) \bigl( \mathbb E ( 1 + |Z_0| )^{12} \bigr)^{1/2} ,
-    \end{align*}
+        \label{eq: averaged remainder bound}
+    \end{align}
     the integral against $|\nabla \mu_0|$ bounded by the Cauchy--Schwarz inequality,
     \begin{equation*}
         \int_{\mathbb R^d} \bigl( 1 + |x| \bigr)^6 |\nabla \mu_0(x)|\,\D x = \int_{\mathbb R^d} \bigl( 1 + |x| \bigr)^6 |\nabla \log \mu_0(x)|\, \mu_0(x)\,\D x \Le \sqrt{I(\mu_0)}\, \bigl( \mathbb E ( 1 + |Z_0| )^{12} \bigr)^{1/2} .
     \end{equation*}
-    Adding \eqref{eq: averaged leading terms} bounds \eqref{eq: averaged left side}, which proves \eqref{eq: averaged weak}.
+    By \eqref{eq: G expansion} at $k = 0$, adding \eqref{eq: averaged leading integrated} and \eqref{eq: averaged remainder bound} bounds \eqref{eq: averaged left side} by the right side of \eqref{eq: averaged weak}.
 \end{proof}
 
 \subsection{Proof of Lemma~\ref{lem: fisher}}
 \label{sec: fisher proof}
 
-Three facts about the Fisher information \eqref{eq: fisher information} enter. Let $\mathcal T$ be a $C^2$ diffeomorphism with positive Jacobian determinant and $\mathcal T_\# \mu$ the law of $\mathcal T(x)$ for $x \sim \mu$. The density of $\mathcal T_\# \mu$ is $\mu(\mathcal T^{-1}(y)) / \det \partial_x \mathcal T(\mathcal T^{-1}(y))$, and its score at $y = \mathcal T(x)$ is
+By the step map structure \eqref{eq: step map}, $\mu_{k+1}$ is the pushforward of $\mu_k$ by the step map, convolved with the Gaussian, then averaged over the stage noise. Along that recursion \eqref{eq: law recursion} the pushforward raises the Fisher information \eqref{eq: fisher transport}, the convolution lowers it through Stam's inequality \eqref{eq: stam}, and the average does not increase it \eqref{eq: fisher convexity}.
+
+Three useful inequalities about the Fisher information \eqref{eq: fisher information} enter. The first one is the Fisher transport inequality. Let $\mu$ be a positive $C^1$ probability density, $\mathcal T$ a $C^2$ diffeomorphism with positive Jacobian determinant and $\mathcal T_\# \mu$ the law of $\mathcal T(x)$ for $x \sim \mu$. The density of $\mathcal T_\# \mu$ is $\mu(\mathcal T^{-1}(y)) / \det \partial_x \mathcal T(\mathcal T^{-1}(y))$, and thus its score at $y = \mathcal T(x)$ is
 \begin{equation*}
     \nabla \log (\mathcal T_\# \mu)(\mathcal T(x)) = (\partial_x \mathcal T(x))^{-\top} \bigl( \nabla \log \mu(x) - \nabla \log\det \partial_x \mathcal T(x) \bigr) .
 \end{equation*}
@@ -741,33 +833,33 @@ the inverse Jacobian obeys $\norm{(\partial_x \mathcal T)^{-1}}_\infty \Le (1 - 
 \end{align*}
 and the change of variables $y = \mathcal T(x)$ in the integral defining $I(\mathcal T_\# \mu)$ gives
 \begin{equation}
-    I(\mathcal T_\# \mu) = \int_{\mathbb R^d} \bigl| \nabla \log (\mathcal T_\# \mu)(\mathcal T(x)) \bigr|^2 \mu(x)\,\D x \Le \bigl( 1 + C h \bigr) I(\mu) + C h .
+    \boxed{I(\mathcal T_\# \mu) = \int_{\mathbb R^d} \bigl| \nabla \log (\mathcal T_\# \mu)(\mathcal T(x)) \bigr|^2 \mu(x)\,\D x \Le \bigl( 1 + C h \bigr) I(\mu) + C h .}
     \label{eq: fisher transport}
 \end{equation}
-Fisher information is convex under mixtures: for a mixture $\mu = \int \mu_a\, \mathcal N(0, \frac{2h}{3} I_d)(\D a)$ of positive $C^1$ laws $\mu_a$, the score
+The second is that Fisher information is convex under mixtures. Let $\mu = \int \mu_a\, \mathcal N(0, \frac{2h}{3} I_d)(\D a)$ be a mixture of positive $C^1$ laws $\mu_a$. Its score
 \begin{equation*}
     \nabla \log \mu(x) = \int_{\mathbb R^d} \nabla \log \mu_a(x)\, \frac{\mu_a(x)}{\mu(x)}\, \mathcal N\Bigl( 0, \frac{2h}{3} I_d \Bigr)(\D a)
 \end{equation*}
-is a conditional expectation of the scores of the components, and Jensen's inequality gives
+is a conditional expectation of the scores of the components. Jensen's inequality then gives
 \begin{equation}
-    I(\mu) \Le \int_{\mathbb R^d} I(\mu_a)\, \mathcal N\Bigl( 0, \frac{2h}{3} I_d \Bigr)(\D a) .
+    \boxed{I(\mu) \Le \int_{\mathbb R^d} I(\mu_a)\, \mathcal N\Bigl( 0, \frac{2h}{3} I_d \Bigr)(\D a) .}
     \label{eq: fisher convexity}
 \end{equation}
-Stam's inequality \citep{stam1959some, blachman1965convolution} adds the reciprocals over independent summands; since $\mathcal N(0, \frac h2 I_d)$ has Fisher information $2d/h$, every probability measure $\mu$ satisfies
+Finally, Stam's inequality \citep{stam1959some, blachman1965convolution} adds the reciprocals over independent summands; since $\mathcal N(0, \frac h2 I_d)$ has Fisher information $2d/h$, every probability measure $\mu$ satisfies
 \begin{equation}
-    \frac{1}{I\bigl( \mu * \mathcal N(0, \frac h2 I_d) \bigr)} \Ge \frac{1}{I(\mu)} + \frac{h}{2d} ,
+    \boxed{\frac{1}{I\bigl( \mu * \mathcal N(0, \frac h2 I_d) \bigr)} \Ge \frac{1}{I(\mu)} + \frac{h}{2d} ,}
     \label{eq: stam}
 \end{equation}
 so that $I\bigl( \mu * \mathcal N(0, \frac h2 I_d) \bigr) \Le 2d/h$ whatever $I(\mu)$, including $I(\mu) = \infty$.
 
 \begin{proof}[Proof of Lemma~\ref{lem: fisher}]
-    Let $\beta$ be the constant of \eqref{eq: fisher transport} for the maps $\mathcal T_{h,a}$, which by \eqref{eq: step map bounds} depends only on $M$ and $d$, set $\delta := \beta + d^{-1}$, and let $h_0$ be the smallest of the threshold of Lemma~\ref{lem: step map}, $\frac12$ and $\delta^{-1}$. At step $k$, \eqref{eq: step map} reads $Z_{k+1} = \mathcal T_{h, A_k}(Z_k) + \sqrt{h/2}\; \eta_k$ with $A_k$ and $\eta_k$ the stage noise \eqref{eq: stage noise} and the Gaussian \eqref{eq: gaussian regression} of the increments over $[kh, (k+1)h]$. These increments are independent of $\mathcal F_k$ (Section~\ref{subsec: local error}), and $\eta_k$ is independent of $A_k$, so that
+    Let $\beta$ be the constant of \eqref{eq: fisher transport} for the maps $\mathcal T_{h,a}$; by \eqref{eq: step map bounds} it depends only on $M$ and $d$. Set $\delta := \beta + d^{-1}$, and let $h_0$ be the smallest of the threshold of Lemma~\ref{lem: step map}, $\frac12$ and $\delta^{-1}$. At step $k$, \eqref{eq: step map} reads $Z_{k+1} = \mathcal T_{h, A_k}(Z_k) + \sqrt{h/2}\; \eta_k$ with $A_k$ and $\eta_k$ the stage noise \eqref{eq: stage noise} and the Gaussian \eqref{eq: gaussian regression} of the increments over $[kh, (k+1)h]$. These increments are independent of $\mathcal F_k$ (Section~\ref{subsec: local error}), and $\eta_k$ is independent of $A_k$, so that
     \begin{equation}
         \mu_{k+1} = \int_{\mathbb R^d} \Bigl( (\mathcal T_{h,a})_\# \mu_k \Bigr) * \mathcal N\Bigl( 0, \frac h2 I_d \Bigr) \; \mathcal N\Bigl( 0, \frac{2h}{3} I_d \Bigr)(\D a) ,
         \label{eq: law recursion}
     \end{equation}
     the outer measure being the law of $A_k$.
-    Every $\mu_{k+1}$ is a mixture of Gaussians of covariance $\frac h2 I_d$, hence positive and $C^\infty$, and \eqref{eq: stam} with \eqref{eq: fisher convexity} gives $I(\mu_1) \Le 2d/h$. For $k \Ge 1$ and every $a$, \eqref{eq: fisher transport} with \eqref{eq: step map bounds} and then \eqref{eq: stam} give
+    Every $\mu_{k+1}$ is a mixture of Gaussians of covariance $\frac h2 I_d$, hence positive and $C^\infty$, and \eqref{eq: stam} with \eqref{eq: fisher convexity} gives $I(\mu_1) \Le 2d/h$. For $k \Ge 1$ and every $a$, \eqref{eq: stam} and then \eqref{eq: fisher transport} with \eqref{eq: step map bounds} give
     \begin{equation*}
         \frac{1}{I\bigl( ( (\mathcal T_{h,a})_\# \mu_k ) * \mathcal N(0, \frac h2 I_d) \bigr)}
         \Ge \frac{h}{2d} + \frac{1}{I\bigl( (\mathcal T_{h,a})_\# \mu_k \bigr)}
@@ -781,18 +873,19 @@ so that $I\bigl( \mu * \mathcal N(0, \frac h2 I_d) \bigr) \Le 2d/h$ whatever $I(
     Compare with the sequence
     \begin{equation}
         \bar I_1 := \frac{2d}{h} , \qquad
-        \frac{1}{\bar I_{k+1}} := \frac{h}{2d} + \frac{1}{(1 + \delta h)\, \bar I_k} ,
+        \frac{1}{\bar I_{k+1}} := \frac{h}{2d} + \frac{1}{(1 + \delta h)\, \bar I_k} .
         \label{eq: fisher comparison}
     \end{equation}
-    whose right side is positive and decreases in $\bar I_k$, so that $\bar I_{k+1}$ increases in $\bar I_k$, with the fixed point $2 d \delta / (1 + \delta h) \Le \bar I_1$; by induction,
+    The right side of the recursion in \eqref{eq: fisher comparison} is positive and decreases in $\bar I_k$, so $\bar I_{k+1}$ increases in $\bar I_k$. The recursion has the fixed point $2 d \delta / (1 + \delta h)$, and $\bar I_{k+1} \Le \bar I_k$ exactly when $\bar I_k \Ge 2 d \delta / (1 + \delta h)$; since $\bar I_1 = 2d/h$ satisfies this, induction gives
     \begin{equation*}
         \bar I_1 \Ge \bar I_2 \Ge \dots \Ge \frac{2 d \delta}{1 + \delta h} \Ge d \delta ,
     \end{equation*}
     the last step since $\delta h \Le 1$. Since $(\delta - \beta)\, \delta \Ge \beta / d$ by the choice of $\delta$, this gives $\bar I_k \Ge \beta / (\delta - \beta)$, hence
-    \begin{equation*}
-        (1 + \beta h)\, \bar I_k + \beta h \Le (1 + \delta h)\, \bar I_k , \qquad k \Ge 1 ,
-    \end{equation*}
-    so that, whenever $I(\mu_k) \Le \bar I_k$, \eqref{eq: fisher recursion} and \eqref{eq: fisher comparison} give
+    \begin{equation}
+        (1 + \beta h)\, \bar I_k + \beta h \Le (1 + \delta h)\, \bar I_k , \qquad k \Ge 1 .
+        \label{eq: comparison domination}
+    \end{equation}
+    Whenever $I(\mu_k) \Le \bar I_k$, \eqref{eq: fisher recursion}, \eqref{eq: comparison domination} and \eqref{eq: fisher comparison} give, in this order,
     \begin{equation*}
         \frac{1}{I(\mu_{k+1})} \Ge \frac{h}{2d} + \frac{1}{(1 + \beta h)\, \bar I_k + \beta h} \Ge \frac{h}{2d} + \frac{1}{(1 + \delta h)\, \bar I_k} = \frac{1}{\bar I_{k+1}} ;
     \end{equation*}
@@ -805,7 +898,7 @@ so that $I\bigl( \mu * \mathcal N(0, \frac h2 I_d) \bigr) \Le 2d/h$ whatever $I(
         \bar I_k \Le \frac{2 d e^{\delta}}{k h} \quad \text{for } kh \Le 1 , \qquad
         \bar I_k \Le 4 d e^{\delta} \quad \text{for } kh > 1 ,
     \end{equation*}
-    and \eqref{eq: fisher bound} follows with $C = 4 d e^{\delta}$.
+    and $I(\mu_k) \Le \bar I_k$ gives \eqref{eq: fisher bound} with $C = 4 d e^{\delta}$.
 \end{proof}
 
 \section{Proof of Theorem~\ref{thm: wasserstein}}
@@ -845,7 +938,7 @@ Theorem~\ref{thm: wasserstein} follows by summing the bound \eqref{eq: two singu
 
     By the duality \eqref{eq: KR duality} it suffices to bound $|\mathbb E g(Z_N) - \mathbb E g(X_{Nh})|$ uniformly over $g \in C^\infty(\mathbb R^d)$ with all derivatives bounded and $\norm{\nabla g}_\infty \Le 1$, since the mollifications of a $1$-Lipschitz function are of this class and converge to it uniformly. Both integrals of \eqref{eq: KR duality} are then defined, the measures compared having finite first moments, $\mu_N$ by Lemma~\ref{lem: moments} and $\nu_N$ by the linear growth $|\nabla U(x)| \Le M(1+|x|)$.
 
-    With $G_k = P_{(N-k-1)h}\, g$ as in \eqref{eq: telescope} and $i := N-k-1$ as in \eqref{eq: two singularities}, splitting off the last step of the telescoping sum \eqref{eq: telescope} gives
+    With $G_k = P_{(N-k-1)h}\, g$ and $i = N-k-1$ as in \eqref{eq: two singularities}, splitting off the last step of the telescoping sum \eqref{eq: telescope} gives
     \begin{equation}
         \mathbb E \bigl[ g(Z_N) \bigr] - \mathbb E \bigl[ g(X_{Nh}) \bigr]
         = \mathbb E \bigl[ g(Z_N) - g(Z_{N-1}(h)) \bigr]
@@ -874,12 +967,12 @@ Theorem~\ref{thm: wasserstein} follows by summing the bound \eqref{eq: two singu
         \label{estimate: first step}
     \end{equation}
 
-    For $1 \Le k \Le N-2$, the increments over the step are independent of $\mathcal F_k$, so the summand of \eqref{eq: telescope split} is the left side of \eqref{eq: averaged weak} with $\mu_k$ in place of $\mu_0$ and $G = G_k$. Lemma~\ref{lem: fisher} gives $\mu_k$ a positive $C^\infty$ density with $\sqrt{I(\mu_k)} \Le C ( 1 + (kh)^{-1/2} )$, Lemma~\ref{lem: moments} with $q = 6$ gives $\bigl( \mathbb E ( 1 + |Z_k| )^{12} \bigr)^{1/2} \Le C (1 + |Z_0|)^{6}$, and $G_k$ has bounded derivatives up to third order by \eqref{eq: propagated derivatives}. Lemma~\ref{lem: averaged weak} then bounds the summand by
+    For $1 \Le k \Le N-2$, the increments over the step are independent of $\mathcal F_k$, so the summand of \eqref{eq: telescope split} is the left side of \eqref{eq: averaged weak} with $\mu_k$ in place of $\mu_0$ and $G = G_k$. Lemma~\ref{lem: fisher} gives $\mu_k$ a positive $C^\infty$ density with $\sqrt{I(\mu_k)} \Le C ( 1 + (kh)^{-1/2} )$, Lemma~\ref{lem: moments} with $q = 6$ gives $\bigl( \mathbb E ( 1 + |Z_k| )^{12} \bigr)^{1/2} \Le C (1 + |Z_0|)^{6}$, and $G_k$ has bounded derivatives up to third order by \eqref{eq: propagated derivatives}. Lemma~\ref{lem: averaged weak} and then \eqref{eq: propagated derivatives} bound the summand by
     \begin{align*}
         & C h^3 \bigl( \norm{\nabla G_k}_\infty + \norm{\nabla^2 G_k}_\infty \bigr) \Bigl( 1 + \sqrt{I(\mu_k)} \Bigr) \bigl( \mathbb E ( 1 + |Z_k| )^{12} \bigr)^{1/2} \\
-        & \quad \Le C \bigl( 1 + |Z_0| \bigr)^{6} h^3 \bigl( 1 + (kh)^{-1/2} \bigr) \bigl( 1 + (ih)^{-1/2} \bigr) e^{-\lambda i h}
+        & \quad \Le C \bigl( 1 + |Z_0| \bigr)^{6} h^3 \bigl( 1 + (kh)^{-1/2} \bigr) \bigl( 1 + (ih)^{-1/2} \bigr) e^{-\lambda i h} ,
     \end{align*}
-    by \eqref{eq: propagated derivatives}, and Lemma~\ref{lem: beta sum} with $n = N - 1$, for which $i = n - k$, gives
+    and, for $N \Ge 3$ (for $N \Le 2$ the sum is empty), Lemma~\ref{lem: beta sum} with $n = N - 1$, for which $i = n - k$, gives
     \begin{equation*}
         h \sum_{k=1}^{N-2} \bigl( 1 + (kh)^{-1/2} \bigr) \bigl( 1 + (ih)^{-1/2} \bigr) e^{-\lambda i h} \Le C ,
     \end{equation*}
@@ -904,7 +997,6 @@ Theorem~\ref{thm: wasserstein} follows by summing the bound \eqref{eq: two singu
     The triangle inequality for $\mathcal W_1$ then gives \eqref{eq: wasserstein pi}.
 \end{proof}
 
-
 \section{Sharpness of the second order}
 \label{sec: sharpness}
 
@@ -926,14 +1018,18 @@ Theorem~\ref{thm: wasserstein} follows by summing the bound \eqref{eq: two singu
     \begin{equation*}
         2\, \Var\Bigl( B_h - \int_0^h B_s\,\D s \Bigr) = 2 \Bigl( h - h^2 + \frac{h^3}{3} \Bigr) ,
     \end{equation*}
-    since $\Var(B_h) = h$, $\Var\bigl( \int_0^h B_s\,\D s \bigr) = \frac{h^3}{3}$ and $\mathrm{Cov}\bigl( B_h, \int_0^h B_s\,\D s \bigr) = \frac{h^2}{2}$. For $h \in (0,1]$ the coefficient $1 - h + \frac{h^2}{2} = \frac12 \bigl( 1 + ( 1 - h )^2 \bigr)$ lies in $[\frac12, 1)$, so \eqref{eq: gaussian recursion} is a Gaussian autoregression: $Z_k$ is Gaussian with mean $( 1 - h + \frac{h^2}{2} )^k Z_0$ and variance $\sigma_h^2 \bigl( 1 - ( 1 - h + \frac{h^2}{2} )^{2k} \bigr)$, its law converges to the invariant law $\pi_h = \mathcal N(0, \sigma_h^2)$, and
+    since $\Var(B_h) = h$, $\Var\bigl( \int_0^h B_s\,\D s \bigr) = \frac{h^3}{3}$ and $\mathrm{Cov}\bigl( B_h, \int_0^h B_s\,\D s \bigr) = \frac{h^2}{2}$. For $h \in (0,1]$ the coefficient $1 - h + \frac{h^2}{2} = \frac12 \bigl( 1 + ( 1 - h )^2 \bigr)$ lies in $[\frac12, 1)$, so \eqref{eq: gaussian recursion} is a Gaussian autoregression with the invariant law $\pi_h = \mathcal N(0, \sigma_h^2)$, where
     \begin{equation}
         \sigma_h^2 = \frac{2 h - 2 h^2 + \frac23 h^3}{1 - ( 1 - h + \frac{h^2}{2} )^2}
         = \frac{1 - h + \frac13 h^2}{1 - h + \frac12 h^2 - \frac18 h^3}
         = 1 - \frac{h^2}{6} + \mathcal O(h^3) .
         \label{eq: invariant variance}
     \end{equation}
-    In one dimension the monotone coupling of two centered Gaussian laws is optimal for $\mathcal W_1$, so
+    The solution $Z_k$ of \eqref{eq: gaussian recursion} is Gaussian, with mean $( 1 - h + \frac{h^2}{2} )^k Z_0$ and variance $\sigma_h^2 \bigl( 1 - ( 1 - h + \frac{h^2}{2} )^{2k} \bigr)$. Its law therefore converges to $\pi_h$. Let $\xi$ be a standard Gaussian, so that $\sigma_h \xi$ has law $\pi_h$ and $\xi$ has law $\pi$. Every $f \in \mathrm{Lip}_1(\mathbb R)$ satisfies
+    \begin{equation*}
+        \bigl| \mathbb E f(\sigma_h \xi) - \mathbb E f(\xi) \bigr| \Le \mathbb E \bigl| \sigma_h \xi - \xi \bigr| = | \sigma_h - 1 |\, \mathbb E | \xi | ,
+    \end{equation*}
+    with equality at $f(x) = |x|$. Hence \eqref{eq: KR duality} gives
     \begin{equation*}
         \mathcal W_1\bigl( \mathcal N(0, \sigma_h^2) ,\, \mathcal N(0, 1) \bigr) = \sqrt{\frac2\pi}\; | \sigma_h - 1 | ,
     \end{equation*}
@@ -950,15 +1046,10 @@ Theorem~\ref{thm: wasserstein} follows by summing the bound \eqref{eq: two singu
     which is \eqref{eq: sharp mse}.
 \end{proof}
 
-
 \section{Conclusion}
 \label{sec: conclusion}
 
-For the two stochastic Runge--Kutta integrators of \citet{yang2026accelerating}, the uniform-in-time Wasserstein-1 bound $h^2 ( 1 + \log\frac1h )$ of \citet{ye2026mse} is sharpened to $h^2$, and a Gaussian example shows that $h^2$ is the order of the bias of their invariant law and that the squared bias $h^4$ of their time averages is attained. The argument replaces the pointwise local weak error of one step by its average over the law of the chain, whose Fisher information the Gaussian part of each step controls; the control of that Fisher information uses nothing about the integrator beyond the structure of its step, a near-identity map of the state followed by an independent Gaussian.
-
-\section*{Acknowledgments}
-
-The author thanks Yuliang Wang for pointing out that the logarithmic factor in the Wasserstein bound of \citet{ye2026mse} can be removed, for the notes on which Sections~\ref{sec: wasserstein analysis} and \ref{sec: wasserstein proof} are based, and for the Gaussian example of Section~\ref{sec: sharpness}.
+For the two stochastic Runge--Kutta integrators of \citet{yang2026accelerating}, the uniform-in-time Wasserstein-1 bound $h^2 ( 1 + \log\frac1h )$ of \citet{ye2026mse} is sharpened to $h^2$, and a Gaussian example shows that $h^2$ is the order of the bias of their invariant law and that the squared bias $h^4$ of their time averages is attained. The argument replaces the pointwise local weak error of one step by its average over the law of the chain, whose Fisher information the Gaussian part of each step controls; the control of that Fisher information uses nothing about the integrator beyond the structure \eqref{eq: step map} of its step.
 
 \bibliographystyle{plainnat-ima}
 \bibliography{references}
