@@ -29,5 +29,6 @@ __pycache__/
 Lean/.lake/
 Formalization/Lean/.lake/
 
-# packaged manuscript
+# packaged manuscripts
 Paper.zip
+Sharp.zip
