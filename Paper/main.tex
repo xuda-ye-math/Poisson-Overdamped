@@ -189,7 +189,7 @@ a matrix is a tensor of order two, and $A \succeq B$, or $B \preceq A$, means th
 
 For a vector $v$, $v^{\otimes j}$ is its $j$-fold tensor power, so $v^{\otimes 2} = v v^\top$. Derivatives of $U$ contract with tensors: for a matrix $Q$ and a vector $v$, $\nabla^3 U(x)[Q] \in \mathbb R^d$ and $\nabla^3 U(x)[v] \in \mathbb R^{d \times d}$ have entries $(\nabla^3 U[Q])_i = \sum_{j,k} \partial_i \partial_j \partial_k U\, Q_{jk}$ and $(\nabla^3 U[v])_{ij} = \sum_k \partial_i \partial_j \partial_k U\, v_k$, and $\nabla^4 U(x)[S] \in \mathbb R^d$ is defined likewise for a tensor $S$ of order three. $\Delta U = \sum_i \partial_i^2 U$ is the Laplacian and $\nabla^2 \Delta U \in \mathbb R^{d \times d}$ its Hessian, $(\nabla^2 \Delta U)_{ij} = \sum_k \partial_i \partial_j \partial_k^2 U$. For matrices, $A : B := \mathrm{tr}(A^\top B)$, so that $|A : B| \Le d\, \norm{A}\, \norm{B}$. For a function $g$, $\norm{\nabla g}_\infty := \sup_x |\nabla g(x)|$, and likewise $\norm{\nabla^2 g}_\infty$ and $\norm{\nabla^3 g}_\infty$ with the operator norm.
 
-Throughout, $C$ denotes a positive constant depending only on the parameters $m$, $M$, $R$ stated below and on the dimension $d$. It does not depend on the number of steps $N$ or the step size $h$, and its value may change from one occurrence to the next. The error analysis runs under the following two assumptions.
+Throughout, $C$ denotes a positive constant depending only on the parameters $m$, $M$, $R$ stated below and on the dimension $d$, and $h_0$ an upper bound on the step size $h$ depending only on the same parameters, unless otherwise stated. Neither depends on the number of steps $N$ or the step size $h$, and the value of $C$ may change from one occurrence to the next. The error analysis runs under the following two assumptions.
 
 \begin{assumption}
 	\label{ass: U}
@@ -389,7 +389,7 @@ The estimate for the product $\Delta Q_0$ is essential to raise the weak error a
 \subsection{Finite-time error estimates}
 \label{subsec: finite time}
 
-The decomposition already gives the strong order $\frac32$ of the two integrators, which \citet{yang2026accelerating} establish for their whole family. Corollary~\ref{cor: strong} records it, with a proof from the decomposition; the chain and the exact solution are driven by the same Brownian path, as in \eqref{eq: local error}.
+The decomposition already gives the strong order $\frac32$ of the two integrators, which \citet{yang2026accelerating} establish for their whole family. Corollary~\ref{cor: strong} records it, with a proof from the decomposition; the chain and the exact solution are driven by the same Brownian path, as in \eqref{eq: local error}. Wherever a statement of Sections~\ref{sec: convergence} and \ref{sec: mse analysis} carries a threshold $h_0$, that threshold is at most the threshold of Lemma~\ref{lem: moments} below at each moment order the proof of that statement uses.
 
 \begin{corollary}
 \label{cor: strong}
@@ -432,8 +432,6 @@ The analysis has three parts, in the manner of \citet{ye2024error}: the consiste
     \end{equation}
     \emph{(Proof in Appendix~\ref{sec: moments proof}.)}
 \end{lemma}
-
-Wherever a statement of Sections~\ref{sec: convergence} and \ref{sec: mse analysis} carries a threshold $h_0$, that threshold is at most the threshold of Lemma~\ref{lem: moments} at each moment order the proof of that statement uses.
 
 \subsection{Time-averaged error formula}
 \label{subsec: time averaged}
@@ -520,11 +518,11 @@ Neither \eqref{eq: mse decomposition} nor \eqref{eq: upsilon expansion} is parti
 \subsection{Main results}
 \label{sec: mse}
 
-The proof of Theorem~\ref{thm: mse} bounds the three terms of \eqref{eq: mse decomposition}, as \citet{lu2025mse} do for the UBU integrator under global strong convexity.
+The proof of Theorem~\ref{thm: mse} bounds the three terms of \eqref{eq: mse decomposition} for SRK-I \eqref{eq: srk1} and SRK-II \eqref{eq: srk2}, as \citet{lu2025mse} do for the UBU integrator under global strong convexity.
 
 \begin{theorem}
 \label{thm: mse}
-    Let Assumptions~\ref{ass: U} and \ref{ass: f} hold. For every step size $h \in (0, h_0]$ and every number of steps $N \Ge 1$, the MSE \eqref{eq: mse} of the time average of $f$ along the chain satisfies
+    Let Assumptions~\ref{ass: U} and \ref{ass: f} hold, and let $(Z_k)_{k \Ge 0}$ be the chain of SRK-I or SRK-II. For every step size $h \in (0, h_0]$ and every $N \Ge 1$, the MSE \eqref{eq: mse} of the time average of $f$ satisfies
     \begin{equation}
         \mathrm{MSE}(N, h) \Le C L^2 \bigl( 1 + |Z_0| \bigr)^{12} \Bigl( \frac{1}{Nh} + h^4 \Bigr) .
         \label{eq: mse bound}
@@ -544,7 +542,7 @@ Corollary~\ref{cor: finite weak} bounds the weak error over a finite horizon onl
 
 \begin{theorem}
 \label{thm: wasserstein}
-    Let Assumption~\ref{ass: U} hold and let $\lambda$ be the rate of Lemma~\ref{lem: contraction}. For every step size $h \in (0,h_0]$ and every $N \Ge 1$,
+    Let Assumption~\ref{ass: U} hold, let $(Z_k)_{k \Ge 0}$ be the chain of SRK-I or SRK-II, and let $\lambda$ be the rate of Lemma~\ref{lem: contraction}. For every step size $h \in (0,h_0]$ and every $N \Ge 1$,
     \begin{equation}
         \mathcal W_1\bigl( \mathrm{Law}(Z_N),\, \mathrm{Law}(X_{Nh}) \bigr)
         \Le C \bigl( 1 + |Z_0| \bigr)^{6}\, h^2 \Bigl( 1 + \log\frac1h \Bigr) ,
@@ -559,6 +557,7 @@ Corollary~\ref{cor: finite weak} bounds the weak error over a finite horizon onl
     \end{equation}
     \emph{(Proof in Appendix~\ref{sec: wasserstein proof}.)}
 \end{theorem}
+The constants $C$ and $h_0$ in Theorems~\ref{thm: mse} and \ref{thm: wasserstein} depend only on $m$, $M$, $R$ and $d$. Since the dependence on the dimension $d$ is not tracked, the upper bound $h_0$ on the step size is not essential: the stability region is set by the uniform-in-time moment bounds of $(Z_k)_{k\Ge0}$ in Lemma~\ref{lem: moments}. Uniform-in-time moment bounds of the same kind appear in Lemma~2.3 of \citet{li2025random} and Theorem~3 of \citet{lu2025mse}.
 
 \section{Numerical experiments}
 \label{sec: numerics}
