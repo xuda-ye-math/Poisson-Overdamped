@@ -991,14 +991,14 @@ Differentiating \eqref{eq: differentiated BEL} once more removes $\norm{\nabla^3
         & \qquad \Le \bigl( e^{2M} ( \tau^{-1/2} + \sqrt d\, M ) + M \tau\, e^{M\tau} \bigr)\, \tau^{1/2} e^{3M\tau} \norm{\nabla g}_\infty .
         \label{eq: third term hessian}
     \end{align}
-    For the two terms carrying $K_s$ inside the stochastic integral, the factor in front is bounded by $\norm{\nabla\psi}_\infty \norm{J_\tau}$, so Cauchy--Schwarz with the bounds on $\norm{\nabla \psi}_\infty$ and $\norm{J_\tau}$ in \eqref{eq: third factors} and the bound on the integral of $K_s[w']\, v$ in \eqref{eq: third integrals} gives, for each of them,
+    For the second and third terms of \eqref{eq: twice differentiated BEL}, which carry $K_s$ inside the stochastic integral, the factor in front is bounded by $\norm{\nabla\psi}_\infty \norm{J_\tau}$, so Cauchy--Schwarz with the bounds on $\norm{\nabla \psi}_\infty$ and $\norm{J_\tau}$ in \eqref{eq: third factors} and the bound on the integral of $K_s[w']\, v$ in \eqref{eq: third integrals} gives, for each of them,
     \begin{equation}
         \biggl| \mathbb E^x \bigg[ \bigl(\nabla \psi(X_\tau) \cdot J_\tau w\bigr) \int_0^\tau (K_s[w']\, v) \cdot \D B_s \bigg] \biggr|
         \Le e^{2M\tau} \norm{\nabla g}_\infty \cdot \frac{M \tau^{3/2}}{\sqrt3}\, e^{2M\tau}
         = \frac{M}{\sqrt3}\, \tau^{3/2} e^{4M\tau} \norm{\nabla g}_\infty .
         \label{eq: third term K}
     \end{equation}
-    For the term carrying $\Theta_s$, the factor in front is $\psi(X_\tau) - c$, whose $L^2$ norm is the standard deviation of $\psi(X_\tau)$, so Cauchy--Schwarz with the bound on that standard deviation in \eqref{eq: third factors} and the bound on the integral of $\Theta_s[w,w']\, v$ in \eqref{eq: third integrals} gives
+    For the fourth term of \eqref{eq: twice differentiated BEL}, carrying $\Theta_s$, the factor in front is $\psi(X_\tau) - c$, whose $L^2$ norm is the standard deviation of $\psi(X_\tau)$, so Cauchy--Schwarz with the bound on that standard deviation in \eqref{eq: third factors} and the bound on the integral of $\Theta_s[w,w']\, v$ in \eqref{eq: third integrals} gives
     \begin{align}
         \biggl| \mathbb E^x \bigg[ \bigl(\psi(X_\tau) - c\bigr) \int_0^\tau (\Theta_s[w,w']\, v) \cdot \D B_s \bigg] \biggr|
         & \Le \sqrt{2d\tau}\, e^{2M\tau} \norm{\nabla g}_\infty \cdot M \bigl( 1 + 3M\tau \bigr) \frac{\tau^{3/2}}{\sqrt3}\, e^{3M\tau} \notag \\
@@ -1285,7 +1285,7 @@ The proof is carried out for SRK-I; the analysis for SRK-II is similar, and the 
         2 \int_0^h B_s^{\otimes 2}\,\D s \ \text{ in the exact part } \int_0^h W_s^{\otimes 2}\,\D s , \qquad \frac3h \bigg( \int_0^h B_s\,\D s \bigg)^{\!\otimes 2} \hspace{-6pt} \text{ in the stage part } \frac{3h}{2}\, D_{\mathrm{II}}^{\otimes 2} ,
     \label{eq: quadratic terms}
     \end{equation}
-    and under the prefactor $\frac12$ of the bracket the difference of the two terms of \eqref{eq: quadratic terms} gives the second term of $\mathcal M(\Delta Z_0)$ in \eqref{eq: martingale Z}, of coefficient $\frac{3}{2h}$. The linear terms of \eqref{eq: degree expansions} come next: in the exact part, that of $W_s^{\otimes 2}$ is integrated over $s \in [0,h]$; in the stage part, that of $h D_{\mathrm{II}}^{\otimes 2}$ is multiplied by $\frac32$. This gives
+    and under the prefactor $\frac12$ of the $\nabla^3 U$ bracket of \eqref{eq: bracket decomposition} the difference of the two terms of \eqref{eq: quadratic terms} gives the second term of $\mathcal M(\Delta Z_0)$ in \eqref{eq: martingale Z}, of coefficient $\frac{3}{2h}$. The linear terms of \eqref{eq: degree expansions} come next: in the exact part, that of $W_s^{\otimes 2}$ is integrated over $s \in [0,h]$; in the stage part, that of $h D_{\mathrm{II}}^{\otimes 2}$ is multiplied by $\frac32$. This gives
     \begin{equation}
     \begin{aligned}
         & - \sqrt2 \int_0^h s \bigl( B_s \otimes \nabla U(Z_0) + \nabla U(Z_0) \otimes B_s \bigr) \D s \ \text{ in the exact part } \int_0^h W_s^{\otimes 2}\,\D s , \\
@@ -1310,7 +1310,7 @@ The proof is carried out for SRK-I; the analysis for SRK-II is similar, and the 
     \end{aligned}
     \label{eq: remaining terms}
     \end{equation}
-    the stage term being $\frac32$ times the constant term of the expansion of $h D_{\mathrm{II}}^{\otimes 2}$. Under the prefactor $\frac12$ of the bracket, the exact part minus the stage part in \eqref{eq: remaining terms} gives
+    the stage term being $\frac32$ times the constant term of the expansion of $h D_{\mathrm{II}}^{\otimes 2}$. Under the prefactor $\frac12$ of the $\nabla^3 U$ bracket of \eqref{eq: bracket decomposition}, the exact part minus the stage part in \eqref{eq: remaining terms} gives
     \begin{align}
         & \frac12\, \nabla^3 U(Z_0) \bigg[ \sqrt2 \int_0^h \bigl( B_s \otimes q_s + q_s \otimes B_s \bigr) \D s \bigg] + \frac12\, \nabla^3 U(Z_0) \bigg[ \int_0^h \bigl( W_s - \sqrt2\, B_s \bigr)^{\otimes 2}\,\D s - \frac{3h^3}{8}\, \nabla U(Z_0)^{\otimes 2} \bigg] \notag \\
         & = \sqrt2\, \nabla^3 U(Z_0) \bigg[ \int_0^h q_s \otimes B_s\,\D s \bigg] + \frac12\, \nabla^3 U(Z_0) \bigg[ \int_0^h \bigl( W_s - \sqrt2\, B_s \bigr)^{\otimes 2}\,\D s - \frac{3h^3}{8}\, \nabla U(Z_0)^{\otimes 2} \bigg] ,
@@ -1457,11 +1457,11 @@ By Minkowski's inequality, \eqref{eq: local moments} bounds the local error itse
     \end{equation}
     so, by \eqref{eq: pairing integrals}, the pairings of those two terms with $2\sqrt2\, B_h^\top$ are
     \begin{align}
-        & \mathbb E_0 \biggl[ - \sqrt2\, \bigl( \nabla^2 U(Z_0) \bigr)^2 \int_0^h (h-s)\, B_s\,\D s \cdot 2\sqrt2\, B_h^\top \biggr] \notag \\
-        & \quad = - 4 \bigl( \nabla^2 U(Z_0) \bigr)^2 \int_0^h (h-s)\, s\,\D s
+        & \quad \mathbb E_0 \biggl[ - \sqrt2\, \bigl( \nabla^2 U(Z_0) \bigr)^2 \int_0^h (h-s)\, B_s\,\D s \cdot 2\sqrt2\, B_h^\top \biggr] \notag \\
+        & = - 4 \bigl( \nabla^2 U(Z_0) \bigr)^2 \int_0^h (h-s)\, s\,\D s
         = - \frac{2h^3}{3} \bigl( \nabla^2 U(Z_0) \bigr)^2 , \notag \\
-        & \mathbb E_0 \biggl[ - \sqrt2\, \nabla^3 U(Z_0) \biggl[ \nabla U(Z_0) \otimes \int_0^h ( s - c_1 h )\, B_s\,\D s \biggr] \cdot 2\sqrt2\, B_h^\top \biggr] \notag \\
-        & \quad = - 4\, \nabla^3 U(Z_0)[\nabla U(Z_0)] \int_0^h ( s - c_1 h )\, s\,\D s
+        & \quad \mathbb E_0 \biggl[ - \sqrt2\, \nabla^3 U(Z_0) \biggl[ \nabla U(Z_0) \otimes \int_0^h ( s - c_1 h )\, B_s\,\D s \biggr] \cdot 2\sqrt2\, B_h^\top \biggr] \notag \\
+        & = - 4\, \nabla^3 U(Z_0)[\nabla U(Z_0)] \int_0^h ( s - c_1 h )\, s\,\D s
         = - 4h^3 \Bigl( \frac13 - \frac{c_1}{2} \Bigr) \nabla^3 U(Z_0)[\nabla U(Z_0)] ,
         \label{eq: linear pairings}
     \end{align}
@@ -1478,9 +1478,9 @@ By Minkowski's inequality, \eqref{eq: local moments} bounds the local error itse
     \end{equation}
     Hence, by \eqref{eq: gaussian fourth moments} and \eqref{eq: sigma contraction}, the pairing of the fourth term of $\mathcal M(\Delta Z_0)$ in \eqref{eq: martingale Z} with $2\sqrt2\, B_h^\top$ has the components
     \begin{align}
-        & \mathbb E_0 \biggl[ \frac{\sqrt2}{3}\, \nabla^4 U(Z_0) \biggl[ \int_0^h B_s^{\otimes 3}\,\D s - \frac{c_3}{h^2} \bigg( \int_0^h B_s\,\D s \bigg)^{\!\otimes 3} \biggr] \cdot 2\sqrt2\, B_h^\top \biggr]_{im} \notag \\
-        & \qquad = \frac43\, \partial_i \partial_j \partial_k \partial_l U(Z_0)\, \sigma_{jklm} \bigg( \int_0^h s^2\,\D s - \frac{c_3}{h^2} \cdot \frac{h^3}{3} \cdot \frac{h^2}{2} \bigg) \notag \\
-        & \qquad = \frac43\, \partial_i \partial_j \partial_k \partial_l U(Z_0)\, \sigma_{jklm}\, h^3 \Bigl( \frac13 - \frac{c_3}{6} \Bigr)
+        & \quad \mathbb E_0 \biggl[ \frac{\sqrt2}{3}\, \nabla^4 U(Z_0) \biggl[ \int_0^h B_s^{\otimes 3}\,\D s - \frac{c_3}{h^2} \bigg( \int_0^h B_s\,\D s \bigg)^{\!\otimes 3} \biggr] \cdot 2\sqrt2\, B_h^\top \biggr]_{im} \notag \\
+        & = \frac43\, \partial_i \partial_j \partial_k \partial_l U(Z_0)\, \sigma_{jklm} \bigg( \int_0^h s^2\,\D s - \frac{c_3}{h^2} \cdot \frac{h^3}{3} \cdot \frac{h^2}{2} \bigg) \notag \\
+        & = \frac43\, \partial_i \partial_j \partial_k \partial_l U(Z_0)\, \sigma_{jklm}\, h^3 \Bigl( \frac13 - \frac{c_3}{6} \Bigr)
         = \frac{4h^3}{3} \Bigl( 1 - \frac{c_3}{2} \Bigr) \bigl( \nabla^2 \Delta U(Z_0) \bigr)_{im} ,
         \label{eq: cube pairing contracted}
     \end{align}
@@ -1691,12 +1691,13 @@ The Lyapunov argument is technical but standard in the literature on the long-ti
     \end{equation}
     with $c_0$ depending only on $m$, $M$ and $R$.
 
-    For the displacement over a step, since the coefficients $\frac34$ and $\frac12$ of $h\, \nabla U$ at the step start in \eqref{eq: displacements} are at most $1$ and the noise coefficients $\frac32$ and $1 \pm \frac{1}{\sqrt2}$ there are at most $2$, every stage $H \in \{ Z_k, H_k, H_k^{+}, H_k^{-} \}$ of either integrator satisfies $|H - Z_k| \Le \beta_k$ with
+    For the displacement over a step, since the coefficients $\frac34$ and $\frac12$ of $h\, \nabla U$ at the step start in \eqref{eq: displacements} are at most $1$ and the noise coefficients $\frac32$ and $1 \pm \frac{1}{\sqrt2}$ there are at most $2$, every stage $H \in \{ Z_k, H_k, H_k^{+}, H_k^{-} \}$ of SRK-I or SRK-II satisfies
     \begin{equation}
-        \beta_k := M h\, \bigl( 1 + |Z_k| \bigr) + \frac{2\sqrt2}{h} \biggl| \int_0^h B_s\,\D s \biggr| ,
+    	|H - Z_k| \Le \beta_k, \qquad
+        \beta_k := M h\, \bigl( 1 + |Z_k| \bigr) + \frac{2\sqrt2}{h} \biggl| \int_0^h B_s\,\D s \biggr| .
         \label{eq: beta def}
     \end{equation}
-    whose moments satisfy, for $h \Le 1$,
+    The upper bound $\beta_k$ is a random variable depending on $B_s$, and for $h \Le 1$ its moments satisfy 
     \begin{equation}
         \mathbb E_k \beta_k^{p} \Le C \bigl( h^{p} \bigl( 1 + |Z_k| \bigr)^{p} + h^{p/2} \bigr) \Le C h^{p/2} \bigl( 1 + |Z_k| \bigr)^{p} .
         \label{eq: beta moments}
@@ -1709,7 +1710,11 @@ The Lyapunov argument is technical but standard in the literature on the long-ti
     \end{equation}
     so that $\mathbb E_k |Z_{k+1} - Z_k|^{2q} \Le C h^{q} \bigl( 1 + |Z_k| \bigr)^{2q}$ for $h \Le 1$. The exact step obeys the same bound: the derivation of \eqref{eq: displacement moments}, valid for every $p$ with $C$ depending on $p$, applies to the exact solution from $Z_k$ with $\pnorm{X}_p = ( \mathbb E_k |X|^{p} )^{1/p}$ after the time shift, and gives $\mathbb E_k |Z_k(h) - Z_k|^{2q} \Le C h^{q} \bigl( 1 + |Z_k| \bigr)^{2q}$.
 
-    For the drift condition, let $H \in \{ Z_k, H_k, H_k^{+}, H_k^{-} \}$ be any stage of either integrator. Splitting $\langle Z_k, \nabla U(H)\rangle = \langle H, \nabla U(H)\rangle + \langle Z_k - H, \nabla U(H)\rangle$ and applying \eqref{eq: global dissipative} at the stage point,
+    For the drift condition, let $H \in \{ Z_k, H_k, H_k^{+}, H_k^{-} \}$ be any stage of SRK-I or SRK-II. Splitting
+    \begin{equation*}
+        \langle Z_k, \nabla U(H)\rangle = \langle H, \nabla U(H)\rangle + \langle Z_k - H, \nabla U(H)\rangle
+    \end{equation*}
+    and applying \eqref{eq: global dissipative} at the stage point,
     \begin{equation*}
         \langle Z_k, \nabla U(H) \rangle
         \Ge \frac m4 \bigl| H \bigr|^2 - c_0 - \beta_k\, M \bigl( 1 + |Z_k| + \beta_k \bigr) .
@@ -1740,7 +1745,7 @@ The Lyapunov argument is technical but standard in the literature on the long-ti
     \begin{equation*}
         \mathbb E_k S_k = - 2h\, \langle Z_k, \mathbb E_k a_k \rangle + \mathbb E_k |Z_{k+1} - Z_k|^2 .
     \end{equation*}
-    The drift condition \eqref{eq: drift condition} bounds the first term of this identity by $- \frac m8\, h\, |Z_k|^2 + C h$, and \eqref{eq: step displacement} at $p = 2$ bounds the second by $C h + C h^2 ( 1 + |Z_k| )^2$. Together with
+    The drift condition \eqref{eq: drift condition} bounds the term $- 2h\, \langle Z_k, \mathbb E_k a_k \rangle$ of this identity for $\mathbb E_k S_k$ by $- \frac m8\, h\, |Z_k|^2 + C h$, and \eqref{eq: step displacement} at $p = 2$ bounds $\mathbb E_k |Z_{k+1} - Z_k|^2$ by $C h + C h^2 ( 1 + |Z_k| )^2$. Together with
     \begin{equation}
     \begin{aligned}
         \mathbb E_k S_k & \Le - \frac m8\, h\, |Z_k|^2 + C h + C h^2 \bigl( 1 + |Z_k| \bigr)^2 , \\
