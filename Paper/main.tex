@@ -113,7 +113,7 @@ Table~\ref{tab: comparison} places this work among the integrators for \eqref{eq
 	\setlength{\tabcolsep}{3pt}
 	\begin{tabular}{@{}>{\raggedright\arraybackslash}p{32mm}cc>{\raggedright\arraybackslash}p{36mm}>{\raggedright\arraybackslash}p{41mm}c@{}}
 		\toprule
-		integrator & strong & weak & reference & convergence & MSE \\
+		integrator & strong & weak & reference & long-time convergence & MSE \\
 		\midrule
 		\multirow{4}{*}{Euler--Maruyama}
 			& \multirow{4}{*}{$1$} & \multirow{4}{*}{$1$}
@@ -350,7 +350,7 @@ Lemma~\ref{lem: martingale rep} below writes $\mathcal M(\Delta Z_0)$ explicitly
 \end{align}
     with $c_1 = \frac34$, $c_3 = \frac94$ for SRK-I and $c_1 = \frac12$, $c_3 = \frac52$ for SRK-II. The remainder is $\mathcal R(\Delta Z_0) = \Delta Z_0 - \mathcal M(\Delta Z_0)$, given explicitly in \eqref{eq: remainder I} and \eqref{eq: remainder II}, respectively.
 
-    For $h \in (0, 1]$ there is a constant $C$, depending only on $M$ and $d$, such that for all $Z_0 \in \mathbb R^d$,
+    For $h \in (0, 1]$, there is a constant $C$, depending only on $M$ and $d$, such that for all $Z_0 \in \mathbb R^d$,
     \begin{equation}
         \mathbb E_0\bigl[ |\mathcal M(\Delta Z_0)|^4 \bigr]^{1/4} \Le C h^2 \bigl( 1 + |Z_0| \bigr) , \qquad
         \mathbb E_0\bigl[ |\mathcal R(\Delta Z_0)|^4 \bigr]^{1/4} \Le C h^3 \bigl( 1 + |Z_0| \bigr)^4 .
@@ -524,7 +524,7 @@ The proof of Theorem~\ref{thm: mse} bounds the three terms of \eqref{eq: mse dec
 \label{thm: mse}
     Let Assumptions~\ref{ass: U} and \ref{ass: f} hold, and let $(Z_k)_{k \Ge 0}$ be the chain of SRK-I or SRK-II. For every step size $h \in (0, h_0]$ and every $N \Ge 1$, the MSE \eqref{eq: mse} of the time average of $f$ satisfies
     \begin{equation}
-        \mathrm{MSE}(N, h) \Le C L^2 \bigl( 1 + |Z_0| \bigr)^{12} \Bigl( \frac{1}{Nh} + h^4 \Bigr) .
+        \mathrm{MSE}(N, h) \Le C L^2 \biggl[ \bigl( 1 + |Z_0| \bigr)^2 \frac{1}{Nh} + \bigl( 1 + |Z_0| \bigr)^{12} h^4 \biggr] .
         \label{eq: mse bound}
     \end{equation}
     \emph{(Proof in Appendix~\ref{app: mse}.)}
@@ -690,7 +690,7 @@ The author declares that there is no conflict of interest in this research work.
 
 \section*{Data availability}
 
-The diffusion model of Section~\ref{subsec: diffusion numerics} is trained on the public CIFAR-10 dataset \citep{krizhevsky2009learning}. The source code is available at \url{https://github.com/xuda-ye-math/Poisson-Overdamped}. The same repository holds a symbolic verification of the coefficients of Lemmas~\ref{lem: martingale rep} and \ref{lem: cross moment}, computed  from the covariance of Brownian motion. It also holds an additional result: the logarithm in Theorem~\ref{thm: wasserstein} can be removed, and for the quadratic potential $U(x) = \frac12 |x|^2$ the second order of Theorems~\ref{thm: mse} and \ref{thm: wasserstein} is sharp.
+The diffusion model of Section~\ref{subsec: diffusion numerics} is trained on the public CIFAR-10 dataset \citep{krizhevsky2009learning}. The source code is available at \url{https://github.com/xuda-ye-math/Poisson-Overdamped}. The same repository holds a symbolic verification of the coefficients of Lemmas~\ref{lem: martingale rep} and \ref{lem: cross moment}, computed  from the covariance of Brownian motion.
 
 \bibliographystyle{plainnat-ima}
 \bibliography{references}
@@ -1970,7 +1970,7 @@ and the proof estimates them in turn. It follows the route of the time-averaged 
     Combining \eqref{estimate: upsilon 1} and \eqref{estimate: upsilon 2} yields
     \begin{equation}
         \frac1{N^2}\, \mathbb E \biggl| \sum_{k=0}^{N-1} \Upsilon_k \biggr|^2
-        \Le C L^2 \bigl( 1 + |Z_0| \bigr)^{12} \Bigl( \frac{h^2}{N} + h^4 \Bigr) .
+        \Le C L^2 \Bigl( \bigl( 1 + |Z_0| \bigr)^2 \frac{h^2}{N} + \bigl( 1 + |Z_0| \bigr)^{12} h^4 \Bigr) .
         \label{estimate: upsilon}
     \end{equation}
 
@@ -1989,14 +1989,13 @@ and the proof estimates them in turn. It follows the route of the time-averaged 
 
     Inserting \eqref{estimate: boundary}, \eqref{estimate: upsilon} and \eqref{estimate: psi} into \eqref{eq: mse three terms} gives
     \begin{equation*}
-        \mathrm{MSE}(N,h) \Le C L^2 \bigl( 1 + |Z_0| \bigr)^{12}
-        \Bigl( \frac{1}{N^2h^2} + \frac{h^2}{N} + h^4 + \frac{1}{Nh} \Bigr) .
+        \mathrm{MSE}(N,h) \Le C L^2 \biggl[ \bigl( 1 + |Z_0| \bigr)^2 \Bigl( \frac{1}{N^2h^2} + \frac{h^2}{N} + \frac{1}{Nh} \Bigr) + \bigl( 1 + |Z_0| \bigr)^{12} h^4 \biggr] .
     \end{equation*}
     Since $h \Le 1$, the term $h^2 / N = h^3 (Nh)^{-1}$ is absorbed into $(Nh)^{-1}$. If $Nh \Ge 1$, the term $1/(N^2h^2)$ is absorbed as well, which gives \eqref{eq: mse bound}. If $Nh < 1$, then $(Nh)^{-1} > 1$, and \eqref{eq: mse bound} follows from a bound that holds for every $N$. By Assumption~\ref{ass: f} and the finite first moment of $\pi$ (Appendix~\ref{sec: gradient}), $|f(x) - \pi(f)| \Le L \int_{\mathbb R^d} |x - y|\, \pi(\D y) \Le C L \bigl( 1 + |x| \bigr)$, so \eqref{eq: mse} and \eqref{eq: moment bounds} with $q = 1$ give
     \begin{equation*}
         \mathrm{MSE}(N, h) \Le \frac1N \sum_{k=0}^{N-1} \mathbb E \bigl| f(Z_k) - \pi(f) \bigr|^2 \Le C L^2 \bigl( 1 + |Z_0| \bigr)^2 .
     \end{equation*}
-    Since $(Nh)^{-1} > 1$, this bound is at most $C L^2 (1 + |Z_0|)^{12} (Nh)^{-1}$, which finally gives \eqref{eq: mse bound}.
+    Since $(Nh)^{-1} > 1$, this bound is at most $C L^2 (1 + |Z_0|)^2 (Nh)^{-1}$, which finally gives \eqref{eq: mse bound}.
 \end{proof}
 
 \subsection{Proof of Theorem~\ref{thm: wasserstein}}
