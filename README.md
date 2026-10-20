@@ -1,5 +1,11 @@
 # Mean square error analysis of stochastic Runge–Kutta integrators
 
+[![arXiv](https://img.shields.io/badge/arXiv-2609.11528-b31b1b.svg)](https://arxiv.org/abs/2609.11528)
+[![Paper: CC BY 4.0](https://img.shields.io/badge/Paper-CC_BY_4.0-lightgrey.svg)](https://creativecommons.org/licenses/by/4.0/)
+[![Code: MIT](https://img.shields.io/badge/Code-MIT-yellow.svg)](Codes/LICENSE)
+[![Python 3.14](https://img.shields.io/badge/Python-3.14-3776AB.svg)](https://www.python.org)
+[![Lean 4.33.1](https://img.shields.io/badge/Lean-4.33.1-blue.svg)](https://lean-lang.org)
+
 Manuscript and source code for the mean square error analysis of two stochastic
 Runge–Kutta integrators for overdamped Langevin dynamics with a potential that
 is convex outside a bounded region. The
