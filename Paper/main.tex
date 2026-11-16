@@ -77,7 +77,7 @@ where $C$ depends on the potential, the dimension, the test function and the ini
     \item \emph{Second order convergence.} The discretization enters at $h^4$, that is, at second order in the bias, for an integrator that evaluates $\nabla U$ and no derivative of it.
 \end{itemize}
 
-Our proof mainly relies on the discrete Poisson equation of an earlier work \citep{lu2025mse}, which transfers a local error decomposition to the time-averaged error analysis. It is organized in two steps. The first is the moment estimate of the local error of one step, split into a mean-zero term and a smaller remainder, where the two integrators differ only in two scalar coefficients (Section~\ref{subsec: local error}). The second applies these estimates in the discrete Poisson equation, through the time-averaged error formula, which needs bounds on the derivatives of the discrete Poisson solution up to third order (Section~\ref{subsec: time averaged}). Theorem~\ref{thm: wasserstein} shows that the numerical solution converges at second order, up to a logarithm, in the Wasserstein-1 distance, to the law of the exact solution and to $\pi$. Theorem~\ref{thm: mse} is, to our knowledge, the first bound on the MSE \eqref{eq: mse} of a time average for either scheme.
+Our proof mainly relies on the discrete Poisson equation of an earlier work \citep{lu2025mse}, which transfers a local error decomposition to the time-averaged error analysis. It is organized in two steps. The first is the moment estimate of the local error of one step, split into a mean-zero term and a smaller remainder, where the two integrators differ only in two scalar coefficients (Section~\ref{subsec: local error}). The second applies these estimates in the discrete Poisson equation, through the time-averaged error formula, which needs bounds on the derivatives of the discrete Poisson solution up to third order (Section~\ref{subsec: time averaged}). Theorem~\ref{thm: wasserstein} shows that the law of the numerical solution converges at second order, up to a logarithm, in the Wasserstein-1 distance, to the law of the exact solution and to $\pi$. Theorem~\ref{thm: mse} is, to our knowledge, the first bound on the MSE \eqref{eq: mse} of a time average for either scheme.
 
 Bounding the MSE at second order is harder than bounding a Wasserstein error, which only compares the two laws. The tools for proving second order convergence include the propagation of a local weak error by the exact semigroup \citep{talay1990expansion, kopec2015weak} and the coupling of the numerical and exact solutions \citep{durmus2017nonasymptotic, cheng2018sharp}. They bound the expectation of a test function at each step, and such a bound cannot provide the variance of a time average along one trajectory. In general, bounding the MSE requires either the contractivity of the numerical integrator or the Poisson equation. The contractivity is sufficient: it makes the correlations along one trajectory decay, and with them the variance of a time average. It is available only for a limited class of integrators, because the coupling has to be designed for the scheme at hand \citep{eberle2016reflection, eberle2019quantitative, majka2020nonasymptotic}. Without global convexity, it has been established for Euler--Maruyama and, for the underdamped dynamics, for the BU and UBU splittings \citep{schuh2024convergence}. The Poisson equation is limited instead by the strong order of the integrator, which it turns into a step-size term of twice that order. The strong order of SRK-I/II is only $\frac32$. Hence the second order of the bound cannot come from the square of the strong error, and has to come from a Taylor expansion carried one order further. For this reason Assumption~\ref{ass: f} requires bounded derivatives of $f$ up to third order, where the UBU integrator, whose strong order is two, needs them only up to second order \citep{lu2025mse}. The local error decomposition of Section~\ref{subsec: local error} meets the hypotheses of the fundamental theorem on the mean-square order of convergence \citep[Chapter~1.1]{milstein2004stochastic}, with a local mean of order $3$ and a local mean square of order $2$. That theorem returns the strong order $\frac32$ of Corollary~\ref{cor: strong} over a finite horizon and nothing beyond it. The discrete Poisson equation is what turns the same estimates into a second order bound uniform in time.
 
@@ -755,8 +755,6 @@ Assumption~\ref{ass: U} controls the drift $-\nabla U$ between two points in the
     and $m - \frac{2R(m+M)}{\rho} \Ge \frac m2$ for $\rho \Ge R_1$.
 \end{proof}
 
-Conditions \eqref{eq: onesided} and \eqref{eq: distant} are the input of the reflection coupling. Two copies of \eqref{eq: langevin} are driven by mirrored noise until they meet. Their distance is measured through a concave increasing function of $|x-y|$, so that the mirrored fluctuations dominate the non-contractive drift on $|x-y| \Le R_1$.
-
 \begin{lemma}
 \label{lem: contraction}
     Under Assumption~\ref{ass: U}, there are constants $\lambda > 0$ and $C \Ge 1$, depending only on $m$, $M$ and $R$, such that for every $g \in C^1(\mathbb R^d)$ with $\norm{\nabla g}_\infty < \infty$ and all $x, y \in \mathbb R^d$, $t \Ge 0$,
@@ -831,7 +829,7 @@ with $\Theta_0[w,w'] = 0$ and $\nabla^4 U(x)[a,b] \in \mathbb R^{d\times d}$ the
     \end{equation*}
 \end{proof}
 
-For $g \in C^2$ with bounded derivatives, differentiating $P_t g(x) = \mathbb E^x[g(X_t)]$ twice in $x$ gives, alongside \eqref{eq: grad rep}, the representation
+For $g \in C^2(\mathbb R^d)$ with bounded derivatives, differentiating $P_t g(x) = \mathbb E^x[g(X_t)]$ twice in $x$ gives, alongside \eqref{eq: grad rep}, the representation
 \begin{equation}
     \nabla^2 P_t g(x)[v,w] = \mathbb E^x\bigl[ \bigl\langle \nabla^2 g(X_t)\, J_t v,\, J_t w \bigr\rangle + \nabla g(X_t) \cdot K_t[w]\, v \bigr] .
     \label{eq: hess rep}
@@ -842,7 +840,7 @@ With Lemma~\ref{lem: variation bounds}, the representations \eqref{eq: grad rep}
     \norm{\nabla^2 P_t g}_\infty \Le e^{2M t} \norm{\nabla^2 g}_\infty + M\, t\, e^{2M t} \norm{\nabla g}_\infty .
     \label{eq: short time}
 \end{equation}
-For $g \in C^3$ with bounded derivatives, a third differentiation adds the terms carrying $K$ and $\Theta$,
+For $g \in C^3(\mathbb R^d)$ with bounded derivatives, a third differentiation adds the terms carrying $K$ and $\Theta$,
 \begin{equation*}
 \begin{aligned}
     \nabla^3 P_t g(x)[v,w,w'] = \mathbb E^x\bigl[ & \nabla^3 g(X_t)[J_t v, J_t w, J_t w']
@@ -872,7 +870,7 @@ The bounds \eqref{eq: short time} and \eqref{eq: short time third} still use $\n
 \end{lemma}
 
 \begin{proof}
-    Write $\psi = P_\tau g$, which belongs to $C^3$ with bounded derivatives by \eqref{eq: short time} and \eqref{eq: short time third}. The function $(s,z) \mapsto (P_{\tau-s} \psi)(z)$ is $C^{1,2}$ on $[0,\tau] \times \mathbb R^d$. Its space derivatives are bounded and continuous by \eqref{eq: short time}. The semigroup is differentiable in time with $\partial_t P_t \psi = P_t (\mathcal L \psi) = \mathcal L P_t \psi$, since $\mathcal L \psi = \Delta \psi - \nabla U \cdot \nabla \psi$ has linear growth and $X_t$ has moments of every order. Hence
+    Write $\psi = P_\tau g\in C^3(\mathbb R^d)$, which has bounded derivatives by \eqref{eq: short time} and \eqref{eq: short time third}. The function $(s,z) \mapsto (P_{\tau-s} \psi)(z)$ belongs to $C^{1,2}([0,\tau] \times \mathbb R^d)$. Its space derivatives are bounded and continuous by \eqref{eq: short time}. The semigroup is differentiable in time with $\partial_t P_t \psi = P_t (\mathcal L \psi) = \mathcal L P_t \psi$, since $\mathcal L \psi = \Delta \psi - \nabla U \cdot \nabla \psi$ has linear growth and $X_t$ has moments of every order. Hence
     \begin{equation*}
     \partial_s (P_{\tau-s}\psi) = -\mathcal L (P_{\tau-s}\psi).
     \end{equation*}
@@ -882,13 +880,12 @@ The bounds \eqref{eq: short time} and \eqref{eq: short time third} still use $\n
         \label{eq: martingale representation}
     \end{equation}
     with an integrand bounded by $\norm{\nabla \psi}_\infty e^{M\tau}$ by \eqref{eq: short time}. We multiply \eqref{eq: martingale representation} by $\int_0^\tau (J_s v) \cdot \D B_s$ and take $\mathbb E^x$. The It\^o isometry gives
-    {\small
     \begin{equation*}
         \mathbb E^x \bigg[ \psi(X_\tau) \int_0^\tau (J_s v) \cdot \D B_s \bigg]
         = \sqrt2\, \mathbb E^x \bigg[ \int_0^\tau \nabla(P_{\tau-s}\psi)(X_s) \cdot \D B_s \int_0^\tau (J_s v) \cdot \D B_s \bigg]
         = \sqrt2 \int_0^\tau \mathbb E^x \bigl[ \nabla(P_{\tau-s}\psi)(X_s) \cdot J_s v \bigr] \,\D s .
-    \end{equation*}}
-    For each $s$, the function $P_{\tau-s}\psi$ is $C^1$ with bounded gradient by \eqref{eq: short time}. Hence \eqref{eq: grad rep} with $P_{\tau-s}\psi$ in place of $g$ and the semigroup property give $\mathbb E^x[\nabla(P_{\tau-s}\psi)(X_s) \cdot J_s v] = v \cdot \nabla (P_s P_{\tau-s} \psi)(x) = v \cdot \nabla P_\tau \psi(x)$. This integrand is constant in $s$, and $P_\tau \psi = P_{2\tau} g$, which proves \eqref{eq: BEL}.
+    \end{equation*}
+    For each $s$, the function $P_{\tau-s}\psi\in C^1(\mathbb R^d)$ has bounded gradient by \eqref{eq: short time}. Hence \eqref{eq: grad rep} with $P_{\tau-s}\psi$ in place of $g$ and the semigroup property give $\mathbb E^x[\nabla(P_{\tau-s}\psi)(X_s) \cdot J_s v] = v \cdot \nabla (P_s P_{\tau-s} \psi)(x) = v \cdot \nabla P_\tau \psi(x)$. This integrand is constant in $s$, and $P_\tau \psi = P_{2\tau} g$, which proves \eqref{eq: BEL}.
 \end{proof}
 
 \begin{lemma}
@@ -966,7 +963,7 @@ Differentiating \eqref{eq: differentiated BEL} once more gives a bound on $\nabl
         & + \underbrace{\mathbb E^x \biggl[ \bigl(\psi(X_\tau) - c\bigr) \int_0^\tau (\Theta_s[w,w']\, v) \cdot \D B_s \biggr]}_{=:\, \mathcal T_4(x)} ,
         \label{eq: twice differentiated BEL}
     \end{align}
-    where the differentiation is justified as for \eqref{eq: differentiated BEL}, now using $U \in C^4$ and the bound on $\Theta$ in \eqref{eq: variation bounds}. The factors carrying $\nabla\psi(X_\tau)$ and $\nabla^2\psi(X_\tau)$ require the derivatives of $\psi$ up to third order, bounded in \eqref{eq: short time} and \eqref{eq: short time third}. The four terms $\mathcal T_1(x), \dots, \mathcal T_4(x)$ depend on the directions $v$, $w$, $w'$, which we take to be unit vectors. Each term is bounded by Cauchy--Schwarz as in the proof of Lemma~\ref{lem: hessian from lipschitz}.
+    where the differentiation is justified as for \eqref{eq: differentiated BEL}, now using $U \in C^4(\mathbb R^d)$ and the bound on $\Theta$ in \eqref{eq: variation bounds}. The factors carrying $\nabla\psi(X_\tau)$ and $\nabla^2\psi(X_\tau)$ require the derivatives of $\psi$ up to third order, bounded in \eqref{eq: short time} and \eqref{eq: short time third}. The four terms $\mathcal T_1(x), \dots, \mathcal T_4(x)$ depend on the directions $v$, $w$, $w'$, which we take to be unit vectors. Each term is bounded by Cauchy--Schwarz as in the proof of Lemma~\ref{lem: hessian from lipschitz}.
 
     We collect the bounds on $\psi = P_\tau g$ and on the variations $J_\tau$ and $K_\tau$. They follow from \eqref{eq: short time}, from Lemma~\ref{lem: hessian from lipschitz} applied to $g$ at time $\tau \Le \frac12$, from \eqref{eq: variation bounds} and from the variance bound \eqref{eq: variance bound}:
     \begin{align}
@@ -985,7 +982,7 @@ Differentiating \eqref{eq: differentiated BEL} once more gives a bound on $\nabl
         \label{eq: third integrals}
     \end{align}
 
-    Next we estimate $\mathcal T_1(x), \dots, \mathcal T_4(x)$ in turn. For $\mathcal T_1(x)$, the factor in front of its stochastic integral satisfies, by \eqref{eq: third factors},
+    Next we estimate $\mathcal T_1(x), \dots, \mathcal T_4(x)$ in \eqref{eq: twice differentiated BEL} in turn. For $\mathcal T_1(x)$, the factor in front of its stochastic integral satisfies, by \eqref{eq: third factors},
     \begin{equation*}
     \begin{aligned}
         \bigl| \bigl\langle \nabla^2 \psi(X_\tau)\, J_\tau w',\, J_\tau w \bigr\rangle + \nabla \psi(X_\tau) \cdot K_\tau[w']\, w \bigr|
@@ -1028,7 +1025,7 @@ Differentiating \eqref{eq: differentiated BEL} once more gives a bound on $\nabl
 \subsection{Conclusion of proof}
 \label{sec: proof}
 
-The bound \eqref{eq: u bound} and the $\nabla u$ part of \eqref{eq: grad u bound} were proved in Appendix~\ref{sec: gradient}. For the $\nabla^2 u$ and $\nabla^3 u$ parts, we split at $t = 1$. For $t \Le 1$, the short-time bounds of Appendix~\ref{sec: hessian} hold with constants independent of $t$, and $1 \Le e^{\lambda} e^{-\lambda t}$. For $t \Ge 1$, we write $u(\cdot,t) = P_1[u(\cdot,t-1)]$ and apply the short-time bounds at time $1$ to $u(\cdot,t-1)$, whose gradient decays by \eqref{eq: grad decay}.
+The bound \eqref{eq: u bound} and the $\nabla u$ part of \eqref{eq: grad u bound} were proved in Appendix~\ref{sec: gradient}. For the $\nabla^2 u$ and $\nabla^3 u$ parts, we split at $t = 1$.
 
 For $t \Le 1$, the short-time bound \eqref{eq: short time} with $g = f$ gives
 \begin{equation*}
@@ -1096,7 +1093,7 @@ This appendix proves the results of Section~\ref{sec: convergence}: the decompos
 \subsection{Notation}
 \label{sec: local notation}
 
-We work at the step index $0$, as in Section~\ref{subsec: local error}. The step goes from $Z_0$ to $Z_1$, driven by $(B_s)_{0 \Le s \Le h}$ with $B_0 = 0$, and $Z_0(s)$ is the exact solution from $Z_0$ under the same path. The \emph{stages} of an integrator are the states at which its update evaluates $\nabla U$. For SRK-I, they are $Z_0$ with weight $\frac13$ and $H_0$ of \eqref{eq: srk1} with weight $\frac23$. For SRK-II, they are $H_0^{+}$ and $H_0^{-}$ of \eqref{eq: srk2} with weight $\frac12$ each. The weights sum to one in both cases, and the step subtracts $h$ times the weighted average, the \emph{stage drift} $\Sigma_0$:
+We work at the step index $0$, as in Section~\ref{subsec: local error}. The step goes from $Z_0$ to $Z_1$, driven by $(B_s)_{0 \Le s \Le h}$ with $B_0 = 0$, and $Z_0(s)$ is the exact solution from $Z_0$ under the same path. The \emph{stages} of an integrator are the states at which its update evaluates $\nabla U$. For SRK-I, the stages are $Z_0$ with weight $\frac13$ and $H_0$ of \eqref{eq: srk1} with weight $\frac23$. For SRK-II, the stages are $H_0^{+}$ and $H_0^{-}$ of \eqref{eq: srk2} with weight $\frac12$ each. The weights sum to one in both cases, and the step subtracts $h$ times the weighted average, the \emph{stage drift} $\Sigma_0$:
 \begin{equation}
 \begin{aligned}
     \mathrm{(I):~} \Sigma_0 & = \frac h3\, \nabla U(Z_0) + \frac{2h}{3}\, \nabla U(H_0) , \\
@@ -1176,6 +1173,11 @@ Table~\ref{tab: local notation} lists the notation of the local error analysis.
 		$D_{\mathrm I}$ & \eqref{eq: displacements} & stage displacement of SRK-I & $- \frac{3h}{4}\, \nabla U(Z_0) + \frac{3\sqrt2}{2h} \int_0^h B_s\,\D s$ \\
 		$D_{\mathrm{II}}^{\pm}$ & \eqref{eq: displacements} & stage displacements of SRK-II & $- \frac h2\, \nabla U(Z_0) + \frac{\sqrt2}{h} \bigl( 1 \pm \frac{1}{\sqrt2} \bigr) \int_0^h B_s\,\D s$ \\
 		$D_{\mathrm{II}}$ & \eqref{eq: mean stage} & weighted average of the stage displacements & $\frac12 \bigl( D_{\mathrm{II}}^{+} + D_{\mathrm{II}}^{-} \bigr) = \frac23\, D_{\mathrm I}$ \\
+		\midrule
+		$r(v)$ & \eqref{eq: taylor rho} & fourth order Taylor remainder of $\nabla U$ at $Z_0$ & $\frac16 \int_0^1 (1-\theta)^3\, \nabla^5 U(Z_0 + \theta v)[v^{\otimes 4}]\,\D\theta$ \\
+		$e_s$ & \eqref{eq: r s} & remainder of $\nabla U(Z_0(s)) - \nabla U(Z_0)$ after its Gaussian part & $\nabla U(Z_0(s)) - \nabla U(Z_0) - \sqrt2\, \nabla^2 U(Z_0)\, B_s$ \\
+		$q_s$ & \eqref{eq: g s} & remainder of $W_s$ after its Gaussian part and leading drift & $W_s - \sqrt2\, B_s + s\, \nabla U(Z_0)$ \\
+		$\Gamma_0$ & \eqref{eq: T split} & drift part of $Z_1 + Z_0(h) - 2 Z_0$ & $- \int_0^h \nabla U(Z_0(s))\,\D s - \Sigma_0$ \\
 		\midrule
 		$\mathcal F_k$ & -- & $\sigma$-algebra of the initial state and the driving path up to time $kh$ & $\sigma\bigl( Z_0, (B_s)_{s \Le kh} \bigr)$ \\
 		$\pnorm{X}_p$ & -- & $L^p$ norm under $\mathbb E_0$ & $\mathbb E_0\bigl[ |X|^p \bigr]^{1/p}$ \\
@@ -1443,11 +1445,13 @@ The proof is carried out for SRK-I. The proof for SRK-II follows the same steps,
         \label{eq: remainder bounds 123}
     \end{align}
     In the fourth term of $\mathcal R(\Delta Z_0)$ in \eqref{eq: remainder I}, the $\nabla^4 U$ bracket, the pure-noise terms cancel by \eqref{eq: cube split} and \eqref{eq: stage cube split}. For vectors $a, b \in \mathbb R^d$,
-    \begin{align}
-        a^{\otimes 3} - b^{\otimes 3} & = (a - b) \otimes a \otimes a + b \otimes (a - b) \otimes a + b \otimes b \otimes (a - b) , \notag \\
+    \begin{equation}
+    \begin{aligned}
+        a^{\otimes 3} - b^{\otimes 3} & = (a - b) \otimes a \otimes a + b \otimes (a - b) \otimes a + b \otimes b \otimes (a - b) ,  \\
         \bigl| \nabla^4 U(Z_0) \bigl[ a^{\otimes 3} - b^{\otimes 3} \bigr] \bigr| & \Le M\, |a - b| \bigl( |a| + |b| \bigr)^2 .
-        \label{eq: cube difference}
-    \end{align}
+    \end{aligned}
+    \label{eq: cube difference}
+    \end{equation}
     We apply \eqref{eq: cube difference} with $a = W_s$, $b = \sqrt2\, B_s$ in the exact part and with $a = D_{\mathrm I}$, $b = \frac{3\sqrt2}{2h} \int_0^h B_s\,\D s$ in the stage part. The difference $a - b$ is $W_s - \sqrt2\, B_s$ in the exact part and the drift $- \frac{3h}{4}\, \nabla U(Z_0)$ of $D_{\mathrm I}$ in the stage part. Hence H\"older's inequality with \eqref{eq: displacement moments}, \eqref{eq: stage moments} and \eqref{eq: basic bounds} gives
     \begin{align}
         \triline[\bigg] \int_0^h \bigl( W_s^{\otimes 3} - 2\sqrt2\, B_s^{\otimes 3} \bigr) \D s \triline[\bigg]_4
@@ -1500,7 +1504,7 @@ By Minkowski's inequality, \eqref{eq: local moments} bounds the local error itse
     \end{align}
     The bounds \eqref{eq: product remainder bounds}, together with the bound $C h^3 (1 + |Z_0|)$ on the deterministic terms of $\mathcal R(\Delta Q_0)$ in \eqref{eq: product remainder}, prove the bound on $\mathcal R(\Delta Q_0)$ in \eqref{eq: cross moment} for $h \Le 1$.
 
-    It remains to prove the pairing identity,
+    To prove $\mathcal M(\Delta Q_0)$ has mean zero, it remains to prove the pairing identity,
     \begin{align}
         \mathbb E_0\bigl[ 2\sqrt2\, \mathcal M(\Delta Z_0)\, B_h^\top \bigr]
         & = - \frac{2h^3}{3} \bigl( \nabla^2 U(Z_0) \bigr)^2
@@ -1740,11 +1744,9 @@ The Lyapunov argument is standard in the literature on the long-time behavior of
 
     First, we prove a dissipativity bound. Lemma~\ref{lem: dissipative} applied to the pair $(x, 0)$ gives $\langle \nabla U(x) - \nabla U(0), x \rangle \Ge \frac m2 |x|^2$ for $|x| \Ge R_1$. Together with $|\nabla U(0)| \Le M$, and with $|\langle x, \nabla U(x)\rangle| \Le M |x| (1 + |x|)$ on the ball $|x| \Le R_1$, this gives
     \begin{equation}
-        \langle x, \nabla U(x) \rangle \Ge \frac m4\, |x|^2 - c_0 , \qquad \forall x \in \mathbb R^d , \qquad
-        c_0 := \frac{M^2}{m} + \frac m4 R_1^2 + M R_1 (1 + R_1) ,
+        \langle x, \nabla U(x) \rangle \Ge \frac m4\, |x|^2 - C , \qquad \forall x \in \mathbb R^d .
         \label{eq: global dissipative}
     \end{equation}
-    with $c_0$ depending only on $m$, $M$ and $R$.
 
     Next, we bound the displacement over a step. By \eqref{eq: displacements}, every stage $H \in \{ Z_k, H_k, H_k^{+}, H_k^{-} \}$ of SRK-I or SRK-II satisfies
     \begin{equation}
@@ -1765,18 +1767,13 @@ The Lyapunov argument is standard in the literature on the long-time behavior of
     \end{equation}
     The derivation of \eqref{eq: displacement moments} is valid for every $p$ with $C$ depending on $p$. At the state $Z_k$, it gives $\mathbb E_k |Z_k(h) - Z_k|^{2q} \Le C h^{q} \bigl( 1 + |Z_k| \bigr)^{2q}$.
 
-    Next, we prove the drift condition \eqref{eq: drift condition}. For every stage $H \in \{ Z_k, H_k, H_k^{+}, H_k^{-} \}$ of SRK-I or SRK-II, \eqref{eq: global dissipative} at $H$ and \eqref{eq: beta def} give
+    Next, we prove the drift condition \eqref{eq: drift condition}. For every stage $H \in \{ Z_k, H_k, H_k^{+}, H_k^{-} \}$ of SRK-I or SRK-II, \eqref{eq: global dissipative} at $H$, $|H - Z_k| \Le \beta_k$ from \eqref{eq: beta def} and $|\nabla U(H)| \Le M \bigl( 1 + |Z_k| + \beta_k \bigr)$ give, after averaging over the stages with the weights of \eqref{eq: step form},
     \begin{equation*}
-        \langle Z_k, \nabla U(H) \rangle
-        \Ge \frac m4 \bigl| H \bigr|^2 - c_0 - \beta_k\, M \bigl( 1 + |Z_k| + \beta_k \bigr) .
-    \end{equation*}
-    Averaging over the stages with the weights of \eqref{eq: step form} gives
-    \begin{equation*}
-        \langle Z_k, a_k \rangle \Ge \frac m8\, |Z_k|^2 - c_0 - C \beta_k \bigl( 1 + |Z_k| \bigr) - C \beta_k^2 .
+        \langle Z_k, a_k \rangle \Ge \frac m8\, |Z_k|^2 - C - C \beta_k \bigl( 1 + |Z_k| \bigr) - C \beta_k^2 .
     \end{equation*}
     Taking $\mathbb E_k$ with \eqref{eq: beta moments} gives
     \begin{equation}
-        \langle Z_k, \mathbb E_k a_k \rangle \Ge \frac m8\, |Z_k|^2 - c_0 - C \sqrt h\, \bigl( 1 + |Z_k| \bigr)^2
+        \langle Z_k, \mathbb E_k a_k \rangle \Ge \frac m8\, |Z_k|^2 - C - C \sqrt h\, \bigl( 1 + |Z_k| \bigr)^2
         \Ge \frac{m}{16}\, |Z_k|^2 - C ,
         \label{eq: drift condition}
     \end{equation}
@@ -1801,15 +1798,13 @@ The Lyapunov argument is standard in the literature on the long-time behavior of
         = |Z_k|^{2q} + q\, |Z_k|^{2q-2}\, \mathbb E_k S_k
         + \sum_{j=2}^{q} \binom{q}{j} |Z_k|^{2(q-j)}\, \mathbb E_k S_k^{j} .
     \end{equation*}
-    By \eqref{eq: increment moments}, the term linear in $S_k$ is bounded by
+    By \eqref{eq: increment moments}, for $h \Le 1$,
     \begin{equation*}
-        - \frac{qm}{8}\, h\, |Z_k|^{2q} + C h \bigl( 1 + |Z_k| \bigr)^{2q-2} + C h^2 \bigl( 1 + |Z_k| \bigr)^{2q} ,
-    \end{equation*}
-    and each term of the sum satisfies, for $j \Ge 2$ and $h \Le 1$,
-    \begin{equation*}
-        |Z_k|^{2(q-j)}\, \mathbb E_k S_k^{j}
-        \Le C h^{j/2} \bigl( 1 + |Z_k| \bigr)^{2q-j} + C h^{j} \bigl( 1 + |Z_k| \bigr)^{2q}
-        \Le C h \bigl( 1 + |Z_k| \bigr)^{2q-2} + C h^2 \bigl( 1 + |Z_k| \bigr)^{2q} .
+    \begin{aligned}
+        q\, |Z_k|^{2q-2}\, \mathbb E_k S_k & \Le - \frac{qm}{8}\, h\, |Z_k|^{2q} + C h \bigl( 1 + |Z_k| \bigr)^{2q-2} + C h^2 \bigl( 1 + |Z_k| \bigr)^{2q} , \\
+        |Z_k|^{2(q-j)}\, \mathbb E_k S_k^{j} & \Le C h \bigl( 1 + |Z_k| \bigr)^{2q-2} + C h^2 \bigl( 1 + |Z_k| \bigr)^{2q}
+        \quad (2 \Le j \Le q) .
+    \end{aligned}
     \end{equation*}
     For $h \Le h_0$, the sum of the terms $C h \bigl( 1 + |Z_k| \bigr)^{2q-2}$ and $C h^2 \bigl( 1 + |Z_k| \bigr)^{2q}$ in these two bounds is bounded by $\frac{3qm}{32}\, h\, |Z_k|^{2q} + C h$, and we obtain
     \begin{equation*}
@@ -2011,7 +2006,7 @@ The integrators compared in Table~\ref{tab: comparison}, and the scheme SRK-LD o
 \end{equation*}
 where the $\chi_k$ and $\chi_k'$ are independent $\mathcal N(0, I_d)$ variables and the $\zeta_k$ are independent $\mathcal U(0,1)$ variables, all independent of $Z_0$. Every scheme below evaluates $\nabla U$ and nothing else, except the random splitting LMC, whose drift substep is solved exactly. SRK-I and SRK-II, \eqref{eq: srk1} and \eqref{eq: srk2}, are not repeated.
 
-The convergence column of Table~\ref{tab: comparison} rests on hypotheses that differ by row: a log-Sobolev inequality with dissipativity for \citet{wang2025randomization}, the same with a growth condition on $\nabla \Delta U$ for \citet{yang2025nonasymptotic} and with Lipschitz $\nabla^2 U$ and $\nabla^3 U$ for \citet{yang2026accelerating}; a log-Sobolev inequality for \citet{vempala2019rapid} and, with a Lipschitz gradient, for \citet{altschuler2024shifted}; a globally Lipschitz gradient with dissipativity, $U \in C^7$ and a smooth $f$ of polynomial growth for \citet{leimkuhler2014long}, and ergodicity of the chain with a smooth $f$ for \citet{vilmart2015postprocessed}; the torus for \citet{mattingly2010convergence}; assumed bounds on the Poisson solution for \citet{vollmer2016exploration}; a superlinear gradient and the tamed form of the scheme for \citet{brosse2019tamed}; convexity outside a bounded region with a regular initial density for \citet{li2025random}; and convexity outside a bounded region for this work.
+The convergence column of Table~\ref{tab: comparison} rests on hypotheses that differ by row: a log-Sobolev inequality with dissipativity for \citet{wang2025randomization}, the same with a growth condition on $\nabla \Delta U$ for \citet{yang2025nonasymptotic} and with Lipschitz $\nabla^2 U$ and $\nabla^3 U$ for \citet{yang2026accelerating}; a log-Sobolev inequality for \citet{vempala2019rapid} and, with a Lipschitz gradient, for \citet{altschuler2024shifted}; a globally Lipschitz gradient with dissipativity, $U \in C^7(\mathbb R^d)$ and a smooth $f$ of polynomial growth for \citet{leimkuhler2014long}, and ergodicity of the chain with a smooth $f$ for \citet{vilmart2015postprocessed}; the torus for \citet{mattingly2010convergence}; assumed bounds on the Poisson solution for \citet{vollmer2016exploration}; a superlinear gradient and the tamed form of the scheme for \citet{brosse2019tamed}; convexity outside a bounded region with a regular initial density for \citet{li2025random}; and convexity outside a bounded region for this work.
 
 The orders in Table~\ref{tab: comparison} are the ones established, not the nominal ones, and each weak entry is the least order the cited analysis guarantees over a finite horizon; the exceptions are the Leimkuhler--Matthews entries, marked $^{*}$, and the strong entry of the random splitting LMC, both derived below. The Leimkuhler--Matthews and stochastic Heun convergence entries read higher than a Wasserstein bound would give because a bound tested against smooth $f$ does not imply one against every Lipschitz test function; stochastic Heun has strong order $1$ because the noise in \eqref{eq: langevin} is additive. The second order of the scheme of \citet{leimkuhler2013rational} was first proved by \citet{leimkuhler2014long}, in the non-asymptotic form of the table and without assuming the chain to be ergodic, and \citet{vilmart2015postprocessed} obtains it again by reading the scheme as a postprocessed integrator. That of stochastic Heun is its weak order $2$, by the order conditions of \citet{debrabant2010runge}, carried to the invariant measure by the theorem that an integrator of weak order $p$ has invariant-measure order at least $p$ \citep{talay1990second, mattingly2010convergence}. Of those two results, that of \citet{talay1990second} assumes the numerical chain is ergodic and that of \citet{mattingly2010convergence} holds on the torus for every stationary measure of the chain. The MSE entries are those of \citet{mattingly2010convergence} on the torus, of \citet{vollmer2016exploration} on $\mathbb R^d$ and of \citet{brosse2019tamed} for the tamed scheme.
 
